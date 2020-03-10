@@ -1,0 +1,13 @@
+---
+title: "About"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+##### Analysis of the Univ_of_Penn_Thaiss data.  
+* 112 samples genotyped (from 3 batches)
+* 106 samples with phenotypes (from Christoph Thaiss)
+

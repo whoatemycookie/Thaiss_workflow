@@ -1,0 +1,15 @@
+---
+title: "Thaiss Workflow"
+author: "Belinda Cornes"
+date: "`r Sys.Date()`"
+site: workflowr::wflow_site
+output:
+  workflowr::wflow_html:
+    toc: true
+---
+
+### Sample Summary [from Raw Data]
+* [Batch Summaries](summary.html)
+
+### Phenotype QC [from Raw Data]
+* [Phenotypes](phenotypes.html)
