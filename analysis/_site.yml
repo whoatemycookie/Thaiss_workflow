@@ -1,0 +1,21 @@
+name: Thaiss_workflowr
+output_dir: ../docs
+navbar:
+  title: Thaiss_workflowr
+  left:
+  - text: Home
+    href: index.html
+  - text: About
+    href: About.html
+  - text: License
+    href: License.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/whoatemycookie/Thaiss_workflow
+output:
+  workflowr::wflow_html:
+    toc: yes
+    toc_float: no
+    theme: spacelab
+    highlight: textmate
