@@ -1,0 +1,98 @@
+---
+title: "Preparing Files"
+author: "Belinda Cornes"
+date: "2020-03-12"
+output: html_document
+---
+
+In order to run [sample QC](2.2_sample_qc.html) and [SNP QC](2.3_snp_qc.html), genotype files must be prepared.  This takes into account the following:
+
+1. Unique variants in GigaMUGA array, `gm_uwisc_v1.csv`, found [here](https://github.com/kbroman/MUGAarrays/tree/master/UWisc) (that is, keeping only the probe sequence that appear exactly once in mm10 mouse genome build)
+2. Variants only seen on chromsomes: `1:19, X`
+3. Variants seen in DO founder genotypes [which are consensus genotypes for each of the 8 founder lines] and GigaMUGA array
+4. Missing variants across DO founder genotypes & GigaMUGA array
+
+Below is a table representing all variants that were removed at this step. 
+
+
+```{r loading files, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library("kableExtra")
+library("knitr")
+
+#Creating Table
+
+df <- NULL
+
+df$filter <- (c("SNPs genotyped","Unique SNPs (gigamuga)", 
+                "SNPs on chrs 1:19,X (gigamuga)", 
+                "Variants in both founder genotypes & gigamuga", 
+                "Missing Variants (founder genotypes & gigamuga)",
+                "Total (in both founder genotypes & gigamuga)"))
+df$snps_lost <- (c('--',143259-137359,137359-137302,137302-137220,137220-137220,'--'))
+df$snps_kept <- (c(143259,137359,137302,137220,137220,137220))
+
+dfd <- as.data.frame(df)
+
+```
+```{r table}
+
+dfd %>%
+  kable(escape = F,align = c("lcc"),linesep ="\\hline") %>%
+  kable_styling(full_width = F) %>%
+  kable_styling("striped", full_width = F) %>%
+  row_spec(6,bold=T,color='white', background='black')
+
+```
+
+
+From here, we follow the steps set out by `Karl Broman's` to remove further variants before performing quality control checks on samples and snps.  More information can be found [here](https://kbroman.org/qtl2/docs.html). These steps are:
+
+1. `geneseek2qtl2.R`
+  
+    + see information about preparing data [here](https://kbroman.org/qtl2/pages/prep_do_data.html)
+    + script is [here](https://kbroman.org/qtl2/assets/geneseek2qtl2.R)
+    + **NB**: at this step, [`GM_processed_files.zip`](doi:10.6084/m9.figshare.5404759) will be used to determine the number of snps to use going forward.  These files have consensus genotypes for each founder strain at each SNP, unique SNP alleles, SNP genotypes encoded as A/H/B/-.
+
+
+2. `geneseek2intensity.R`
+  
+    + Output is needed to perform [array intensity qc](https://kbroman.org/qtl2/assets/vignettes/do_diagnostics.html#array_intensities), script found [here](https://kbroman.org/qtl2/assets/geneseek2fst.R)
+
+
+3. Calculate genoprobs in order to run [sample QC](sample_qc.html) and [SNP QC](snp_qc.html) on the raw data through `R/qtl2`, while also:
+  
+    + dropping markers with no data, as mentioned [here](https://kbroman.org/qtl2/assets/vignettes/do_diagnostics.html)
+    + preparing the files: `pr`, `m` and `nxo`, to perform [crossover qc](https://kbroman.org/qtl2/assets/vignettes/do_diagnostics.html#crossover_counts)
+
+
+A summary table below shows all variants removed at this step:
+
+```{r creating table for heh, include=FALSE}
+
+#Creating Table
+
+df2 <- NULL
+
+df2$filter <- (c("SNPs genotyped","Markers in GM_allelecodes.csv", 
+                "Null Markers (monomorphic)","Total"))
+df2$snps_lost <- (c('--',143259-112869,112869-112728,'--'))
+df2$snps_kept <- (c(143259,112869,112728,112728))
+
+dfd2 <- as.data.frame(df2)
+```
+
+```{r table for heh}
+
+dfd2 %>%
+  kable(escape = F,align = c("lccc"),linesep ="\\hline") %>%
+  kable_styling(full_width = F) %>%
+  kable_styling("striped", full_width = F) %>%
+  row_spec(4,bold=T,color='white', background='black')
+
+```
+
+ **To check: how numbers differ from Mandy's output: intersect of `GM_allelecodes` & final output of Mandy's haplo reconst is `111854` - 1000 less than Karl Broman's pipeline**
+
+ **NB**: No samples were removed.

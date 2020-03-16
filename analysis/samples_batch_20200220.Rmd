@@ -1,7 +1,7 @@
 ---
 title: "Samples [Batch: MURGIGV01_20200220]"
 author: "Belinda Cornes"
-date: "`r Sys.Date()`"
+date: "2020-03-10"
 output: html_document
 ---
 
@@ -104,7 +104,7 @@ summary[is.na(summary)] <- '--'
 
 ```
 
-## Genotype Summary by Sample
+### Genotype Summary by Sample
 ```{r plot table genotype summary}
 
 summary[c(1:17)] %>%
@@ -114,7 +114,7 @@ summary[c(1:17)] %>%
   column_spec(1:17, width = "3cm") 
 ```  
 
-## Phenotype Summary by Sample
+### Phenotype Summary by Sample
 ```{r plot table phenotype summary}
 summary[c(1,2,22:27)] %>%
   kable(escape = F,align = c("cccccccc"),linesep ="\\hline") %>%
@@ -124,7 +124,7 @@ summary[c(1,2,22:27)] %>%
 
 ```
 
-## All Problematic Samples
+### All Problematic Samples
 ```{r plot table all problematic samples}
 ```
 

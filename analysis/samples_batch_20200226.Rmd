@@ -1,7 +1,7 @@
 ---
 title: "Samples [Batch: MURGIGV01_20200226]"
 author: "Belinda Cornes"
-date: "`r Sys.Date()`"
+date: "2020-03-10"
 output: html_document
 ---
 
@@ -101,7 +101,7 @@ summary[is.na(summary)] <- '--'
 
 ```
 
-## Genotype Summary by Sample
+### Genotype Summary by Sample
 ```{r plot table genotype summary}
 
 summary[c(1:17)] %>%
@@ -111,7 +111,7 @@ summary[c(1:17)] %>%
   column_spec(1:17, width = "3cm") 
 ```
 
-## Phenotype Summary by Sample
+### Phenotype Summary by Sample
 ```{r plot table phenotype summary}
 
 summary[c(1,2,22:27)] %>%
@@ -122,7 +122,7 @@ summary[c(1,2,22:27)] %>%
   row_spec(2 ,color= "white",background = "green") 
 ```
 
-## All Problematic Samples
+### All Problematic Samples
 ```{r plot table all problematic samples}
 
 dis <- NULL
@@ -139,13 +139,13 @@ disind[] %>%
    mutate(
      no_pheno = ifelse(no_pheno == 'XX',
                   cell_spec(no_pheno, color = 'green',background = 'green'),
-                  cell_spec(no_pheno, color = 'white',background = 'white')),
+                  ''),
      low_cr = ifelse(low_cr == 'XX',
                   cell_spec(low_cr, color = 'red',background = 'red'),
-                  cell_spec(low_cr, color = 'white',background = 'white')),
+                  ''),
      diff_sex = ifelse(diff_sex == 'XX',
                   cell_spec(diff_sex, color = 'blue',background = 'blue'),
-                  cell_spec(diff_sex, color = 'white',background = 'white')),
+                  '')
      ) %>%
    kable(escape = F,align = c("ccccc"),linesep ="\\hline") %>%
    kable_styling("striped", full_width = F) %>%
