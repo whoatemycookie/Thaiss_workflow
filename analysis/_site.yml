@@ -8,11 +8,11 @@ navbar:
   - text: About
     href: about.html
   - text: License
-    href: License.html
+    href: license.html
   right:
   - icon: fa-github
     text: Source code
-    href: https://github.com/whoatemycookie/Thaiss_workflow
+    href: https://github.com/whoatemycookie/Thaiss_workflow2
 output:
   workflowr::wflow_html:
     toc: yes
