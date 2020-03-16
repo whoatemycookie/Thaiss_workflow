@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Belinda Cornes" />
+
+<meta name="date" content="2020-03-16" />
+
+<title>Step 2: SNP QC</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Thaiss_workflowr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/whoatemycookie/Thaiss_workflow">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Step 2: SNP QC</h1>
+<h4 class="author">Belinda Cornes</h4>
+<h4 class="date">2020-03-16</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#loading-porject">Loading Porject</a></li>
+<li><a href="#marker-missing-data">Marker Missing Data</a></li>
+<li><a href="#marker-genotype-frequencies">Marker Genotype Frequencies</a></li>
+<li><a href="#marker-genotype-errors">Marker Genotype Errors</a></li>
+<li><a href="#array-intensities">Array Intensities</a></li>
+<li><a href="#removing-markers">Removing Markers</a></li>
+</ul>
+</div>
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-03-16
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Thaiss_workflowr/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200309code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200309)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200309code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200309)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree624db593a1a07d49337d68043904fb8800415563targetblank624db59a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/624db593a1a07d49337d68043904fb8800415563" target="_blank">624db59</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree624db593a1a07d49337d68043904fb8800415563targetblank624db59a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+
+Untracked files:
+    Untracked:  .Rprofile
+    Untracked:  .gitattributes
+    Untracked:  .gitignore
+    Untracked:  Thaiss_workflowr.Rproj
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  _workflowr.yml
+    Untracked:  analysis/07_recomb_size_founder_prop_BKC.R
+    Untracked:  analysis/07_recomb_size_founder_prop_BKC.Rmd
+    Untracked:  analysis/2.1_preparing_files.R
+    Untracked:  analysis/2.2_geneseek2intensity.R
+    Untracked:  analysis/2.2_sample_qc.Rmd
+    Untracked:  analysis/2.3_sample_qc.R.old
+    Untracked:  analysis/2.3_sample_qc.Rmd.old
+    Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/3.1_recomb_size_founder_prop.Rmd
+    Untracked:  analysis/array_intensities_markers.R
+    Untracked:  analysis/genotype_intensities.Rmd.R
+    Untracked:  analysis/genotype_intensities.Rmd.old
+    Untracked:  analysis/reconst_utils_gtQC.R
+    Untracked:  analysis/run_3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/run_array_intensities_markers.R
+    Untracked:  analysis/template
+    Untracked:  analysis/torun_Thaiss_neogen.sh
+    Untracked:  analysis/torun_Thaiss_neogen_qtl2.sh
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  output/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/624db593a1a07d49337d68043904fb8800415563/analysis/2.3_snp_qc.Rmd" target="_blank">624db59</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+<td>
+second publication
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="loading-porject" class="section level3">
+<h3>Loading Porject</h3>
+<pre class="r"><code>load(&quot;data/e_g_snpg_samqc.RData&quot;)
+gm &lt;- get(load(&quot;data/gm_DO112_samqc.RData&quot;))
+
+gm</code></pre>
+<pre><code>Object of class cross2 (crosstype &quot;do&quot;)
+
+Total individuals               102
+No. genotyped individuals       102
+No. phenotyped individuals      102
+No. with both geno &amp; pheno      102
+
+No. phenotypes                    4
+No. covariates                    5
+No. phenotype covariates          0
+
+No. chromosomes                  20
+Total markers                112728
+
+No. markers by chr:
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16 
+8555 8666 6420 6615 6571 6443 6294 5677 5870 5447 6352 5167 5274 5039 4555 4369 
+  17   18   19    X 
+4330 4002 3108 3974 </code></pre>
+<p>It can also be useful to look at the proportion of missing genotypes by marker. Markers with a lot of missing data were likely difficult to call, and so the genotypes that were called may contain a lot of errors.</p>
+</div>
+<div id="marker-missing-data" class="section level3">
+<h3>Marker Missing Data</h3>
+<pre class="r"><code>pmis_mar &lt;- n_missing(gm, &quot;marker&quot;, &quot;proportion&quot;)*100
+
+par(mar=c(5.1,0.6,0.6, 0.6))
+hist(pmis_mar, breaks=seq(0, 100, length=201),
+     main=&quot;&quot;, yaxt=&quot;n&quot;, ylab=&quot;&quot;, xlab=&quot;Percent missing genotypes&quot;)
+rug(pmis_mar)</code></pre>
+<p><img src="figure/2.3_snp_qc.Rmd/Missing%20data%20in%20Markers%20and%20Genotype%20frequencies%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pdf(file = &quot;output/Percent_missing_genotype_data_per_marker.pdf&quot;)
+par(mar=c(5.1,0.6,0.6, 0.6))
+hist(pmis_mar, breaks=seq(0, 100, length=201),
+     main=&quot;&quot;, yaxt=&quot;n&quot;, ylab=&quot;&quot;, xlab=&quot;Percent missing genotypes&quot;)
+rug(pmis_mar)
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<table class="table table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+count
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+pmis_mar_5
+</td>
+<td style="text-align:center;">
+3856
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_10
+</td>
+<td style="text-align:center;">
+1999
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_15
+</td>
+<td style="text-align:center;">
+1126
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_25
+</td>
+<td style="text-align:center;">
+419
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_50
+</td>
+<td style="text-align:center;">
+34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_75
+</td>
+<td style="text-align:center;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: black !important;">
+total_snps
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: black !important;">
+112728
+</td>
+</tr>
+</tbody>
+</table>
+<p>For the markers with lots of missing genotypes, it’s not necessarily the case that the remaining genotypes are full of errors, but in studying the allele intensities at these SNPs, it does appear that for the bulk of such markers, the genotypes are not being called appropriately.</p>
+</div>
+<div id="marker-genotype-frequencies" class="section level3">
+<h3>Marker Genotype Frequencies</h3>
+<pre class="r"><code>g &lt;- do.call(&quot;cbind&quot;, gm$geno[1:19])
+fg &lt;- do.call(&quot;cbind&quot;, gm$founder_geno[1:19])
+g &lt;- g[,colSums(fg==0)==0]
+fg &lt;- fg[,colSums(fg==0)==0]
+fgn &lt;- colSums(fg==3)
+
+gf_mar &lt;- t(apply(g, 2, function(a) table(factor(a, 1:3))/sum(a != 0)))
+gn_mar &lt;- t(apply(g, 2, function(a) table(factor(a, 1:3))))
+
+pdf(file = &quot;output/genotype_frequency_marker.pdf&quot;)
+par(mfrow=c(2,2), mar=c(0.6, 0.6, 2.6, 0.6))
+for(i in 1:4) {
+  triplot(c(&quot;AA&quot;, &quot;AB&quot;, &quot;BB&quot;), main=paste0(&quot;MAF = &quot;, i, &quot;/8&quot;))
+  z &lt;- gf_mar[fgn==i,]
+  z &lt;- z[rowSums(is.na(z)) &lt; 3,]
+  tripoints(z, pch=21, bg=&quot;gray80&quot;, cex=0.6)
+  tripoints(c((1-i/8)^2, 2*i/8*(1-i/8), (i/8)^2), pch=21, bg=&quot;violetred&quot;)
+}
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<pre class="r"><code>par(mfrow=c(2,2), mar=c(0.6, 0.6, 2.6, 0.6))
+for(i in 1:4) {
+  triplot(c(&quot;AA&quot;, &quot;AB&quot;, &quot;BB&quot;), main=paste0(&quot;MAF = &quot;, i, &quot;/8&quot;))
+  z &lt;- gf_mar[fgn==i,]
+  z &lt;- z[rowSums(is.na(z)) &lt; 3,]
+  tripoints(z, pch=21, bg=&quot;gray80&quot;, cex=0.6)
+  tripoints(c((1-i/8)^2, 2*i/8*(1-i/8), (i/8)^2), pch=21, bg=&quot;violetred&quot;)
+}</code></pre>
+<p><img src="figure/2.3_snp_qc.Rmd/Genotype%20frequencies%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<p>The bulk of the markers seem well behaved, but there are a number of markers with unusual genotype frequencies. There are markers that show no homozygotes for the major allele. (These sit on the left edge.) There are markers that are monomorphic (100% AA genotypes; lower-right vertex). And there some markers with some of each homozygote but no heterozygotes (bottom edge). Further, there are a bunch of markers where the minor allele appears to be private to one founder strain (upper-left panel) but show a high frequency of minor alleles in the DO offspring.</p>
+</div>
+<div id="marker-genotype-errors" class="section level3">
+<h3>Marker Genotype Errors</h3>
+<pre class="r"><code>errors_mar &lt;- colSums(e&gt;2)/n_typed(gm, &quot;marker&quot;)*100
+
+grayplot(pmis_mar, errors_mar,
+         xlab=&quot;Proportion missing&quot;, ylab=&quot;Proportion genotyping errors&quot;)</code></pre>
+<p><img src="figure/2.3_snp_qc.Rmd/Genotype%20errors%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pdf(file = &quot;output/genotype_error_marker.pdf&quot;)
+grayplot(pmis_mar, errors_mar,
+         xlab=&quot;Proportion missing&quot;, ylab=&quot;Proportion genotyping errors&quot;)
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<p>Markers with higher rates of missing genotypes tend to show higher errors rates.</p>
+</div>
+<div id="array-intensities" class="section level3">
+<h3>Array Intensities</h3>
+<p>Figures for all SNPs are found <a href="array_intensities_markers.html">here</a></p>
+</div>
+<div id="removing-markers" class="section level3">
+<h3>Removing Markers</h3>
+<pre><code>[1] 298</code></pre>
+<p>List of markers with errors can be found <a href="bad_markers.html">here</a></p>
+<pre class="r"><code>gm_DO112_ssqc &lt;- drop_markers(gm_DO112_samqc, names(errors_mar)[errors_mar &gt; 5])
+
+gm_DO112_ssqc</code></pre>
+<pre><code>Object of class cross2 (crosstype &quot;do&quot;)
+
+Total individuals               102
+No. genotyped individuals       102
+No. phenotyped individuals      102
+No. with both geno &amp; pheno      102
+
+No. phenotypes                    4
+No. covariates                    5
+No. phenotype covariates          0
+
+No. chromosomes                  20
+Total markers                112430
+
+No. markers by chr:
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16 
+8529 8648 6396 6601 6550 6429 6277 5665 5851 5436 6335 5152 5259 5018 4541 4357 
+  17   18   19    X 
+4322 3988 3104 3972 </code></pre>
+<pre class="r"><code>save(gm_DO112_ssqc, file = &quot;data/gm_DO112_ssqc.RData&quot;)</code></pre>
+<p>After full qc (<a href="2.2_sample_bqc.html">sample</a> $ SNP), we ran all checks <a href="2.4_afterqc.html">again</a> to see if data improved for <code>R/qtl2</code> analysis.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.2 (2019-12-12)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Catalina 10.15.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] fst_0.9.0        knitr_1.28       kableExtra_1.1.0 mclust_5.4.5    
+ [5] ggrepel_0.8.1    ggplot2_3.2.1    qtlcharts_0.11-6 qtl2_0.21-19    
+ [9] broman_0.69-5    workflowr_1.6.0 
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.0.0  xfun_0.12         purrr_0.3.3       colorspace_1.4-1 
+ [5] vctrs_0.2.2       viridisLite_0.3.0 htmltools_0.4.0   yaml_2.2.1       
+ [9] blob_1.2.1        rlang_0.4.4       later_1.0.0       pillar_1.4.3     
+[13] glue_1.3.1        withr_2.1.2       DBI_1.1.0         bit64_0.9-7      
+[17] lifecycle_0.1.0   stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     
+[21] rvest_0.3.5       memoise_1.1.0     evaluate_0.14     httpuv_1.5.2     
+[25] parallel_3.6.2    Rcpp_1.0.3        readr_1.3.1       promises_1.1.0   
+[29] scales_1.1.0      backports_1.1.5   webshot_0.5.2     fs_1.3.1         
+[33] bit_1.1-15.2      hms_0.5.3         digest_0.6.24     stringi_1.4.6    
+[37] dplyr_0.8.4       grid_3.6.2        rprojroot_1.3-2   tools_3.6.2      
+[41] magrittr_1.5      lazyeval_0.2.2    RSQLite_2.2.0     tibble_2.1.3     
+[45] crayon_1.3.4      whisker_0.4       pkgconfig_2.0.3   data.table_1.12.8
+[49] xml2_1.2.2        assertthat_0.2.1  rmarkdown_2.1     httr_1.4.1       
+[53] rstudioapi_0.11   qtl_1.45-11       R6_2.4.1          git2r_0.26.1     
+[57] compiler_3.6.2   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

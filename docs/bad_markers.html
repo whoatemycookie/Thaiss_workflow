@@ -1,0 +1,5731 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Belinda Cornes" />
+
+<meta name="date" content="2020-03-16" />
+
+<title>Bad Markers</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Thaiss_workflowr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/whoatemycookie/Thaiss_workflow">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Bad Markers</h1>
+<h4 class="author">Belinda Cornes</h4>
+<h4 class="date">2020-03-16</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-03-16
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Thaiss_workflowr/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200309code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200309)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200309code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200309)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree624db593a1a07d49337d68043904fb8800415563targetblank624db59a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/624db593a1a07d49337d68043904fb8800415563" target="_blank">624db59</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree624db593a1a07d49337d68043904fb8800415563targetblank624db59a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+
+Untracked files:
+    Untracked:  .Rprofile
+    Untracked:  .gitattributes
+    Untracked:  .gitignore
+    Untracked:  Thaiss_workflowr.Rproj
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  _workflowr.yml
+    Untracked:  analysis/07_recomb_size_founder_prop_BKC.R
+    Untracked:  analysis/07_recomb_size_founder_prop_BKC.Rmd
+    Untracked:  analysis/2.1_preparing_files.R
+    Untracked:  analysis/2.2_geneseek2intensity.R
+    Untracked:  analysis/2.2_sample_qc.Rmd
+    Untracked:  analysis/2.3_sample_qc.R.old
+    Untracked:  analysis/2.3_sample_qc.Rmd.old
+    Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/3.1_recomb_size_founder_prop.Rmd
+    Untracked:  analysis/array_intensities_markers.R
+    Untracked:  analysis/genotype_intensities.Rmd.R
+    Untracked:  analysis/genotype_intensities.Rmd.old
+    Untracked:  analysis/reconst_utils_gtQC.R
+    Untracked:  analysis/run_3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/run_array_intensities_markers.R
+    Untracked:  analysis/template
+    Untracked:  analysis/torun_Thaiss_neogen.sh
+    Untracked:  analysis/torun_Thaiss_neogen_qtl2.sh
+    Untracked:  code/
+    Untracked:  data/
+    Untracked:  output/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/624db593a1a07d49337d68043904fb8800415563/analysis/bad_markers.Rmd" target="_blank">624db59</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+<td>
+second publication
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre><code>[1] 298</code></pre>
+<table class="table table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+marker
+</th>
+<th style="text-align:center;">
+chr
+</th>
+<th style="text-align:center;">
+gmap
+</th>
+<th style="text-align:center;">
+pmap
+</th>
+<th style="text-align:center;">
+error_mars
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+UNCHS000055
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+2.210
+</td>
+<td style="text-align:center;">
+9.790143
+</td>
+<td style="text-align:center;">
+23.3333333333333
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS000060
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+2.325
+</td>
+<td style="text-align:center;">
+10.078890
+</td>
+<td style="text-align:center;">
+59.3220338983051
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS000139
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+4.408
+</td>
+<td style="text-align:center;">
+14.582386
+</td>
+<td style="text-align:center;">
+14.7058823529412
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS000176
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+5.528
+</td>
+<td style="text-align:center;">
+18.003060
+</td>
+<td style="text-align:center;">
+32.3529411764706
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS000206
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+6.411
+</td>
+<td style="text-align:center;">
+20.642132
+</td>
+<td style="text-align:center;">
+27.4725274725275
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR4006
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+10.907
+</td>
+<td style="text-align:center;">
+26.958879
+</td>
+<td style="text-align:center;">
+16.4556962025316
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR4021
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+11.131
+</td>
+<td style="text-align:center;">
+28.559042
+</td>
+<td style="text-align:center;">
+21.5686274509804
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC381552
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+11.688
+</td>
+<td style="text-align:center;">
+31.663025
+</td>
+<td style="text-align:center;">
+37.1134020618557
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS000927
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+30.480
+</td>
+<td style="text-align:center;">
+60.538346
+</td>
+<td style="text-align:center;">
+28.7128712871287
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS001059
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+32.928
+</td>
+<td style="text-align:center;">
+65.158782
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS001430
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+42.564
+</td>
+<td style="text-align:center;">
+82.829879
+</td>
+<td style="text-align:center;">
+8.95522388059701
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS001521
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+44.038
+</td>
+<td style="text-align:center;">
+86.944299
+</td>
+<td style="text-align:center;">
+25.4901960784314
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR088
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+47.674
+</td>
+<td style="text-align:center;">
+96.352292
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS001836
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+49.322
+</td>
+<td style="text-align:center;">
+103.683686
+</td>
+<td style="text-align:center;">
+7.21649484536082
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002039
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+52.098
+</td>
+<td style="text-align:center;">
+117.082391
+</td>
+<td style="text-align:center;">
+12.6436781609195
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002043
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+52.120
+</td>
+<td style="text-align:center;">
+117.466224
+</td>
+<td style="text-align:center;">
+18.6274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002045
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+52.135
+</td>
+<td style="text-align:center;">
+117.712960
+</td>
+<td style="text-align:center;">
+7.4468085106383
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002081
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+52.397
+</td>
+<td style="text-align:center;">
+119.555177
+</td>
+<td style="text-align:center;">
+29.4736842105263
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002139
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+53.000
+</td>
+<td style="text-align:center;">
+121.986651
+</td>
+<td style="text-align:center;">
+8.43373493975904
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCrs224244572
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+56.870
+</td>
+<td style="text-align:center;">
+130.442218
+</td>
+<td style="text-align:center;">
+30.7692307692308
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002414
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+57.941
+</td>
+<td style="text-align:center;">
+133.592555
+</td>
+<td style="text-align:center;">
+7.92079207920792
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002425
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+58.101
+</td>
+<td style="text-align:center;">
+134.070206
+</td>
+<td style="text-align:center;">
+7.95454545454545
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002590
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+62.192
+</td>
+<td style="text-align:center;">
+141.092977
+</td>
+<td style="text-align:center;">
+17.7083333333333
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002699
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+63.412
+</td>
+<td style="text-align:center;">
+149.026376
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002795
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+65.344
+</td>
+<td style="text-align:center;">
+153.366916
+</td>
+<td style="text-align:center;">
+5.63380281690141
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS002991
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+69.505
+</td>
+<td style="text-align:center;">
+160.525922
+</td>
+<td style="text-align:center;">
+5.74712643678161
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS004074
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+11.446
+</td>
+<td style="text-align:center;">
+15.792490
+</td>
+<td style="text-align:center;">
+15.6862745098039
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCrs250289796
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+17.308
+</td>
+<td style="text-align:center;">
+25.500670
+</td>
+<td style="text-align:center;">
+12.7450980392157
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCrs51700341
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+23.286
+</td>
+<td style="text-align:center;">
+35.022389
+</td>
+<td style="text-align:center;">
+26.4705882352941
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS004956
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+30.086
+</td>
+<td style="text-align:center;">
+52.393679
+</td>
+<td style="text-align:center;">
+7.52688172043011
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00095379
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+39.245
+</td>
+<td style="text-align:center;">
+66.823233
+</td>
+<td style="text-align:center;">
+16.8539325842697
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCJPD000797
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+44.150
+</td>
+<td style="text-align:center;">
+74.809792
+</td>
+<td style="text-align:center;">
+14.8514851485149
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS005898
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+52.385
+</td>
+<td style="text-align:center;">
+97.297222
+</td>
+<td style="text-align:center;">
+12.8712871287129
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS005952
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+53.863
+</td>
+<td style="text-align:center;">
+101.570704
+</td>
+<td style="text-align:center;">
+10.2272727272727
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS005975
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+54.068
+</td>
+<td style="text-align:center;">
+102.061209
+</td>
+<td style="text-align:center;">
+9.87654320987654
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00498098
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+54.184
+</td>
+<td style="text-align:center;">
+102.641024
+</td>
+<td style="text-align:center;">
+8.60215053763441
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS006234
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+56.996
+</td>
+<td style="text-align:center;">
+112.282425
+</td>
+<td style="text-align:center;">
+26.3157894736842
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS006537
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+60.659
+</td>
+<td style="text-align:center;">
+123.097956
+</td>
+<td style="text-align:center;">
+13.2352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS006621
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+61.861
+</td>
+<td style="text-align:center;">
+126.734411
+</td>
+<td style="text-align:center;">
+6.52173913043478
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS006838
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+64.822
+</td>
+<td style="text-align:center;">
+132.881633
+</td>
+<td style="text-align:center;">
+14.7058823529412
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00101614
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+74.756
+</td>
+<td style="text-align:center;">
+150.901451
+</td>
+<td style="text-align:center;">
+56.6666666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC4349625
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+80.967
+</td>
+<td style="text-align:center;">
+160.792076
+</td>
+<td style="text-align:center;">
+29.4117647058824
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS007657
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+84.275
+</td>
+<td style="text-align:center;">
+163.466433
+</td>
+<td style="text-align:center;">
+16.6666666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS007791
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+89.428
+</td>
+<td style="text-align:center;">
+169.580617
+</td>
+<td style="text-align:center;">
+43.1578947368421
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS008041
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+2.099
+</td>
+<td style="text-align:center;">
+7.620899
+</td>
+<td style="text-align:center;">
+21.4285714285714
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR5246
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+2.965
+</td>
+<td style="text-align:center;">
+12.022443
+</td>
+<td style="text-align:center;">
+14.2857142857143
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS008318
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+14.332
+</td>
+<td style="text-align:center;">
+30.772949
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC4990658
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+15.849
+</td>
+<td style="text-align:center;">
+32.744657
+</td>
+<td style="text-align:center;">
+10.7843137254902
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR1289
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+20.218
+</td>
+<td style="text-align:center;">
+42.604996
+</td>
+<td style="text-align:center;">
+11.6883116883117
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR5294
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+20.304
+</td>
+<td style="text-align:center;">
+44.128292
+</td>
+<td style="text-align:center;">
+18.6666666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS008728
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+26.640
+</td>
+<td style="text-align:center;">
+55.712643
+</td>
+<td style="text-align:center;">
+33.75
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC5349697
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+28.601
+</td>
+<td style="text-align:center;">
+58.555683
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS008904
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+30.203
+</td>
+<td style="text-align:center;">
+65.482971
+</td>
+<td style="text-align:center;">
+20.2020202020202
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR1324
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+32.554
+</td>
+<td style="text-align:center;">
+70.926231
+</td>
+<td style="text-align:center;">
+12.8205128205128
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS009055
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+33.668
+</td>
+<td style="text-align:center;">
+74.616716
+</td>
+<td style="text-align:center;">
+21.5686274509804
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS009056
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+33.668
+</td>
+<td style="text-align:center;">
+74.623461
+</td>
+<td style="text-align:center;">
+20.7920792079208
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS009117
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+34.881
+</td>
+<td style="text-align:center;">
+78.705608
+</td>
+<td style="text-align:center;">
+17.7215189873418
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR1387
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+35.773
+</td>
+<td style="text-align:center;">
+81.118077
+</td>
+<td style="text-align:center;">
+20.8333333333333
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR5394
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+37.829
+</td>
+<td style="text-align:center;">
+85.851879
+</td>
+<td style="text-align:center;">
+10.2040816326531
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC5706331
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+37.856
+</td>
+<td style="text-align:center;">
+86.325415
+</td>
+<td style="text-align:center;">
+26.8292682926829
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS009430
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+40.706
+</td>
+<td style="text-align:center;">
+94.791377
+</td>
+<td style="text-align:center;">
+5.12820512820513
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS009849
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+49.118
+</td>
+<td style="text-align:center;">
+112.245710
+</td>
+<td style="text-align:center;">
+25.2747252747253
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00534216
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+49.126
+</td>
+<td style="text-align:center;">
+112.387549
+</td>
+<td style="text-align:center;">
+7.07070707070707
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC6097724
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+52.893
+</td>
+<td style="text-align:center;">
+121.311453
+</td>
+<td style="text-align:center;">
+15.8415841584158
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS010009
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+54.582
+</td>
+<td style="text-align:center;">
+123.636534
+</td>
+<td style="text-align:center;">
+12.7450980392157
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00536498
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+54.610
+</td>
+<td style="text-align:center;">
+124.009866
+</td>
+<td style="text-align:center;">
+27.1604938271605
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS010029
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+54.627
+</td>
+<td style="text-align:center;">
+124.248727
+</td>
+<td style="text-align:center;">
+17.8082191780822
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC6501544
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+72.432
+</td>
+<td style="text-align:center;">
+148.209058
+</td>
+<td style="text-align:center;">
+8.23529411764706
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS010670
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+4.747
+</td>
+<td style="text-align:center;">
+10.707551
+</td>
+<td style="text-align:center;">
+5.12820512820513
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS010735
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+6.445
+</td>
+<td style="text-align:center;">
+15.075658
+</td>
+<td style="text-align:center;">
+15.6862745098039
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR1459
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+7.038
+</td>
+<td style="text-align:center;">
+17.164772
+</td>
+<td style="text-align:center;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00546908
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+10.415
+</td>
+<td style="text-align:center;">
+24.628659
+</td>
+<td style="text-align:center;">
+11.6666666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS011627
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+36.003
+</td>
+<td style="text-align:center;">
+72.135634
+</td>
+<td style="text-align:center;">
+42.2680412371134
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS011875
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+40.231
+</td>
+<td style="text-align:center;">
+85.269273
+</td>
+<td style="text-align:center;">
+5.05050505050505
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00122292
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+45.552
+</td>
+<td style="text-align:center;">
+98.237432
+</td>
+<td style="text-align:center;">
+11.1111111111111
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS012139
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+45.667
+</td>
+<td style="text-align:center;">
+99.524035
+</td>
+<td style="text-align:center;">
+31.6326530612245
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS012234
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+47.606
+</td>
+<td style="text-align:center;">
+103.425975
+</td>
+<td style="text-align:center;">
+30.5263157894737
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCrs241258463
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+48.745
+</td>
+<td style="text-align:center;">
+104.856828
+</td>
+<td style="text-align:center;">
+30.6122448979592
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCrs47334036
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+69.119
+</td>
+<td style="text-align:center;">
+136.891565
+</td>
+<td style="text-align:center;">
+6.89655172413793
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS013026
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+69.943
+</td>
+<td style="text-align:center;">
+137.523147
+</td>
+<td style="text-align:center;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS013262
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+78.870
+</td>
+<td style="text-align:center;">
+148.864403
+</td>
+<td style="text-align:center;">
+19.1919191919192
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC8441493
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+80.547
+</td>
+<td style="text-align:center;">
+149.923681
+</td>
+<td style="text-align:center;">
+13.6842105263158
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR5552
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+3.366
+</td>
+<td style="text-align:center;">
+7.551055
+</td>
+<td style="text-align:center;">
+17.5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS013609
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+9.865
+</td>
+<td style="text-align:center;">
+21.279395
+</td>
+<td style="text-align:center;">
+16.6666666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC8767273
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+9.894
+</td>
+<td style="text-align:center;">
+21.402899
+</td>
+<td style="text-align:center;">
+9.9009900990099
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS013792
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+14.757
+</td>
+<td style="text-align:center;">
+29.025918
+</td>
+<td style="text-align:center;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS013962
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+17.915
+</td>
+<td style="text-align:center;">
+34.653812
+</td>
+<td style="text-align:center;">
+19.5876288659794
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00578686
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+18.519
+</td>
+<td style="text-align:center;">
+35.643113
+</td>
+<td style="text-align:center;">
+10.1449275362319
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS014407
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+29.629
+</td>
+<td style="text-align:center;">
+53.916243
+</td>
+<td style="text-align:center;">
+5.61797752808989
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS014414
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+29.694
+</td>
+<td style="text-align:center;">
+54.003689
+</td>
+<td style="text-align:center;">
+16.3265306122449
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC9287617
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+31.819
+</td>
+<td style="text-align:center;">
+60.194207
+</td>
+<td style="text-align:center;">
+9.21052631578947
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS014478
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+31.870
+</td>
+<td style="text-align:center;">
+60.604397
+</td>
+<td style="text-align:center;">
+7.77777777777778
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC9400980
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+36.984
+</td>
+<td style="text-align:center;">
+68.781306
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC9404380
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+37.007
+</td>
+<td style="text-align:center;">
+69.039333
+</td>
+<td style="text-align:center;">
+11.5789473684211
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS014867
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+42.434
+</td>
+<td style="text-align:center;">
+80.063323
+</td>
+<td style="text-align:center;">
+12.8712871287129
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS014993
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+44.505
+</td>
+<td style="text-align:center;">
+90.253610
+</td>
+<td style="text-align:center;">
+8.82352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS015128
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+47.682
+</td>
+<td style="text-align:center;">
+97.449706
+</td>
+<td style="text-align:center;">
+21.7391304347826
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC9955633
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+55.970
+</td>
+<td style="text-align:center;">
+114.446896
+</td>
+<td style="text-align:center;">
+10.1010101010101
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS015521
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+56.096
+</td>
+<td style="text-align:center;">
+115.715078
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC9971266
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+56.097
+</td>
+<td style="text-align:center;">
+115.717820
+</td>
+<td style="text-align:center;">
+17.8947368421053
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS015698
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+62.292
+</td>
+<td style="text-align:center;">
+122.305703
+</td>
+<td style="text-align:center;">
+5.94059405940594
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS015816
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+64.594
+</td>
+<td style="text-align:center;">
+126.066688
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC10199192
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+71.994
+</td>
+<td style="text-align:center;">
+132.318584
+</td>
+<td style="text-align:center;">
+10.2040816326531
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCJPD002501
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+1.961
+</td>
+<td style="text-align:center;">
+5.122467
+</td>
+<td style="text-align:center;">
+18.6274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00605090
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+11.229
+</td>
+<td style="text-align:center;">
+24.233670
+</td>
+<td style="text-align:center;">
+5.43478260869565
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS016712
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+11.986
+</td>
+<td style="text-align:center;">
+27.902818
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS016757
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+12.290
+</td>
+<td style="text-align:center;">
+29.304333
+</td>
+<td style="text-align:center;">
+8.82352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00611902
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+29.908
+</td>
+<td style="text-align:center;">
+63.973928
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS017650
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+32.138
+</td>
+<td style="text-align:center;">
+71.163321
+</td>
+<td style="text-align:center;">
+18.4782608695652
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS017672
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+32.198
+</td>
+<td style="text-align:center;">
+71.755508
+</td>
+<td style="text-align:center;">
+12.7450980392157
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS017673
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+32.208
+</td>
+<td style="text-align:center;">
+71.852006
+</td>
+<td style="text-align:center;">
+73.9130434782609
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS017723
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+32.486
+</td>
+<td style="text-align:center;">
+74.865264
+</td>
+<td style="text-align:center;">
+5.26315789473684
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS017783
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+34.657
+</td>
+<td style="text-align:center;">
+77.791933
+</td>
+<td style="text-align:center;">
+77.027027027027
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS018628
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+52.902
+</td>
+<td style="text-align:center;">
+113.933481
+</td>
+<td style="text-align:center;">
+9.80392156862745
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC11970649
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+56.964
+</td>
+<td style="text-align:center;">
+120.499182
+</td>
+<td style="text-align:center;">
+42
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS019296
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+77.364
+</td>
+<td style="text-align:center;">
+145.275229
+</td>
+<td style="text-align:center;">
+6.89655172413793
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS019311
+</td>
+<td style="text-align:center;">
+6
+</td>
+<td style="text-align:center;">
+77.689
+</td>
+<td style="text-align:center;">
+146.382042
+</td>
+<td style="text-align:center;">
+9.80392156862745
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS019523
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+9.455
+</td>
+<td style="text-align:center;">
+19.095661
+</td>
+<td style="text-align:center;">
+35.8024691358025
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS019793
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+25.473
+</td>
+<td style="text-align:center;">
+39.574188
+</td>
+<td style="text-align:center;">
+9.9009900990099
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC12854618
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+33.073
+</td>
+<td style="text-align:center;">
+53.282742
+</td>
+<td style="text-align:center;">
+15.7894736842105
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS019991
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+33.227
+</td>
+<td style="text-align:center;">
+54.623254
+</td>
+<td style="text-align:center;">
+19.5652173913043
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS020023
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+33.446
+</td>
+<td style="text-align:center;">
+56.198735
+</td>
+<td style="text-align:center;">
+11.7647058823529
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS020030
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+33.449
+</td>
+<td style="text-align:center;">
+56.241686
+</td>
+<td style="text-align:center;">
+10.3448275862069
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS020034
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+33.467
+</td>
+<td style="text-align:center;">
+56.504037
+</td>
+<td style="text-align:center;">
+18.8118811881188
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS020090
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+34.354
+</td>
+<td style="text-align:center;">
+62.261412
+</td>
+<td style="text-align:center;">
+32.3529411764706
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC13205838
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+44.996
+</td>
+<td style="text-align:center;">
+79.381150
+</td>
+<td style="text-align:center;">
+15.7894736842105
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR1874
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+54.865
+</td>
+<td style="text-align:center;">
+103.498672
+</td>
+<td style="text-align:center;">
+10.8433734939759
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS021230
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+61.607
+</td>
+<td style="text-align:center;">
+116.162894
+</td>
+<td style="text-align:center;">
+19.7916666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS020630
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+63.063
+</td>
+<td style="text-align:center;">
+117.678876
+</td>
+<td style="text-align:center;">
+9.57446808510638
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS021624
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+73.194
+</td>
+<td style="text-align:center;">
+130.764310
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC13862122
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+73.197
+</td>
+<td style="text-align:center;">
+130.936290
+</td>
+<td style="text-align:center;">
+8.82352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS021672
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+76.293
+</td>
+<td style="text-align:center;">
+132.388393
+</td>
+<td style="text-align:center;">
+13.7254901960784
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS021693
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+76.319
+</td>
+<td style="text-align:center;">
+132.996368
+</td>
+<td style="text-align:center;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS021997
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+88.713
+</td>
+<td style="text-align:center;">
+144.431737
+</td>
+<td style="text-align:center;">
+7.14285714285714
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS022051
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+1.764
+</td>
+<td style="text-align:center;">
+3.410975
+</td>
+<td style="text-align:center;">
+7.07070707070707
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC14373882
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+16.189
+</td>
+<td style="text-align:center;">
+27.810813
+</td>
+<td style="text-align:center;">
+19.3877551020408
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS022485
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+16.196
+</td>
+<td style="text-align:center;">
+27.831249
+</td>
+<td style="text-align:center;">
+24.7191011235955
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS022503
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+16.473
+</td>
+<td style="text-align:center;">
+28.741118
+</td>
+<td style="text-align:center;">
+57.4257425742574
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC14434449
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+18.834
+</td>
+<td style="text-align:center;">
+31.891969
+</td>
+<td style="text-align:center;">
+29.6296296296296
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS022735
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+23.764
+</td>
+<td style="text-align:center;">
+40.030246
+</td>
+<td style="text-align:center;">
+19.2771084337349
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS022850
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+26.398
+</td>
+<td style="text-align:center;">
+46.631732
+</td>
+<td style="text-align:center;">
+8.82352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS022944
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+28.861
+</td>
+<td style="text-align:center;">
+50.938941
+</td>
+<td style="text-align:center;">
+13.7254901960784
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS023103
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+32.068
+</td>
+<td style="text-align:center;">
+63.480582
+</td>
+<td style="text-align:center;">
+16.6666666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC15148258
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+41.576
+</td>
+<td style="text-align:center;">
+85.309323
+</td>
+<td style="text-align:center;">
+12.3711340206186
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS023633
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+41.779
+</td>
+<td style="text-align:center;">
+86.170351
+</td>
+<td style="text-align:center;">
+10.126582278481
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS023849
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+45.384
+</td>
+<td style="text-align:center;">
+93.208604
+</td>
+<td style="text-align:center;">
+15.7894736842105
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00168126
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+2.580
+</td>
+<td style="text-align:center;">
+10.267010
+</td>
+<td style="text-align:center;">
+24.4897959183673
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS024859
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+9.222
+</td>
+<td style="text-align:center;">
+22.638376
+</td>
+<td style="text-align:center;">
+13.1313131313131
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS024960
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+14.346
+</td>
+<td style="text-align:center;">
+28.538172
+</td>
+<td style="text-align:center;">
+8.82352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS025170
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+20.938
+</td>
+<td style="text-align:center;">
+39.098548
+</td>
+<td style="text-align:center;">
+6.89655172413793
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS025177
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+21.324
+</td>
+<td style="text-align:center;">
+40.223569
+</td>
+<td style="text-align:center;">
+12.5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS025482
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+27.455
+</td>
+<td style="text-align:center;">
+50.307108
+</td>
+<td style="text-align:center;">
+6.45161290322581
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS025643
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+30.056
+</td>
+<td style="text-align:center;">
+55.379464
+</td>
+<td style="text-align:center;">
+7.92079207920792
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS025780
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+32.013
+</td>
+<td style="text-align:center;">
+59.264787
+</td>
+<td style="text-align:center;">
+22.5490196078431
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS026455
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+45.109
+</td>
+<td style="text-align:center;">
+82.726275
+</td>
+<td style="text-align:center;">
+23.7623762376238
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS026466
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+45.345
+</td>
+<td style="text-align:center;">
+83.249893
+</td>
+<td style="text-align:center;">
+7.4468085106383
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS026532
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+46.565
+</td>
+<td style="text-align:center;">
+86.537058
+</td>
+<td style="text-align:center;">
+20.7920792079208
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS026670
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+48.596
+</td>
+<td style="text-align:center;">
+93.472249
+</td>
+<td style="text-align:center;">
+8.24742268041237
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS026675
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+48.671
+</td>
+<td style="text-align:center;">
+93.903633
+</td>
+<td style="text-align:center;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS026722
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+50.270
+</td>
+<td style="text-align:center;">
+95.972298
+</td>
+<td style="text-align:center;">
+21.7948717948718
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS026779
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+51.363
+</td>
+<td style="text-align:center;">
+98.440022
+</td>
+<td style="text-align:center;">
+28.0898876404494
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS026789
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+51.397
+</td>
+<td style="text-align:center;">
+98.793224
+</td>
+<td style="text-align:center;">
+15.6862745098039
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC17060129
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+56.735
+</td>
+<td style="text-align:center;">
+105.480520
+</td>
+<td style="text-align:center;">
+12.7450980392157
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS027316
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+71.342
+</td>
+<td style="text-align:center;">
+119.688806
+</td>
+<td style="text-align:center;">
+22.9166666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS027368
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+72.730
+</td>
+<td style="text-align:center;">
+122.007908
+</td>
+<td style="text-align:center;">
+26.7326732673267
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS027504
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+3.611
+</td>
+<td style="text-align:center;">
+11.285661
+</td>
+<td style="text-align:center;">
+6.25
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00015138
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+5.342
+</td>
+<td style="text-align:center;">
+14.268017
+</td>
+<td style="text-align:center;">
+24.0506329113924
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS027792
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+16.572
+</td>
+<td style="text-align:center;">
+29.265592
+</td>
+<td style="text-align:center;">
+5.12820512820513
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS028031
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+22.285
+</td>
+<td style="text-align:center;">
+41.326274
+</td>
+<td style="text-align:center;">
+7.21649484536082
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS028040
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+22.536
+</td>
+<td style="text-align:center;">
+41.660530
+</td>
+<td style="text-align:center;">
+13.6363636363636
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS028155
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+24.811
+</td>
+<td style="text-align:center;">
+48.491838
+</td>
+<td style="text-align:center;">
+21.3114754098361
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC18145142
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+34.989
+</td>
+<td style="text-align:center;">
+67.616095
+</td>
+<td style="text-align:center;">
+27.710843373494
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC18175083
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+36.124
+</td>
+<td style="text-align:center;">
+69.632850
+</td>
+<td style="text-align:center;">
+25.2525252525253
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS028771
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+38.970
+</td>
+<td style="text-align:center;">
+76.908536
+</td>
+<td style="text-align:center;">
+27.1739130434783
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS029195
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+50.162
+</td>
+<td style="text-align:center;">
+97.241360
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS029346
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+57.557
+</td>
+<td style="text-align:center;">
+110.342042
+</td>
+<td style="text-align:center;">
+9.80392156862745
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00024316
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+6.195
+</td>
+<td style="text-align:center;">
+10.273302
+</td>
+<td style="text-align:center;">
+16
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00304589
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+8.657
+</td>
+<td style="text-align:center;">
+15.165925
+</td>
+<td style="text-align:center;">
+18.4782608695652
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS029874
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+8.701
+</td>
+<td style="text-align:center;">
+15.494120
+</td>
+<td style="text-align:center;">
+26.3736263736264
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS030002
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+14.108
+</td>
+<td style="text-align:center;">
+22.058099
+</td>
+<td style="text-align:center;">
+5.61797752808989
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS030226
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+18.939
+</td>
+<td style="text-align:center;">
+32.611896
+</td>
+<td style="text-align:center;">
+26.2626262626263
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS030552
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+29.917
+</td>
+<td style="text-align:center;">
+49.812913
+</td>
+<td style="text-align:center;">
+31
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC19614765
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+31.040
+</td>
+<td style="text-align:center;">
+51.404410
+</td>
+<td style="text-align:center;">
+7.84313725490196
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC19772814
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+38.963
+</td>
+<td style="text-align:center;">
+63.090607
+</td>
+<td style="text-align:center;">
+5.31914893617021
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS031224
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+43.102
+</td>
+<td style="text-align:center;">
+70.611696
+</td>
+<td style="text-align:center;">
+8.91089108910891
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS031388
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+45.837
+</td>
+<td style="text-align:center;">
+75.343959
+</td>
+<td style="text-align:center;">
+27.9569892473118
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC19962506
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+46.762
+</td>
+<td style="text-align:center;">
+78.783465
+</td>
+<td style="text-align:center;">
+31.8840579710145
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00316073
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+46.826
+</td>
+<td style="text-align:center;">
+79.547177
+</td>
+<td style="text-align:center;">
+9.80392156862745
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS031650
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+51.275
+</td>
+<td style="text-align:center;">
+84.116842
+</td>
+<td style="text-align:center;">
+8.13953488372093
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00029845
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+51.328
+</td>
+<td style="text-align:center;">
+85.027352
+</td>
+<td style="text-align:center;">
+9.80392156862745
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS032016
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+62.958
+</td>
+<td style="text-align:center;">
+99.342968
+</td>
+<td style="text-align:center;">
+9.09090909090909
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS032475
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+83.085
+</td>
+<td style="text-align:center;">
+118.289006
+</td>
+<td style="text-align:center;">
+19.6078431372549
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS032488
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+83.310
+</td>
+<td style="text-align:center;">
+118.803994
+</td>
+<td style="text-align:center;">
+36.1702127659575
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC20596597
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+3.911
+</td>
+<td style="text-align:center;">
+8.591381
+</td>
+<td style="text-align:center;">
+5.37634408602151
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS032931
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+8.320
+</td>
+<td style="text-align:center;">
+21.361837
+</td>
+<td style="text-align:center;">
+8.60215053763441
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+cr38snv305
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+8.330
+</td>
+<td style="text-align:center;">
+21.550449
+</td>
+<td style="text-align:center;">
+28.4313725490196
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS033275
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+17.821
+</td>
+<td style="text-align:center;">
+38.800624
+</td>
+<td style="text-align:center;">
+9.47368421052632
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS033382
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+20.709
+</td>
+<td style="text-align:center;">
+44.553587
+</td>
+<td style="text-align:center;">
+18.5567010309278
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS033476
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+22.137
+</td>
+<td style="text-align:center;">
+52.038231
+</td>
+<td style="text-align:center;">
+23.469387755102
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00333668
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+22.156
+</td>
+<td style="text-align:center;">
+52.456101
+</td>
+<td style="text-align:center;">
+9.33333333333333
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS033627
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+25.944
+</td>
+<td style="text-align:center;">
+58.961893
+</td>
+<td style="text-align:center;">
+10.5882352941176
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS033676
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+26.667
+</td>
+<td style="text-align:center;">
+62.418676
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS033733
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+27.591
+</td>
+<td style="text-align:center;">
+66.328059
+</td>
+<td style="text-align:center;">
+24.2857142857143
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC21894871
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+61.014
+</td>
+<td style="text-align:center;">
+111.463294
+</td>
+<td style="text-align:center;">
+29.7872340425532
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS034731
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+61.205
+</td>
+<td style="text-align:center;">
+112.648528
+</td>
+<td style="text-align:center;">
+7.29166666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS034814
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+62.709
+</td>
+<td style="text-align:center;">
+116.615348
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS034815
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+62.729
+</td>
+<td style="text-align:center;">
+116.668861
+</td>
+<td style="text-align:center;">
+6.06060606060606
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS034862
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+63.260
+</td>
+<td style="text-align:center;">
+118.145406
+</td>
+<td style="text-align:center;">
+5.15463917525773
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS035064
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+4.513
+</td>
+<td style="text-align:center;">
+12.147810
+</td>
+<td style="text-align:center;">
+36
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS035561
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+14.329
+</td>
+<td style="text-align:center;">
+36.077368
+</td>
+<td style="text-align:center;">
+5.26315789473684
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS035635
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+18.354
+</td>
+<td style="text-align:center;">
+38.605630
+</td>
+<td style="text-align:center;">
+30.3921568627451
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS036140
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+31.090
+</td>
+<td style="text-align:center;">
+58.703365
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS036212
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+32.772
+</td>
+<td style="text-align:center;">
+62.882509
+</td>
+<td style="text-align:center;">
+14.8514851485149
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC22770269
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+34.539
+</td>
+<td style="text-align:center;">
+67.069915
+</td>
+<td style="text-align:center;">
+14.8514851485149
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS036571
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+41.931
+</td>
+<td style="text-align:center;">
+80.589456
+</td>
+<td style="text-align:center;">
+16.1290322580645
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS036613
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+43.982
+</td>
+<td style="text-align:center;">
+83.493958
+</td>
+<td style="text-align:center;">
+20.5882352941176
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR550
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+45.083
+</td>
+<td style="text-align:center;">
+86.120437
+</td>
+<td style="text-align:center;">
+14.4329896907216
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC23135640
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+49.482
+</td>
+<td style="text-align:center;">
+95.350889
+</td>
+<td style="text-align:center;">
+11.7647058823529
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS036832
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+50.499
+</td>
+<td style="text-align:center;">
+96.127035
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS036833
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+50.519
+</td>
+<td style="text-align:center;">
+96.238955
+</td>
+<td style="text-align:center;">
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00369829
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+59.742
+</td>
+<td style="text-align:center;">
+108.847938
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS037230
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+64.752
+</td>
+<td style="text-align:center;">
+115.771013
+</td>
+<td style="text-align:center;">
+30
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS037274
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+66.894
+</td>
+<td style="text-align:center;">
+118.411641
+</td>
+<td style="text-align:center;">
+5.37634408602151
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS037425
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+6.971
+</td>
+<td style="text-align:center;">
+14.739962
+</td>
+<td style="text-align:center;">
+34.3137254901961
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS037736
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+16.521
+</td>
+<td style="text-align:center;">
+27.609127
+</td>
+<td style="text-align:center;">
+8.86075949367089
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS037853
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+19.095
+</td>
+<td style="text-align:center;">
+31.112482
+</td>
+<td style="text-align:center;">
+8.82352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS037867
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+19.109
+</td>
+<td style="text-align:center;">
+31.299362
+</td>
+<td style="text-align:center;">
+11.7647058823529
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS037986
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+20.881
+</td>
+<td style="text-align:center;">
+35.935070
+</td>
+<td style="text-align:center;">
+15.1515151515152
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR4656
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+22.278
+</td>
+<td style="text-align:center;">
+39.866525
+</td>
+<td style="text-align:center;">
+67.5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS038056
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+22.305
+</td>
+<td style="text-align:center;">
+40.231755
+</td>
+<td style="text-align:center;">
+25.2631578947368
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS038067
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+22.353
+</td>
+<td style="text-align:center;">
+40.865932
+</td>
+<td style="text-align:center;">
+25.2631578947368
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS038432
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+31.579
+</td>
+<td style="text-align:center;">
+60.077344
+</td>
+<td style="text-align:center;">
+17.6470588235294
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS038490
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+33.205
+</td>
+<td style="text-align:center;">
+62.393680
+</td>
+<td style="text-align:center;">
+27.0588235294118
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC24161715
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+34.635
+</td>
+<td style="text-align:center;">
+67.335558
+</td>
+<td style="text-align:center;">
+8.91089108910891
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS038945
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+43.266
+</td>
+<td style="text-align:center;">
+83.055267
+</td>
+<td style="text-align:center;">
+17.3913043478261
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR4712
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+43.482
+</td>
+<td style="text-align:center;">
+84.289571
+</td>
+<td style="text-align:center;">
+6.09756097560976
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR4720
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+43.600
+</td>
+<td style="text-align:center;">
+85.012844
+</td>
+<td style="text-align:center;">
+8.13953488372093
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS039262
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+56.147
+</td>
+<td style="text-align:center;">
+105.670162
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS039270
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+56.154
+</td>
+<td style="text-align:center;">
+106.076530
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS039273
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+56.163
+</td>
+<td style="text-align:center;">
+106.574842
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS039317
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+57.115
+</td>
+<td style="text-align:center;">
+110.117102
+</td>
+<td style="text-align:center;">
+8.82352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC24745611
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+57.365
+</td>
+<td style="text-align:center;">
+110.675119
+</td>
+<td style="text-align:center;">
+18.2795698924731
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS039492
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+66.083
+</td>
+<td style="text-align:center;">
+123.504664
+</td>
+<td style="text-align:center;">
+18.1818181818182
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC24942429
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+66.394
+</td>
+<td style="text-align:center;">
+124.646279
+</td>
+<td style="text-align:center;">
+10.2564102564103
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS039883
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+11.997
+</td>
+<td style="text-align:center;">
+29.833031
+</td>
+<td style="text-align:center;">
+8.33333333333333
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS039906
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+12.545
+</td>
+<td style="text-align:center;">
+30.867571
+</td>
+<td style="text-align:center;">
+28.7128712871287
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS040077
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+15.133
+</td>
+<td style="text-align:center;">
+38.151768
+</td>
+<td style="text-align:center;">
+50.4950495049505
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS040174
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+16.803
+</td>
+<td style="text-align:center;">
+43.799639
+</td>
+<td style="text-align:center;">
+7.92079207920792
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+ICR810
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+17.752
+</td>
+<td style="text-align:center;">
+46.907836
+</td>
+<td style="text-align:center;">
+33.7837837837838
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS040265
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+19.198
+</td>
+<td style="text-align:center;">
+50.859555
+</td>
+<td style="text-align:center;">
+28.8659793814433
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS040267
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+19.232
+</td>
+<td style="text-align:center;">
+51.127337
+</td>
+<td style="text-align:center;">
+12.7450980392157
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS040548
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+29.140
+</td>
+<td style="text-align:center;">
+65.887647
+</td>
+<td style="text-align:center;">
+7.40740740740741
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC25830023
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+32.176
+</td>
+<td style="text-align:center;">
+70.178137
+</td>
+<td style="text-align:center;">
+7.60869565217391
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS041010
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+37.980
+</td>
+<td style="text-align:center;">
+81.060748
+</td>
+<td style="text-align:center;">
+7.84313725490196
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS041032
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+38.085
+</td>
+<td style="text-align:center;">
+81.364918
+</td>
+<td style="text-align:center;">
+10.7843137254902
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS041271
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+44.985
+</td>
+<td style="text-align:center;">
+89.818880
+</td>
+<td style="text-align:center;">
+10.4166666666667
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS041294
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+45.310
+</td>
+<td style="text-align:center;">
+90.787174
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS041505
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+58.154
+</td>
+<td style="text-align:center;">
+103.105591
+</td>
+<td style="text-align:center;">
+6.86274509803922
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC26263616
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+2.528
+</td>
+<td style="text-align:center;">
+5.419556
+</td>
+<td style="text-align:center;">
+8.82352941176471
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS041873
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+10.291
+</td>
+<td style="text-align:center;">
+15.896941
+</td>
+<td style="text-align:center;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS041978
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+11.614
+</td>
+<td style="text-align:center;">
+18.509901
+</td>
+<td style="text-align:center;">
+7.07070707070707
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS042056
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+12.917
+</td>
+<td style="text-align:center;">
+21.880445
+</td>
+<td style="text-align:center;">
+8.91089108910891
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS042252
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+21.395
+</td>
+<td style="text-align:center;">
+31.154285
+</td>
+<td style="text-align:center;">
+9.09090909090909
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS042547
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+27.111
+</td>
+<td style="text-align:center;">
+39.362794
+</td>
+<td style="text-align:center;">
+17.3076923076923
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS042737
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+30.566
+</td>
+<td style="text-align:center;">
+46.922910
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS042854
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+33.469
+</td>
+<td style="text-align:center;">
+54.810484
+</td>
+<td style="text-align:center;">
+22
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC26991894
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+37.110
+</td>
+<td style="text-align:center;">
+64.904967
+</td>
+<td style="text-align:center;">
+26.530612244898
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS043113
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+42.406
+</td>
+<td style="text-align:center;">
+74.279683
+</td>
+<td style="text-align:center;">
+22.2222222222222
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS043251
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+49.006
+</td>
+<td style="text-align:center;">
+86.373270
+</td>
+<td style="text-align:center;">
+5.79710144927536
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS043293
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+51.530
+</td>
+<td style="text-align:center;">
+90.034905
+</td>
+<td style="text-align:center;">
+8.69565217391304
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCrs238232699
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+18.432
+</td>
+<td style="text-align:center;">
+34.731716
+</td>
+<td style="text-align:center;">
+10.5263157894737
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS044354
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+22.901
+</td>
+<td style="text-align:center;">
+46.539718
+</td>
+<td style="text-align:center;">
+14.5833333333333
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCrs108274789
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+29.821
+</td>
+<td style="text-align:center;">
+57.217155
+</td>
+<td style="text-align:center;">
+11.1111111111111
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS044756
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+35.290
+</td>
+<td style="text-align:center;">
+66.200224
+</td>
+<td style="text-align:center;">
+31.3253012048193
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00444256
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+38.795
+</td>
+<td style="text-align:center;">
+67.525676
+</td>
+<td style="text-align:center;">
+5.88235294117647
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS044939
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+46.543
+</td>
+<td style="text-align:center;">
+75.370466
+</td>
+<td style="text-align:center;">
+30.6451612903226
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS044960
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+47.491
+</td>
+<td style="text-align:center;">
+76.416829
+</td>
+<td style="text-align:center;">
+5.61797752808989
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS045104
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+54.989
+</td>
+<td style="text-align:center;">
+84.231756
+</td>
+<td style="text-align:center;">
+15.6862745098039
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS045523
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+7.898
+</td>
+<td style="text-align:center;">
+14.177524
+</td>
+<td style="text-align:center;">
+5.15463917525773
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS045649
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+11.898
+</td>
+<td style="text-align:center;">
+21.405184
+</td>
+<td style="text-align:center;">
+55.1020408163265
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS045657
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+11.954
+</td>
+<td style="text-align:center;">
+22.104071
+</td>
+<td style="text-align:center;">
+6.59340659340659
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS045857
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+17.837
+</td>
+<td style="text-align:center;">
+31.699515
+</td>
+<td style="text-align:center;">
+5.68181818181818
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCJPD006903
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+21.305
+</td>
+<td style="text-align:center;">
+40.295127
+</td>
+<td style="text-align:center;">
+41.25
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS046072
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+21.352
+</td>
+<td style="text-align:center;">
+40.742405
+</td>
+<td style="text-align:center;">
+8.33333333333333
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNC29116323
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+21.883
+</td>
+<td style="text-align:center;">
+41.739631
+</td>
+<td style="text-align:center;">
+74.2857142857143
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS046088
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+22.039
+</td>
+<td style="text-align:center;">
+41.892680
+</td>
+<td style="text-align:center;">
+14.4444444444444
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00082899
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+23.988
+</td>
+<td style="text-align:center;">
+45.084048
+</td>
+<td style="text-align:center;">
+5.43478260869565
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS046318
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+29.117
+</td>
+<td style="text-align:center;">
+53.961225
+</td>
+<td style="text-align:center;">
+9.27835051546392
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+JAX00464592
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+45.878
+</td>
+<td style="text-align:center;">
+72.611819
+</td>
+<td style="text-align:center;">
+31.8681318681319
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS046876
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+55.489
+</td>
+<td style="text-align:center;">
+81.750121
+</td>
+<td style="text-align:center;">
+10.7843137254902
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS046931
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+57.596
+</td>
+<td style="text-align:center;">
+84.441375
+</td>
+<td style="text-align:center;">
+7.52688172043011
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS046970
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+58.646
+</td>
+<td style="text-align:center;">
+87.668938
+</td>
+<td style="text-align:center;">
+26.530612244898
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS047132
+</td>
+<td style="text-align:center;">
+19
+</td>
+<td style="text-align:center;">
+5.439
+</td>
+<td style="text-align:center;">
+8.608860
+</td>
+<td style="text-align:center;">
+19.6078431372549
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS047148
+</td>
+<td style="text-align:center;">
+19
+</td>
+<td style="text-align:center;">
+6.542
+</td>
+<td style="text-align:center;">
+10.213249
+</td>
+<td style="text-align:center;">
+9.80392156862745
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS047738
+</td>
+<td style="text-align:center;">
+19
+</td>
+<td style="text-align:center;">
+34.252
+</td>
+<td style="text-align:center;">
+40.361322
+</td>
+<td style="text-align:center;">
+12.7450980392157
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS048022
+</td>
+<td style="text-align:center;">
+19
+</td>
+<td style="text-align:center;">
+50.130
+</td>
+<td style="text-align:center;">
+54.766699
+</td>
+<td style="text-align:center;">
+8.16326530612245
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS048707
+</td>
+<td style="text-align:center;">
+X
+</td>
+<td style="text-align:center;">
+33.262
+</td>
+<td style="text-align:center;">
+59.121177
+</td>
+<td style="text-align:center;">
+8.42105263157895
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+UNCHS049690
+</td>
+<td style="text-align:center;">
+X
+</td>
+<td style="text-align:center;">
+74.795
+</td>
+<td style="text-align:center;">
+162.095037
+</td>
+<td style="text-align:center;">
+7.84313725490196
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre><code>R version 3.6.2 (2019-12-12)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Catalina 10.15.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] cluster_2.1.0     dplyr_0.8.4       optparse_1.6.4    rhdf5_2.30.1     
+ [5] tidyr_1.0.2       data.table_1.12.8 fst_0.9.0         knitr_1.28       
+ [9] kableExtra_1.1.0  mclust_5.4.5      ggrepel_0.8.1     ggplot2_3.2.1    
+[13] qtlcharts_0.11-6  qtl2_0.21-19      broman_0.69-5     workflowr_1.6.0  
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.0.0  xfun_0.12         purrr_0.3.3       colorspace_1.4-1 
+ [5] vctrs_0.2.2       getopt_1.20.3     viridisLite_0.3.0 htmltools_0.4.0  
+ [9] yaml_2.2.1        blob_1.2.1        rlang_0.4.4       later_1.0.0      
+[13] pillar_1.4.3      glue_1.3.1        withr_2.1.2       DBI_1.1.0        
+[17] bit64_0.9-7       lifecycle_0.1.0   stringr_1.4.0     munsell_0.5.0    
+[21] gtable_0.3.0      rvest_0.3.5       memoise_1.1.0     evaluate_0.14    
+[25] httpuv_1.5.2      parallel_3.6.2    Rcpp_1.0.3        readr_1.3.1      
+[29] promises_1.1.0    scales_1.1.0      backports_1.1.5   webshot_0.5.2    
+[33] fs_1.3.1          bit_1.1-15.2      hms_0.5.3         digest_0.6.24    
+[37] stringi_1.4.6     grid_3.6.2        rprojroot_1.3-2   tools_3.6.2      
+[41] magrittr_1.5      lazyeval_0.2.2    RSQLite_2.2.0     tibble_2.1.3     
+[45] crayon_1.3.4      whisker_0.4       pkgconfig_2.0.3   xml2_1.2.2       
+[49] assertthat_0.2.1  rmarkdown_2.1     httr_1.4.1        rstudioapi_0.11  
+[53] Rhdf5lib_1.8.0    qtl_1.45-11       R6_2.4.1          git2r_0.26.1     
+[57] compiler_3.6.2   </code></pre>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
