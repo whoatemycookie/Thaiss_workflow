@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Belinda Cornes" />
+
+<meta name="date" content="2020-03-11" />
+
+<title>Phenotype QC</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Thaiss_workflowr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/whoatemycookie/Thaiss_workflow">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Phenotype QC</h1>
+<h4 class="author">Belinda Cornes</h4>
+<h4 class="date">2020-03-11</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#phenotype-time">Phenotype : Time</a></li>
+<li><a href="#phenotype-distance">Phenotype : Distance</a></li>
+<li><a href="#phenotype-energy">Phenotype : Energy</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#all-problematic-samples">All Problematic Samples</a></li>
+</ul>
+</div>
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-03-17
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Thaiss_workflowr_old/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div class="panel-group" id="workflowr-checks">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200309code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200309)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200309code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200309)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old/data/heh/
+</td>
+<td style="text-align:left;">
+data/heh
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflow20200316treee9491170cbedb68aac8d8abec790cb853491265etargetblanke949117a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/tree/e9491170cbedb68aac8d8abec790cb853491265e" target="_blank">e949117</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflow20200316treee9491170cbedb68aac8d8abec790cb853491265etargetblanke949117a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  Thaiss_workflow-master.zip
+    Untracked:  Thaiss_workflow-master/
+    Untracked:  Thaiss_workflowr.Rproj
+    Untracked:  Thaiss_workflowr_old/
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all copy.csv
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  analysis/2.1_preparing_files.R
+    Untracked:  analysis/2.2_sample_qc.Rmd
+    Untracked:  analysis/2.3_sample_qc.R.old
+    Untracked:  analysis/2.3_sample_qc.Rmd.old
+    Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/array_intensities_markers.R
+    Untracked:  analysis/array_intensities_markers.Rmd
+    Untracked:  analysis/cadillac/
+    Untracked:  analysis/genotype_intensities.Rmd.R
+    Untracked:  analysis/genotype_intensities.Rmd.old
+    Untracked:  analysis/reconst_utils_gtQC.R
+    Untracked:  analysis/run_3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/run_3.5_qtl_permu.R
+    Untracked:  analysis_new/
+    Untracked:  code_old/
+    Untracked:  data/Final.Report/
+    Untracked:  data/GM_foundergeno1.csv
+    Untracked:  data/GM_foundergeno10.csv
+    Untracked:  data/GM_foundergeno11.csv
+    Untracked:  data/GM_foundergeno12.csv
+    Untracked:  data/GM_foundergeno13.csv
+    Untracked:  data/GM_foundergeno14.csv
+    Untracked:  data/GM_foundergeno15.csv
+    Untracked:  data/GM_foundergeno16.csv
+    Untracked:  data/GM_foundergeno17.csv
+    Untracked:  data/GM_foundergeno18.csv
+    Untracked:  data/GM_foundergeno19.csv
+    Untracked:  data/GM_foundergeno2.csv
+    Untracked:  data/GM_foundergeno3.csv
+    Untracked:  data/GM_foundergeno4.csv
+    Untracked:  data/GM_foundergeno5.csv
+    Untracked:  data/GM_foundergeno6.csv
+    Untracked:  data/GM_foundergeno7.csv
+    Untracked:  data/GM_foundergeno8.csv
+    Untracked:  data/GM_foundergeno9.csv
+    Untracked:  data/GM_foundergenoM.csv
+    Untracked:  data/GM_foundergenoX.csv
+    Untracked:  data/GM_foundergenoY.csv
+    Untracked:  data/GM_gmap1.csv
+    Untracked:  data/GM_gmap10.csv
+    Untracked:  data/GM_gmap11.csv
+    Untracked:  data/GM_gmap12.csv
+    Untracked:  data/GM_gmap13.csv
+    Untracked:  data/GM_gmap14.csv
+    Untracked:  data/GM_gmap15.csv
+    Untracked:  data/GM_gmap16.csv
+    Untracked:  data/GM_gmap17.csv
+    Untracked:  data/GM_gmap18.csv
+    Untracked:  data/GM_gmap19.csv
+    Untracked:  data/GM_gmap2.csv
+    Untracked:  data/GM_gmap3.csv
+    Untracked:  data/GM_gmap4.csv
+    Untracked:  data/GM_gmap5.csv
+    Untracked:  data/GM_gmap6.csv
+    Untracked:  data/GM_gmap7.csv
+    Untracked:  data/GM_gmap8.csv
+    Untracked:  data/GM_gmap9.csv
+    Untracked:  data/GM_gmapM.csv
+    Untracked:  data/GM_gmapX.csv
+    Untracked:  data/GM_gmapY.csv
+    Untracked:  data/GM_info.csv
+    Untracked:  data/GM_pmap1.csv
+    Untracked:  data/GM_pmap10.csv
+    Untracked:  data/GM_pmap11.csv
+    Untracked:  data/GM_pmap12.csv
+    Untracked:  data/GM_pmap13.csv
+    Untracked:  data/GM_pmap14.csv
+    Untracked:  data/GM_pmap15.csv
+    Untracked:  data/GM_pmap16.csv
+    Untracked:  data/GM_pmap17.csv
+    Untracked:  data/GM_pmap18.csv
+    Untracked:  data/GM_pmap19.csv
+    Untracked:  data/GM_pmap2.csv
+    Untracked:  data/GM_pmap3.csv
+    Untracked:  data/GM_pmap4.csv
+    Untracked:  data/GM_pmap5.csv
+    Untracked:  data/GM_pmap6.csv
+    Untracked:  data/GM_pmap7.csv
+    Untracked:  data/GM_pmap8.csv
+    Untracked:  data/GM_pmap9.csv
+    Untracked:  data/GM_pmapM.csv
+    Untracked:  data/GM_pmapX.csv
+    Untracked:  data/GM_pmapY.csv
+    Untracked:  data/GM_snps.Rdata
+    Untracked:  data/Univ_of_Penn_Thaiss_covar_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrXint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrYint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno1.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno10.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno11.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno12.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno13.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno14.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno15.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno16.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno17.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno18.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno19.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno2.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno3.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno4.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno5.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno6.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno7.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno8.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno9.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoM.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoX.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoY.csv
+    Untracked:  data/apr_69kchr_DO112_ssqc.RData
+    Untracked:  data/apr_DO110.RData
+    Untracked:  data/apr_DO112_ssqc.RData
+    Untracked:  data/bad_markers.RData
+    Untracked:  data/e.RData
+    Untracked:  data/e_g_snpg_samqc.RData
+    Untracked:  data/errors_ind.RData
+    Untracked:  data/errors_ind_qc.RData
+    Untracked:  data/fp.RData
+    Untracked:  data/gm.json
+    Untracked:  data/gm.no.bad.cr.dup.gf.RData
+    Untracked:  data/gm.yaml
+    Untracked:  data/gm_2.json
+    Untracked:  data/gm_DO110_qc.RData
+    Untracked:  data/gm_DO112.RData
+    Untracked:  data/gm_DO112_samqc.RData
+    Untracked:  data/gm_DO112_samqc_qc.RData
+    Untracked:  data/gm_DO112_ssqc.RData
+    Untracked:  data/gm_heh.json
+    Untracked:  data/heh/
+    Untracked:  data/intensities.fst
+    Untracked:  data/intensities.fst.RData
+    Untracked:  data/m.RData
+    Untracked:  data/nxo.RData
+    Untracked:  data/percent_missing_id.RData
+    Untracked:  data/percent_missing_id_allsamples.RData
+    Untracked:  data/percent_missing_id_qc.RData
+    Untracked:  data/pheno.csv
+    Untracked:  data/pr.RData
+    Untracked:  data/pr_69k_DO112_ssqc.RData
+    Untracked:  data/pr_69kchr_DO112_ssqc.RData
+    Untracked:  data/pr_DO110.RData
+    Untracked:  data/pr_DO112_ssqc.RData
+    Untracked:  data/prcl.RData
+    Untracked:  data/qc_info_bad_sample.RData
+    Untracked:  data/qc_info_bad_sample_qc.RData
+    Untracked:  data/recom_block_size.RData
+    Untracked:  data/snpg.RData
+    Untracked:  data/snps.gigamuga.Rdata
+    Untracked:  data/summary.cg.RData
+    Untracked:  data/summary.cg_allsamples.RData
+    Untracked:  data/summary.cg_qc.RData
+    Untracked:  data_old/
+    Untracked:  docs.old/
+    Untracked:  docs_new/
+    Untracked:  output/DO_Gigamuga_founder_proportions_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32_chr2.png
+    Untracked:  output/DO_recom_block_size_G32.png
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted.pdf
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted_qc.pdf
+    Untracked:  output/Percent_missing_genotype_data.pdf
+    Untracked:  output/Percent_missing_genotype_data_per_marker.pdf
+    Untracked:  output/Percent_missing_genotype_data_qc.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples_qc.pdf
+    Untracked:  output/genotype_error_marker.pdf
+    Untracked:  output/genotype_error_marker_qc.pdf
+    Untracked:  output/genotype_frequency_marker.pdf
+    Untracked:  output/genotype_frequency_marker_qc.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/number_crossover.pdf
+    Untracked:  output/number_crossover_qc.pdf
+    Untracked:  output/prop_across_generation_chr_p.RData
+    Untracked:  output_old/
+
+Unstaged changes:
+    Deleted:    .nojekyll
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/e9491170cbedb68aac8d8abec790cb853491265e/analysis/phenotypes.Rmd" target="_blank">e949117</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/analysis/phenotypes.Rmd" target="_blank">b4951f7</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow_20200316/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/docs/phenotypes.html" target="_blank">b4951f7</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow_20200316/c035ceeae571e26617a5f863913486ac80eb1e21/docs/phenotypes.html" target="_blank">c035cee</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/624db593a1a07d49337d68043904fb8800415563/analysis/phenotypes.Rmd" target="_blank">624db59</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+<td>
+second publication
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow_20200316/61381d4c76e2cc3e14a14b6a2a7472851c3dfa97/docs/phenotypes.html" target="_blank">61381d4</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/1fb98731a92c808a8df44fc49813709579aa2792/analysis/phenotypes.Rmd" target="_blank">1fb9873</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-10
+</td>
+<td>
+initial publication
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>This script is to check the distribution of the data and to remove any outliers. Types of distribution:</p>
+<ul>
+<li>normal [no correction]</li>
+<li>positive skewness [possible correction: square root/logarithm]</li>
+<li>negative skewness [possible correction: reflect &amp; square root/reflect &amp; logarithm]</li>
+<li>positive kurtosis</li>
+<li>negative kurtosis</li>
+</ul>
+<div id="phenotype-time" class="section level3">
+<h3>Phenotype : Time</h3>
+<pre class="r"><code>time &lt;- ggplot(data= phenos_cc, aes(x=phenos_cc$Time_.min.)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos_cc$Time_.min.),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Time [mins]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos_cc$Time_.min.), sd=sd(phenos_cc$Time_.min.))) +
+ggtitle(&quot;Distribution of Time [min]&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+time</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes.Rmd/plot%20sample%20distribution%20for%20Time-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-sample-distribution-for-Time-1">
+Past versions of “plot sample distribution for Time-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-plot-sample-distribution-for-Time-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/docs/figure/phenotypes.Rmd/plot sample distribution for Time-1.png" target="_blank">b4951f7</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/c035ceeae571e26617a5f863913486ac80eb1e21/docs/figure/phenotypes.Rmd/plot sample distribution for Time-1.png" target="_blank">c035cee</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/61381d4c76e2cc3e14a14b6a2a7472851c3dfa97/docs/figure/phenotypes.Rmd/plot sample distribution for Time-1.png" target="_blank">61381d4</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>Hmisc::describe(phenos$Time_.min.) </code></pre>
+<pre><code>phenos$Time_.min. 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     106        6      103        1    161.5    35.76    112.6    118.6 
+     .25      .50      .75      .90      .95 
+   143.6    162.1    182.4    201.6    211.9 
+
+lowest :  50.15367  69.30567  76.68400 104.20867 106.70867
+highest: 210.91619 211.34117 212.06114 213.56895 214.64448</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Time_.min.) </code></pre>
+<pre><code>     nbr.val     nbr.null       nbr.na          min          max        range 
+1.060000e+02 0.000000e+00 6.000000e+00 5.015367e+01 2.146445e+02 1.644908e+02 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+1.712051e+04 1.620506e+02 1.615142e+02 3.127342e+00 6.200941e+00 1.036708e+03 
+     std.dev     coef.var 
+3.219795e+01 1.993506e-01 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Time_.min.) </code></pre>
+<pre><code>   vars   n   mean   sd median trimmed   mad   min    max  range  skew kurtosis
+X1    1 106 161.51 32.2 162.05  163.04 29.19 50.15 214.64 164.49 -0.65     0.75
+     se
+X1 3.13</code></pre>
+<p>Given the negative skewness of the data, the intent is to transform by square rooting the reflected data, then check the skewness</p>
+<pre class="r"><code>phenos_cc$trsfTime &lt;- sqrt(max(phenos_cc$Time_.min.+1) - phenos_cc$Time_.min.)
+
+trsfTime &lt;- ggplot(data= phenos_cc, aes(x=phenos_cc$trsfTime)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos_cc$trsfTime),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Time [mins]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos_cc$trsfTime), sd=sd(phenos_cc$trsfTime))) +
+ggtitle(&quot;Distribution of (transformed)Time [min]&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+trsfTime</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes.Rmd/transforming%20Time-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-transforming-Time-1">
+Past versions of “transforming Time-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-transforming-Time-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/docs/figure/phenotypes.Rmd/transforming Time-1.png" target="_blank">b4951f7</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/c035ceeae571e26617a5f863913486ac80eb1e21/docs/figure/phenotypes.Rmd/transforming Time-1.png" target="_blank">c035cee</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>Hmisc::describe(phenos_cc$trsfTime)  </code></pre>
+<pre><code>phenos_cc$trsfTime 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     106        0      103        1    6.946    2.705    1.938    3.739 
+     .25      .50      .75      .90      .95 
+   5.767    7.321    8.487    9.852   10.152 
+
+lowest :  1.000000  1.440669  1.892969  2.074441  2.174464
+highest: 10.437232 10.556316 11.788150 12.097058 12.864323</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos_cc$trsfTime) </code></pre>
+<pre><code>     nbr.val     nbr.null       nbr.na          min          max        range 
+ 106.0000000    0.0000000    0.0000000    1.0000000   12.8643232   11.8643232 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+ 736.2819355    7.3207133    6.9460560    0.2366947    0.4693219    5.9385844 
+     std.dev     coef.var 
+   2.4369211    0.3508352 </code></pre>
+<pre class="r"><code>psych::describe(phenos_cc$trsfTime) </code></pre>
+<pre><code>   vars   n mean   sd median trimmed  mad min   max range  skew kurtosis   se
+X1    1 106 6.95 2.44   7.32     7.1 2.12   1 12.86 11.86 -0.46     0.15 0.24</code></pre>
+<p>Now that the transformation improved the fit of the data, we will check for any outliers</p>
+<pre class="r"><code>#Working out 3SD from mean
+phenos_cc$stdtrsfTime &lt;- scale(phenos_cc$trsfTime)
+
+phenos_cc$stdtrsfTimeo &lt;- ifelse(phenos_cc$stdtrsfTime &gt;= 3 | phenos_cc$stdtrsfTime &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos_cc$stdtrsfTimeo)</code></pre>
+<pre><code>
+Keep 
+ 106 </code></pre>
+<p>No outliers were detected.</p>
+</div>
+<div id="phenotype-distance" class="section level3">
+<h3>Phenotype : Distance</h3>
+<pre class="r"><code>distance &lt;- ggplot(data= phenos_cc, aes(x=phenos_cc$Distance_.m.)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos_cc$Distance_.m.),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Distance [m]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos_cc$Distance_.m.), sd=sd(phenos_cc$Distance_.m.))) +
+ggtitle(&quot;Distribution of Distance [m]&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+distance</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes.Rmd/plot%20sample%20distribution%20for%20Distance-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-sample-distribution-for-Distance-1">
+Past versions of “plot sample distribution for Distance-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-plot-sample-distribution-for-Distance-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/docs/figure/phenotypes.Rmd/plot sample distribution for Distance-1.png" target="_blank">b4951f7</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/c035ceeae571e26617a5f863913486ac80eb1e21/docs/figure/phenotypes.Rmd/plot sample distribution for Distance-1.png" target="_blank">c035cee</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/61381d4c76e2cc3e14a14b6a2a7472851c3dfa97/docs/figure/phenotypes.Rmd/plot sample distribution for Distance-1.png" target="_blank">61381d4</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>Hmisc::describe(phenos$Distance_.m.) </code></pre>
+<pre><code>phenos$Distance_.m. 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     106        6      104        1     2094    770.5     1080     1184 
+     .25      .50      .75      .90      .95 
+    1656     2056     2545     3013     3263 
+
+lowest :  282.1218  475.1608  566.5448  945.2883  982.2883
+highest: 3257.9047 3265.3014 3265.3025 3286.5286 3351.1119</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Distance_.m.) </code></pre>
+<pre><code>     nbr.val     nbr.null       nbr.na          min          max        range 
+1.060000e+02 0.000000e+00 6.000000e+00 2.821218e+02 3.351112e+03 3.068990e+03 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+2.219225e+05 2.056138e+03 2.093609e+03 6.580070e+01 1.304706e+02 4.589517e+05 
+     std.dev     coef.var 
+6.774597e+02 3.235847e-01 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Distance_.m.) </code></pre>
+<pre><code>   vars   n    mean     sd  median trimmed    mad    min     max   range  skew
+X1    1 106 2093.61 677.46 2056.14 2099.28 686.09 282.12 3351.11 3068.99 -0.14
+   kurtosis   se
+X1    -0.35 65.8</code></pre>
+<p>Transforming the data using the same method as <code>Time</code> worsened the negative skew, so we chose to keep the meaure untransformed.</p>
+<pre class="r"><code>#Working out 3SD from mean
+phenos_cc$stddist &lt;- scale(phenos_cc$Distance_.m.)
+
+phenos_cc$stddisto &lt;- ifelse(phenos_cc$stddist  &gt;= 3 | phenos_cc$stddist  &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos_cc$stddisto)</code></pre>
+<pre><code>
+Keep 
+ 106 </code></pre>
+<p>No outliers were detected.</p>
+</div>
+<div id="phenotype-energy" class="section level3">
+<h3>Phenotype : Energy</h3>
+<pre class="r"><code>energy &lt;- ggplot(data= phenos_cc, aes(x=phenos_cc$Energy_.J.)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos_cc$Energy_.J.),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Energy [J]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos_cc$Energy_.J.), sd=sd(phenos_cc$Energy_.J.))) +
+ggtitle(&quot;Distribution of Engery [J]&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+energy</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes.Rmd/plot%20sample%20distribution%20for%20Energy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-sample-distribution-for-Energy-1">
+Past versions of “plot sample distribution for Energy-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-plot-sample-distribution-for-Energy-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/docs/figure/phenotypes.Rmd/plot sample distribution for Energy-1.png" target="_blank">b4951f7</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/c035ceeae571e26617a5f863913486ac80eb1e21/docs/figure/phenotypes.Rmd/plot sample distribution for Energy-1.png" target="_blank">c035cee</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/61381d4c76e2cc3e14a14b6a2a7472851c3dfa97/docs/figure/phenotypes.Rmd/plot sample distribution for Energy-1.png" target="_blank">61381d4</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>Hmisc::describe(phenos$Energy_.J.) </code></pre>
+<pre><code>phenos$Energy_.J. 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     106        6      106        1    78.65    43.71    25.97    29.02 
+     .25      .50      .75      .90      .95 
+   48.50    75.74   108.80   126.99   143.87 
+
+lowest :   2.925429   7.695262  12.406380  20.544888  24.161591
+highest: 147.650433 149.467073 153.501166 154.004468 157.027689</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Energy_.J.) </code></pre>
+<pre><code>     nbr.val     nbr.null       nbr.na          min          max        range 
+ 106.0000000    0.0000000    6.0000000    2.9254285  157.0276892  154.1022607 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+8337.2374386   75.7407448   78.6531834    3.6828725    7.3024558 1437.7362835 
+     std.dev     coef.var 
+  37.9174931    0.4820847 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Energy_.J.) </code></pre>
+<pre><code>   vars   n  mean    sd median trimmed   mad  min    max range skew kurtosis
+X1    1 106 78.65 37.92  75.74   77.56 45.51 2.93 157.03 154.1 0.18    -0.91
+     se
+X1 3.68</code></pre>
+<p>Trait did not need transforming. Checking for any outliers:</p>
+<pre class="r"><code>#Working out 3SD from mean
+phenos_cc$stden &lt;- scale(phenos_cc$Energy_.J.)
+phenos_cc$stdeno &lt;- ifelse(phenos_cc$stden  &gt;= 3 | phenos_cc$stden  &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos_cc$stdeno)</code></pre>
+<pre><code>
+Keep 
+ 106 </code></pre>
+<p>No outliers were detected.</p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<ul>
+<li><code>Time_[min]</code> was transformed using reflect &amp; square root and will be used in all further analysis</li>
+<li><code>Distance_[m]</code> was <em>not</em> transformed</li>
+<li><code>Energy_[J]</code> was <em>not</em> transformed</li>
+</ul>
+</div>
+<div id="all-problematic-samples" class="section level2">
+<h2>All Problematic Samples</h2>
+<p>No outliers were detected.</p>
+<pre class="r"><code>phenosn_cc &lt;- phenos_cc[c(&quot;Mouse.ID&quot;,&quot;Time_.min.&quot;,&quot;Distance_.m.&quot;,&quot;Energy_.J.&quot;,&quot;trsfTime&quot;)]
+phenos$index &lt;- 1:nrow(phenos)
+
+phenosn &lt;- merge(phenosn_cc, phenos[c(&quot;Mouse.ID&quot;,&quot;index&quot;)], by=c(&quot;Mouse.ID&quot;), all=T)
+
+names(phenosn_cc)[2:5] &lt;- c(&quot;Time_min&quot;,&quot;Distance_m&quot;,&quot;Energy_J&quot;,&quot;rsqrt_Time_min&quot;)
+phenosn[is.na(phenosn)] &lt;- &#39;&#39;
+
+phenosno &lt;- phenosn[order(phenosn$index),]
+
+write.csv(phenosno[1:5],&quot;Univ_of_Penn_Thaiss_pheno_all.csv&quot;, row.names=F, quote=F)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.2 (2019-12-12)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Catalina 10.15.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] psych_1.9.12.31 pastecs_1.3.21  Hmisc_4.3-1     Formula_1.2-3  
+[5] survival_3.1-8  lattice_0.20-38 ggplot2_3.2.1   workflowr_1.6.0
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.0.0    xfun_0.12           purrr_0.3.3        
+ [4] splines_3.6.2       colorspace_1.4-1    htmltools_0.4.0    
+ [7] yaml_2.2.1          base64enc_0.1-3     rlang_0.4.4        
+[10] later_1.0.0         pillar_1.4.3        foreign_0.8-75     
+[13] glue_1.3.1          withr_2.1.2         RColorBrewer_1.1-2 
+[16] jpeg_0.1-8.1        lifecycle_0.1.0     stringr_1.4.0      
+[19] munsell_0.5.0       gtable_0.3.0        htmlwidgets_1.5.1  
+[22] evaluate_0.14       labeling_0.3        latticeExtra_0.6-29
+[25] knitr_1.28          httpuv_1.5.2        parallel_3.6.2     
+[28] htmlTable_1.13.3    highr_0.8           Rcpp_1.0.3         
+[31] acepack_1.4.1       promises_1.1.0      scales_1.1.0       
+[34] backports_1.1.5     checkmate_2.0.0     farver_2.0.3       
+[37] fs_1.3.1            gridExtra_2.3       mnormt_1.5-6       
+[40] png_0.1-7           digest_0.6.24       stringi_1.4.6      
+[43] dplyr_0.8.4         grid_3.6.2          rprojroot_1.3-2    
+[46] tools_3.6.2         magrittr_1.5        lazyeval_0.2.2     
+[49] tibble_2.1.3        cluster_2.1.0       crayon_1.3.4       
+[52] whisker_0.4         pkgconfig_2.0.3     Matrix_1.2-18      
+[55] data.table_1.12.8   rstudioapi_0.11     assertthat_0.2.1   
+[58] rmarkdown_2.1       boot_1.3-24         R6_2.4.1           
+[61] rpart_4.1-15        nlme_3.1-144        nnet_7.3-12        
+[64] git2r_0.26.1        compiler_3.6.2     </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

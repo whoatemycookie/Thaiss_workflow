@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>License</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Thaiss_workflowr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/whoatemycookie/Thaiss_workflow">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">License</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-03-17
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Thaiss_workflowr_old/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflow20200316treee9491170cbedb68aac8d8abec790cb853491265etargetblanke949117a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/tree/e9491170cbedb68aac8d8abec790cb853491265e" target="_blank">e949117</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflow20200316treee9491170cbedb68aac8d8abec790cb853491265etargetblanke949117a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  Thaiss_workflow-master.zip
+    Untracked:  Thaiss_workflow-master/
+    Untracked:  Thaiss_workflowr.Rproj
+    Untracked:  Thaiss_workflowr_old/
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all copy.csv
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  analysis/2.1_preparing_files.R
+    Untracked:  analysis/2.2_sample_qc.Rmd
+    Untracked:  analysis/2.3_sample_qc.R.old
+    Untracked:  analysis/2.3_sample_qc.Rmd.old
+    Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/array_intensities_markers.R
+    Untracked:  analysis/array_intensities_markers.Rmd
+    Untracked:  analysis/cadillac/
+    Untracked:  analysis/genotype_intensities.Rmd.R
+    Untracked:  analysis/genotype_intensities.Rmd.old
+    Untracked:  analysis/reconst_utils_gtQC.R
+    Untracked:  analysis/run_3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/run_3.5_qtl_permu.R
+    Untracked:  analysis_new/
+    Untracked:  code_old/
+    Untracked:  data/Final.Report/
+    Untracked:  data/GM_foundergeno1.csv
+    Untracked:  data/GM_foundergeno10.csv
+    Untracked:  data/GM_foundergeno11.csv
+    Untracked:  data/GM_foundergeno12.csv
+    Untracked:  data/GM_foundergeno13.csv
+    Untracked:  data/GM_foundergeno14.csv
+    Untracked:  data/GM_foundergeno15.csv
+    Untracked:  data/GM_foundergeno16.csv
+    Untracked:  data/GM_foundergeno17.csv
+    Untracked:  data/GM_foundergeno18.csv
+    Untracked:  data/GM_foundergeno19.csv
+    Untracked:  data/GM_foundergeno2.csv
+    Untracked:  data/GM_foundergeno3.csv
+    Untracked:  data/GM_foundergeno4.csv
+    Untracked:  data/GM_foundergeno5.csv
+    Untracked:  data/GM_foundergeno6.csv
+    Untracked:  data/GM_foundergeno7.csv
+    Untracked:  data/GM_foundergeno8.csv
+    Untracked:  data/GM_foundergeno9.csv
+    Untracked:  data/GM_foundergenoM.csv
+    Untracked:  data/GM_foundergenoX.csv
+    Untracked:  data/GM_foundergenoY.csv
+    Untracked:  data/GM_gmap1.csv
+    Untracked:  data/GM_gmap10.csv
+    Untracked:  data/GM_gmap11.csv
+    Untracked:  data/GM_gmap12.csv
+    Untracked:  data/GM_gmap13.csv
+    Untracked:  data/GM_gmap14.csv
+    Untracked:  data/GM_gmap15.csv
+    Untracked:  data/GM_gmap16.csv
+    Untracked:  data/GM_gmap17.csv
+    Untracked:  data/GM_gmap18.csv
+    Untracked:  data/GM_gmap19.csv
+    Untracked:  data/GM_gmap2.csv
+    Untracked:  data/GM_gmap3.csv
+    Untracked:  data/GM_gmap4.csv
+    Untracked:  data/GM_gmap5.csv
+    Untracked:  data/GM_gmap6.csv
+    Untracked:  data/GM_gmap7.csv
+    Untracked:  data/GM_gmap8.csv
+    Untracked:  data/GM_gmap9.csv
+    Untracked:  data/GM_gmapM.csv
+    Untracked:  data/GM_gmapX.csv
+    Untracked:  data/GM_gmapY.csv
+    Untracked:  data/GM_info.csv
+    Untracked:  data/GM_pmap1.csv
+    Untracked:  data/GM_pmap10.csv
+    Untracked:  data/GM_pmap11.csv
+    Untracked:  data/GM_pmap12.csv
+    Untracked:  data/GM_pmap13.csv
+    Untracked:  data/GM_pmap14.csv
+    Untracked:  data/GM_pmap15.csv
+    Untracked:  data/GM_pmap16.csv
+    Untracked:  data/GM_pmap17.csv
+    Untracked:  data/GM_pmap18.csv
+    Untracked:  data/GM_pmap19.csv
+    Untracked:  data/GM_pmap2.csv
+    Untracked:  data/GM_pmap3.csv
+    Untracked:  data/GM_pmap4.csv
+    Untracked:  data/GM_pmap5.csv
+    Untracked:  data/GM_pmap6.csv
+    Untracked:  data/GM_pmap7.csv
+    Untracked:  data/GM_pmap8.csv
+    Untracked:  data/GM_pmap9.csv
+    Untracked:  data/GM_pmapM.csv
+    Untracked:  data/GM_pmapX.csv
+    Untracked:  data/GM_pmapY.csv
+    Untracked:  data/GM_snps.Rdata
+    Untracked:  data/Univ_of_Penn_Thaiss_covar_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrXint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrYint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno1.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno10.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno11.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno12.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno13.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno14.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno15.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno16.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno17.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno18.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno19.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno2.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno3.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno4.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno5.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno6.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno7.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno8.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno9.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoM.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoX.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoY.csv
+    Untracked:  data/apr_69kchr_DO112_ssqc.RData
+    Untracked:  data/apr_DO110.RData
+    Untracked:  data/apr_DO112_ssqc.RData
+    Untracked:  data/bad_markers.RData
+    Untracked:  data/e.RData
+    Untracked:  data/e_g_snpg_samqc.RData
+    Untracked:  data/errors_ind.RData
+    Untracked:  data/errors_ind_qc.RData
+    Untracked:  data/fp.RData
+    Untracked:  data/gm.json
+    Untracked:  data/gm.no.bad.cr.dup.gf.RData
+    Untracked:  data/gm.yaml
+    Untracked:  data/gm_2.json
+    Untracked:  data/gm_DO110_qc.RData
+    Untracked:  data/gm_DO112.RData
+    Untracked:  data/gm_DO112_samqc.RData
+    Untracked:  data/gm_DO112_samqc_qc.RData
+    Untracked:  data/gm_DO112_ssqc.RData
+    Untracked:  data/gm_heh.json
+    Untracked:  data/heh/
+    Untracked:  data/intensities.fst
+    Untracked:  data/intensities.fst.RData
+    Untracked:  data/m.RData
+    Untracked:  data/nxo.RData
+    Untracked:  data/percent_missing_id.RData
+    Untracked:  data/percent_missing_id_allsamples.RData
+    Untracked:  data/percent_missing_id_qc.RData
+    Untracked:  data/pheno.csv
+    Untracked:  data/pr.RData
+    Untracked:  data/pr_69k_DO112_ssqc.RData
+    Untracked:  data/pr_69kchr_DO112_ssqc.RData
+    Untracked:  data/pr_DO110.RData
+    Untracked:  data/pr_DO112_ssqc.RData
+    Untracked:  data/prcl.RData
+    Untracked:  data/qc_info_bad_sample.RData
+    Untracked:  data/qc_info_bad_sample_qc.RData
+    Untracked:  data/recom_block_size.RData
+    Untracked:  data/snpg.RData
+    Untracked:  data/snps.gigamuga.Rdata
+    Untracked:  data/summary.cg.RData
+    Untracked:  data/summary.cg_allsamples.RData
+    Untracked:  data/summary.cg_qc.RData
+    Untracked:  data_old/
+    Untracked:  docs.old/
+    Untracked:  docs_new/
+    Untracked:  output/DO_Gigamuga_founder_proportions_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32_chr2.png
+    Untracked:  output/DO_recom_block_size_G32.png
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted.pdf
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted_qc.pdf
+    Untracked:  output/Percent_missing_genotype_data.pdf
+    Untracked:  output/Percent_missing_genotype_data_per_marker.pdf
+    Untracked:  output/Percent_missing_genotype_data_qc.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples_qc.pdf
+    Untracked:  output/genotype_error_marker.pdf
+    Untracked:  output/genotype_error_marker_qc.pdf
+    Untracked:  output/genotype_frequency_marker.pdf
+    Untracked:  output/genotype_frequency_marker_qc.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/number_crossover.pdf
+    Untracked:  output/number_crossover_qc.pdf
+    Untracked:  output/prop_across_generation_chr_p.RData
+    Untracked:  output_old/
+
+Unstaged changes:
+    Deleted:    .nojekyll
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow_20200316/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/docs/license.html" target="_blank">b4951f7</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow_20200316/c035ceeae571e26617a5f863913486ac80eb1e21/docs/license.html" target="_blank">c035cee</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow_20200316/61381d4c76e2cc3e14a14b6a2a7472851c3dfa97/docs/license.html" target="_blank">61381d4</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/1fb98731a92c808a8df44fc49813709579aa2792/analysis/license.Rmd" target="_blank">1fb9873</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-10
+</td>
+<td>
+initial publication
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>What license are you using for your code? See <a href="http://choosealicense.com/">choosealicense.com</a> for help deciding. It’s a convention to save a file <code>LICENSE</code> in the root of your Git repo that contains the license text.</p>
+<p>What license are you using for the written content on your site? It is traditional to choose a <a href="https://creativecommons.org/choose/">Creative Commons</a> license for this type of content.</p>
+<p>How should others cite your work? It’s a convention to save a file <code>CITATION</code> in the root of your Git repo that contains the citation information.</p>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
