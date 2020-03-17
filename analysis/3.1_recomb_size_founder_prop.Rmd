@@ -1,18 +1,19 @@
 ---
 title: "Recombination Size & Founder Proportions"
-author: "Belinda COrnes"
+author: "Belinda Cornes"
 date: "`r Sys.Date()`"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,warning=FALSE)
+knitr::opts_chunk$set(echo = TRUE,warning=FALSE, echo=TRUE)
+
 ```
 
 This script will plot the recombination block size and founder props across all generations
 
-# library
 ```{r library, message=FALSE, warning=FALSE}
+
 library(qtl2)
 library(abind)
 library(tidyverse)
@@ -20,6 +21,7 @@ library(plotly)
 require(vcd)
 require(MASS)
 options(stringsAsFactors = F)
+
 
 # Reformat for tidyverse.
 reformat_probs = function(probs) {
@@ -47,7 +49,7 @@ names(CCcolors) = c("A_J", "C57BL_6J", "l29S1_SvImJ", "NOD_ShiLtJ",
 
 ```
 
-# plot founder_proportions
+### Plot Founder Proportions
 ```{r plot founder_proportions,fig.height=16, fig.width=16, eval=TRUE, message=FALSE, warning=FALSE}
 #allele probs
 apr_DO112_ssqc <- get(load("data/apr_DO112_ssqc.RData"))
@@ -82,7 +84,7 @@ gm_DO112_ssqc$covar$id = rownames(gm_DO112_ssqc$covar)
 
 unique(gm_DO112_ssqc$covar$ngen)
 
-#subset to each generation
+### Subset To Each Generation
 for(g in unique(gm_DO112_ssqc$covar$ngen)){
   #g = "32"
   print(g)
@@ -145,7 +147,7 @@ for(g in unique(gm_DO112_ssqc$covar$ngen)){
 
 }
 
-#locate xo pos
+### Locate XO Position
 g <- maxmarg(pr, cores = 20)
 pos <- locate_xo(g, gm_DO112_ssqc$gmap, cores = 20)
 
@@ -170,7 +172,7 @@ save(pos_ind, pos_ind_gen, file = "data/recom_block_size.RData")
 
 ```
 
-# plot Recombination Block Size
+### Plot Recombination Block Size
 ```{r plot Recombination Block Size, fig.height=16, fig.width=16, eval=TRUE,message=FALSE, warning=FALSE}
 for(g in unique(gm_DO112_ssqc$covar$ngen)){
   #plot for recom block size
@@ -224,7 +226,7 @@ for(g in unique(gm_DO112_ssqc$covar$ngen)){
 }
 ```
 
-#plot for each generation
+### Plot For Each Generation
 ```{r plot for each generation, fig.height=20, fig.width=20, eval=TRUE,message=FALSE, warning=FALSE}
 fp <- list()
 #subset to each generation
@@ -292,44 +294,25 @@ save(p, file = "output/prop_across_generation_chr_p.RData")
 
 Figures for all founder proportions across all generations in each chromosome:
 
-[Chromsome 1](prop_across_generation_chr1.html)
-
-[Chromsome 2](prop_across_generation_chr1.html)
-
-[Chromsome 3](prop_across_generation_chr1.html)
-
-[Chromsome 4](prop_across_generation_chr1.html)
-
-[Chromsome 5](prop_across_generation_chr1.html)
-
-[Chromsome 6](prop_across_generation_chr1.html)
-
-[Chromsome 7](prop_across_generation_chr1.html)
-
-[Chromsome 8](prop_across_generation_chr1.html)
-
-[Chromsome 9](prop_across_generation_chr1.html)
-
-[Chromsome 10](prop_across_generation_chr1.html)
-
-[Chromsome 11](prop_across_generation_chr1.html)
-
-[Chromsome 12](prop_across_generation_chr1.html)
-
-[Chromsome 13](prop_across_generation_chr1.html)
-
-[Chromsome 14](prop_across_generation_chr1.html)
-
-[Chromsome 15](prop_across_generation_chr1.html)
-
-[Chromsome 16](prop_across_generation_chr1.html)
-
-[Chromsome 17](prop_across_generation_chr1.html)
-
-[Chromsome 18](prop_across_generation_chr1.html)
-
-[Chromsome 19](prop_across_generation_chr1.html)
-
-[Chromsome X](prop_across_generation_chr1.html)
++ [Chromosome 1](prop_across_generation_chr1.html)
++ [Chromosome 2](prop_across_generation_chr2.html)
++ [Chromosome 3](prop_across_generation_chr3.html)
++ [Chromosome 4](prop_across_generation_chr4.html)
++ [Chromosome 5](prop_across_generation_chr5.html)
++ [Chromosome 6](prop_across_generation_chr6.html)
++ [Chromosome 7](prop_across_generation_chr7.html)
++ [Chromosome 8](prop_across_generation_chr8.html)
++ [Chromosome 9](prop_across_generation_chr9.html)
++ [Chromosome 10](prop_across_generation_chr10.html)
++ [Chromosome 11](prop_across_generation_chr11.html)
++ [Chromosome 12](prop_across_generation_chr12.html)
++ [Chromosome 13](prop_across_generation_chr13.html)
++ [Chromosome 14](prop_across_generation_chr14.html)
++ [Chromosome 15](prop_across_generation_chr15.html)
++ [Chromosome 16](prop_across_generation_chr16.html)
++ [Chromosome 17](prop_across_generation_chr17.html)
++ [Chromosome 18](prop_across_generation_chr18.html)
++ [Chromosome 19](prop_across_generation_chr19.html)
++ [Chromosome X](prop_across_generation_chrX.html)
 
 
