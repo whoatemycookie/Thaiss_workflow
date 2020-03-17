@@ -22,9 +22,9 @@ output:
 * [Step 4: Preparing Files for QTL Analysis](2.4_preparing_files_qtl2.html)
 
 ### 3. QTL Analysis
-* [Step 1: Plotting recombination block size & founder proportions across all generations](3.1_recomb_size_founder_prop.html)
+* Step 1: Plotting recombination block size & founder proportions across all generations
 * Step 2: GCTA heritability
 * Step 3: QTL mapping (QTL2)
 * Step 4: QTL permutation (QTL2)
 * Step 5: qtl blup
-* [Step 6: Plotting QTL analysis](plot_qtl_mapping.html)
+* Step 6: Plotting QTL analysis

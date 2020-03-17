@@ -1,4 +1,4 @@
-# Thaiss_workflowr
+# Thaiss_workflowr_old
 
 A [workflowr][] project.
 
