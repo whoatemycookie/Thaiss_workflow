@@ -1,0 +1,181 @@
+---
+title: "Phenotype QC"
+author: "Belinda Cornes"
+date: "2020-03-11"
+output: html_document
+---
+
+This script is to check the distribution of the data and to remove any outliers. Types of distribution:
+
++ normal [no correction]
++ positive skewness [possible correction: square root/logarithm]
++ negative skewness [possible correction: reflect & square root/reflect & logarithm]
++ positive kurtosis
++ negative kurtosis 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+
+filepathp = '/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/two.batches/data/'
+pheno_file <- dir(path = filepathp, pattern = "Uni_of_Penn_Thaiss_pheno.3.csv", full.names = TRUE)
+phenos <- read.csv(pheno_file)
+
+phenos_cc <- subset(phenos, !is.na(Time_.min.))
+
+library(Hmisc)
+library(pastecs)
+library(psych)
+
+setwd("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old/data/heh/")
+
+```
+
+### Phenotype : Time
+```{r plot sample distribution for Time}
+
+time <- ggplot(data= phenos_cc, aes(x=phenos_cc$Time_.min.)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos_cc$Time_.min.),size = 1, col="red") + 
+labs(x="Time [mins]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos_cc$Time_.min.), sd=sd(phenos_cc$Time_.min.))) +
+ggtitle("Distribution of Time [min]") +
+theme(plot.title = element_text(hjust = 0.5))
+
+time
+
+Hmisc::describe(phenos$Time_.min.) 
+pastecs::stat.desc(phenos$Time_.min.) 
+psych::describe(phenos$Time_.min.) 
+
+```
+Given the negative skewness of the data, the intent is to transform by square rooting the reflected data, then check the skewness
+
+```{r transforming Time}
+
+phenos_cc$trsfTime <- sqrt(max(phenos_cc$Time_.min.+1) - phenos_cc$Time_.min.)
+
+trsfTime <- ggplot(data= phenos_cc, aes(x=phenos_cc$trsfTime)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos_cc$trsfTime),size = 1, col="red") + 
+labs(x="Time [mins]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos_cc$trsfTime), sd=sd(phenos_cc$trsfTime))) +
+ggtitle("Distribution of (transformed)Time [min]") +
+theme(plot.title = element_text(hjust = 0.5))
+
+trsfTime
+
+Hmisc::describe(phenos_cc$trsfTime)  
+pastecs::stat.desc(phenos_cc$trsfTime) 
+psych::describe(phenos_cc$trsfTime) 
+
+````
+Now that the transformation improved the fit of the data, we will check for any outliers
+
+```{r checking outliers Time}
+#Working out 3SD from mean
+phenos_cc$stdtrsfTime <- scale(phenos_cc$trsfTime)
+
+phenos_cc$stdtrsfTimeo <- ifelse(phenos_cc$stdtrsfTime >= 3 | phenos_cc$stdtrsfTime <= -3, 'Outlier','Keep')
+
+table(phenos_cc$stdtrsfTimeo)
+
+```
+
+
+No outliers were detected. 
+
+
+### Phenotype : Distance
+```{r plot sample distribution for Distance}
+
+distance <- ggplot(data= phenos_cc, aes(x=phenos_cc$Distance_.m.)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos_cc$Distance_.m.),size = 1, col="red") + 
+labs(x="Distance [m]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos_cc$Distance_.m.), sd=sd(phenos_cc$Distance_.m.))) +
+ggtitle("Distribution of Distance [m]") +
+theme(plot.title = element_text(hjust = 0.5))
+
+distance
+
+Hmisc::describe(phenos$Distance_.m.) 
+pastecs::stat.desc(phenos$Distance_.m.) 
+psych::describe(phenos$Distance_.m.) 
+
+```
+
+Transforming the data using the same method as `Time` worsened the negative skew, so we chose to keep the meaure untransformed. 
+
+```{r checking outliers Distance}
+#Working out 3SD from mean
+phenos_cc$stddist <- scale(phenos_cc$Distance_.m.)
+
+phenos_cc$stddisto <- ifelse(phenos_cc$stddist  >= 3 | phenos_cc$stddist  <= -3, 'Outlier','Keep')
+
+table(phenos_cc$stddisto)
+
+```
+
+No outliers were detected. 
+
+
+### Phenotype : Energy
+```{r plot sample distribution for Energy}
+
+energy <- ggplot(data= phenos_cc, aes(x=phenos_cc$Energy_.J.)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos_cc$Energy_.J.),size = 1, col="red") + 
+labs(x="Energy [J]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos_cc$Energy_.J.), sd=sd(phenos_cc$Energy_.J.))) +
+ggtitle("Distribution of Engery [J]") +
+theme(plot.title = element_text(hjust = 0.5))
+
+energy
+
+Hmisc::describe(phenos$Energy_.J.) 
+pastecs::stat.desc(phenos$Energy_.J.) 
+psych::describe(phenos$Energy_.J.) 
+```
+
+Trait did not need transforming.  Checking for any outliers:
+
+```{r checking outliers Energy}
+#Working out 3SD from mean
+phenos_cc$stden <- scale(phenos_cc$Energy_.J.)
+phenos_cc$stdeno <- ifelse(phenos_cc$stden  >= 3 | phenos_cc$stden  <= -3, 'Outlier','Keep')
+
+table(phenos_cc$stdeno)
+
+```
+
+No outliers were detected. 
+
+
+## Conclusion
+
++ `Time_[min]` was transformed using reflect & square root and will be used in all further analysis
++ `Distance_[m]` was *not* transformed
++ `Energy_[J]` was *not* transformed
+
+
+## All Problematic Samples
+
+No outliers were detected. 
+
+```{r saving new pheno file}
+
+phenosn_cc <- phenos_cc[c("Mouse.ID","Time_.min.","Distance_.m.","Energy_.J.","trsfTime")]
+phenos$index <- 1:nrow(phenos)
+
+phenosn <- merge(phenosn_cc, phenos[c("Mouse.ID","index")], by=c("Mouse.ID"), all=T)
+
+names(phenosn_cc)[2:5] <- c("Time_min","Distance_m","Energy_J","rsqrt_Time_min")
+phenosn[is.na(phenosn)] <- ''
+
+phenosno <- phenosn[order(phenosn$index),]
+
+write.csv(phenosno[1:5],"Univ_of_Penn_Thaiss_pheno_all.csv", row.names=F, quote=F)
+```
