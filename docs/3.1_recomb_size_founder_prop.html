@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Belinda COrnes" />
+<meta name="author" content="Belinda Cornes" />
 
 <meta name="date" content="2020-03-17" />
 
@@ -310,16 +310,16 @@ div.section {
 
 
 <h1 class="title toc-ignore">Recombination Size &amp; Founder Proportions</h1>
-<h4 class="author">Belinda COrnes</h4>
+<h4 class="author">Belinda Cornes</h4>
 <h4 class="date">2020-03-17</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#library">library</a></li>
-<li><a href="#plot-founder_proportions">plot founder_proportions</a></li>
-<li><a href="#plot-recombination-block-size">plot Recombination Block Size</a></li>
+<li><a href="#plot-founder-proportions">Plot Founder Proportions</a></li>
+<li><a href="#plot-recombination-block-size">Plot Recombination Block Size</a></li>
+<li><a href="#plot-for-each-generation">Plot For Each Generation</a></li>
 </ul>
 </div>
 
@@ -434,10 +434,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflow20200316treee9491170cbedb68aac8d8abec790cb853491265etargetblanke949117a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/tree/e9491170cbedb68aac8d8abec790cb853491265e" target="_blank">e949117</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreeed2c6c19cc129d147d2ad6757b661e7ab981c443targetblanked2c6c1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/ed2c6c19cc129d147d2ad6757b661e7ab981c443" target="_blank">ed2c6c1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflow20200316treee9491170cbedb68aac8d8abec790cb853491265etargetblanke949117a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreeed2c6c19cc129d147d2ad6757b661e7ab981c443targetblanked2c6c1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -450,6 +450,7 @@ Ignored files:
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.Rhistory
     Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
 
 Untracked files:
     Untracked:  Thaiss_workflow-master.zip
@@ -470,8 +471,6 @@ Untracked files:
     Untracked:  analysis/genotype_intensities.Rmd.R
     Untracked:  analysis/genotype_intensities.Rmd.old
     Untracked:  analysis/reconst_utils_gtQC.R
-    Untracked:  analysis/run_3.1_recomb_size_founder_prop.R
-    Untracked:  analysis/run_3.5_qtl_permu.R
     Untracked:  analysis_new/
     Untracked:  code_old/
     Untracked:  data/Final.Report/
@@ -625,15 +624,22 @@ Untracked files:
     Untracked:  output/Percent_missing_genotype_data_qc.pdf
     Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples.pdf
     Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples_qc.pdf
+    Untracked:  output/blup/
     Untracked:  output/genotype_error_marker.pdf
     Untracked:  output/genotype_error_marker_qc.pdf
     Untracked:  output/genotype_frequency_marker.pdf
     Untracked:  output/genotype_frequency_marker_qc.pdf
     Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_coeffgeneplot.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_genomescan.pdf
     Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
     Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
     Untracked:  output/number_crossover.pdf
     Untracked:  output/number_crossover_qc.pdf
+    Untracked:  output/permu/
     Untracked:  output/prop_across_generation_chr_p.RData
     Untracked:  output_old/
 
@@ -682,7 +688,41 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow_20200316/blob/e9491170cbedb68aac8d8abec790cb853491265e/analysis/3.1_recomb_size_founder_prop.Rmd" target="_blank">e949117</a>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/ed2c6c19cc129d147d2ad6757b661e7ab981c443/analysis/3.1_recomb_size_founder_prop.Rmd" target="_blank">ed2c6c1</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+<td>
+fourth publication
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/4ef496c7802dd2f0e75589fd5b90d5f0b63127d6/docs/3.1_recomb_size_founder_prop.html" target="_blank">4ef496c</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/e9491170cbedb68aac8d8abec790cb853491265e/analysis/3.1_recomb_size_founder_prop.Rmd" target="_blank">e949117</a>
 </td>
 <td>
 Belinda Cornes
@@ -702,8 +742,6 @@ Start workflowr project.
 </div>
 </div>
 <p>This script will plot the recombination block size and founder props across all generations</p>
-<div id="library" class="section level1">
-<h1>library</h1>
 <pre class="r"><code>library(qtl2)
 library(abind)
 library(tidyverse)
@@ -711,6 +749,7 @@ library(plotly)
 require(vcd)
 require(MASS)
 options(stringsAsFactors = F)
+
 
 # Reformat for tidyverse.
 reformat_probs = function(probs) {
@@ -735,9 +774,8 @@ reformat_probs = function(probs) {
 #       beginning of a variable name.
 names(CCcolors) = c(&quot;A_J&quot;, &quot;C57BL_6J&quot;, &quot;l29S1_SvImJ&quot;, &quot;NOD_ShiLtJ&quot;, 
                     &quot;NZO_HlLtJ&quot;, &quot;CAST_EiJ&quot;, &quot;PWK_PhJ&quot;, &quot;WSB_EiJ&quot;)</code></pre>
-</div>
-<div id="plot-founder_proportions" class="section level1">
-<h1>plot founder_proportions</h1>
+<div id="plot-founder-proportions" class="section level3">
+<h3>Plot Founder Proportions</h3>
 <pre class="r"><code>#allele probs
 apr_DO112_ssqc &lt;- get(load(&quot;data/apr_DO112_ssqc.RData&quot;))
 #geno probs
@@ -771,7 +809,7 @@ gm_DO112_ssqc$covar$id = rownames(gm_DO112_ssqc$covar)
 
 unique(gm_DO112_ssqc$covar$ngen)</code></pre>
 <pre><code>[1] &quot;32&quot;</code></pre>
-<pre class="r"><code>#subset to each generation
+<pre class="r"><code>### Subset To Each Generation
 for(g in unique(gm_DO112_ssqc$covar$ngen)){
   #g = &quot;32&quot;
   print(g)
@@ -835,7 +873,44 @@ for(g in unique(gm_DO112_ssqc$covar$ngen)){
 }</code></pre>
 <pre><code>[1] &quot;32&quot;</code></pre>
 <p><img src="figure/3.1_recomb_size_founder_prop.Rmd/plot%20founder_proportions-1.png" width="1536" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>#locate xo pos
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-founder_proportions-1">
+Past versions of “plot founder_proportions-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-plot-founder_proportions-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/4ef496c7802dd2f0e75589fd5b90d5f0b63127d6/docs/figure/3.1_recomb_size_founder_prop.Rmd/plot founder_proportions-1.png" target="_blank">4ef496c</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>### Locate XO Position
 g &lt;- maxmarg(pr, cores = 20)
 pos &lt;- locate_xo(g, gm_DO112_ssqc$gmap, cores = 20)
 
@@ -857,8 +932,8 @@ for(g in unique(gm_DO112_ssqc$covar$ngen)){
 }
 save(pos_ind, pos_ind_gen, file = &quot;data/recom_block_size.RData&quot;)</code></pre>
 </div>
-<div id="plot-recombination-block-size" class="section level1">
-<h1>plot Recombination Block Size</h1>
+<div id="plot-recombination-block-size" class="section level3">
+<h3>Plot Recombination Block Size</h3>
 <pre class="r"><code>for(g in unique(gm_DO112_ssqc$covar$ngen)){
   #plot for recom block size
   png(paste0(&quot;output/DO_recom_block_size_G&quot;, g, &quot;.png&quot;))
@@ -910,7 +985,46 @@ for(g in unique(gm_DO112_ssqc$covar$ngen)){
   #dev.off()
 }</code></pre>
 <p><img src="figure/3.1_recomb_size_founder_prop.Rmd/plot%20Recombination%20Block%20Size-1.png" width="1536" style="display: block; margin: auto;" /></p>
-<p>#plot for each generation</p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-plot-Recombination-Block-Size-1">
+Past versions of “plot Recombination Block Size-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-plot-Recombination-Block-Size-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/4ef496c7802dd2f0e75589fd5b90d5f0b63127d6/docs/figure/3.1_recomb_size_founder_prop.Rmd/plot Recombination Block Size-1.png" target="_blank">4ef496c</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-17
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="plot-for-each-generation" class="section level3">
+<h3>Plot For Each Generation</h3>
 <pre class="r"><code>fp &lt;- list()
 #subset to each generation
 for(g in unique(gm_DO112_ssqc$covar$ngen)){
@@ -993,26 +1107,28 @@ for(c in unique(names(gm_DO112_ssqc$geno))){
 # as_widget(p[[&quot;19&quot;]])
 # as_widget(p[[&quot;X&quot;]])</code></pre>
 <p>Figures for all founder proportions across all generations in each chromosome:</p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 1</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 2</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 3</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 4</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 5</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 6</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 7</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 8</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 9</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 10</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 11</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 12</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 13</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 14</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 15</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 16</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 17</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 18</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome 19</a></p>
-<p><a href="prop_across_generation_chr1.html">Chromsome X</a></p>
+<ul>
+<li><a href="prop_across_generation_chr1.html">Chromosome 1</a></li>
+<li><a href="prop_across_generation_chr2.html">Chromosome 2</a></li>
+<li><a href="prop_across_generation_chr3.html">Chromosome 3</a></li>
+<li><a href="prop_across_generation_chr4.html">Chromosome 4</a></li>
+<li><a href="prop_across_generation_chr5.html">Chromosome 5</a></li>
+<li><a href="prop_across_generation_chr6.html">Chromosome 6</a></li>
+<li><a href="prop_across_generation_chr7.html">Chromosome 7</a></li>
+<li><a href="prop_across_generation_chr8.html">Chromosome 8</a></li>
+<li><a href="prop_across_generation_chr9.html">Chromosome 9</a></li>
+<li><a href="prop_across_generation_chr10.html">Chromosome 10</a></li>
+<li><a href="prop_across_generation_chr11.html">Chromosome 11</a></li>
+<li><a href="prop_across_generation_chr12.html">Chromosome 12</a></li>
+<li><a href="prop_across_generation_chr13.html">Chromosome 13</a></li>
+<li><a href="prop_across_generation_chr14.html">Chromosome 14</a></li>
+<li><a href="prop_across_generation_chr15.html">Chromosome 15</a></li>
+<li><a href="prop_across_generation_chr16.html">Chromosome 16</a></li>
+<li><a href="prop_across_generation_chr17.html">Chromosome 17</a></li>
+<li><a href="prop_across_generation_chr18.html">Chromosome 18</a></li>
+<li><a href="prop_across_generation_chr19.html">Chromosome 19</a></li>
+<li><a href="prop_across_generation_chrX.html">Chromosome X</a></li>
+</ul>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
