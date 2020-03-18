@@ -1,0 +1,165 @@
+---
+title: "Array Intensities"
+author: "Belinda Cornes"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#setwd("/projects/compsci/corneb_cs/workflowr/Thaiss/Thaiss_workflowr_2/")
+
+#libraries
+library(broman)
+library(qtl2)
+library(qtlcharts)
+library(ggplot2)
+library(ggrepel)
+#library(DOQTL)
+library(mclust)
+#source("code/reconst_utils.R")
+library("kableExtra")
+library("knitr")
+#library("fst")
+```
+
+```{r figures, fig.height = 10, fig.width = 10, fig.align = "center"}
+
+gm <- get(load("data/gm_DO112_samqc.RData"))
+
+m <- get(load("data/m.RData"))
+mn <- m[rownames(gm$covar)]
+
+snpg <- predict_snpgeno(gm, mn, cores=0)
+snpg <- do.call("cbind", snpg)
+
+# get data for one marker
+read_intensities <-
+    function(file="data/intensities.fst", marker=NULL, snps=NULL)
+{
+    if(is.null(snps)) {
+        snps <- fst::read.fst(file, column="snp")[,1]
+    }
+
+    if(is.null(marker)) { # if marker is NULL, return the snp names
+        return(snps)
+    } else {
+        marker <- as.character(marker)
+    }
+
+    n <- match(marker, snps)
+    if(is.na(n)) stop("marker ", marker, " not found")
+
+    reorg_intensities( fst::read.fst(file, from=n, to=n+1) )
+}
+
+
+# reorganize SNP intensity data (for one marker)
+reorg_intensities <-
+    function(intensities, marker=NULL)
+{
+    if(!is.null(marker)) {
+        marker <- as.character(marker)
+        wh <- which(intensities[,1] == marker)
+        if(sum(wh==0)) stop("Marker ", marker, " not found")
+        intensities <- intensities[wh,]
+    }
+
+    result <- data.frame(X=as.numeric(intensities[1,-(1:2)]),
+                         Y=as.numeric(intensities[2,-(1:2)]))
+    rownames(result) <- colnames(intensities)[-(1:2)]
+
+    result
+}
+
+# combine intensities and genotypes
+grab_gni <-
+    function(marker=NULL, cross=gm, intensities_file="data/intensities.fst",
+             intensities_data=NULL, drop_bad_samples=TRUE)
+{
+    if(is.null(intensities_data)) {
+        # get intensities
+        int <- read_intensities(intensities_file, marker=marker)
+    } else {
+        int <- reorg_intensities(intensities_data, marker)
+    }
+    marker <- as.character(marker)
+
+    # get genotypes
+    chr <- qtl2::find_markerpos(cross, marker)$chr
+    g <- cross$geno[[chr]][,marker]
+    gg <- setNames(rep(0, nrow(int)), rownames(int))
+    gg[names(g)] <- g
+
+    if(drop_bad_samples) {
+        int <- int[names(g),,drop=FALSE]
+        gg <- gg[names(g)]
+    }
+
+    cbind(int, g=gg)
+}
+
+# load intensities and plot them, colored by genotype calls
+#
+# drop_bad_samples: if TRUE, don't plot points for samples that are not in the cross object
+#                   (e.g., were omitted previously as being bad DNAs)
+#
+
+plot_intensities <-
+    function(marker, cross=gm, intensities_file="data/intensities.fst",
+             intensities_data=NULL, drop_bad_samples=TRUE, geno=NULL, ...)
+{
+    if(is.character(marker) || is.factor(marker)) {
+        marker <- as.character(marker)
+        gni <- grab_gni(marker, cross=cross, intensities_file=intensities_file,
+                        intensities_data=intensities_data, drop_bad_samples=drop_bad_samples)
+    } else {
+        gni <- marker
+    }
+
+    if(!is.null(geno)) {
+        if(is.logical(geno)) geno <- geno + 1 # FALSE/TRUE -> 1/2
+        gni[names(geno),"g"] <- geno
+    }
+
+    internal_plot <-
+        function(pch=21, bg=broman::brocolors("f2"),
+                 xlab="allele 1", ylab="allele 2",
+                 xlim=c(0, max(gni$X, na.rm=TRUE)),
+                 ylim=c(0, max(gni$Y, na.rm=TRUE)),
+                 ...)
+        {
+            grayplot(gni$X, gni$Y, pch=pch, bg=bg[match(gni$g, c(1:3,0))],
+                     xlab=xlab, ylab=ylab,
+                     xlim=xlim, ylim=ylim, ...)
+        }
+
+    internal_plot(...)
+
+    invisible(gni)
+}
+
+snpg[is.na(snpg)] <- 0
+
+markers <- colnames(snpg)
+
+par(mfrow=c(4,2), mar=c(3.1,3.1,2.1,1.1))
+for(i in seq_along(markers)) {
+    mar <- markers[i]
+
+    plot_intensities(mar, mgp.x=c(1.4,0.3,0), mgp.y=c(1.8,0.3,0))
+    title(main=mar, line=1.05, cex.main=0.9)
+    title(main="(observed genotypes)", cex.main=0.8, line=0.25)
+
+    u <- par("usr")
+    #mtext(side=3, adj=0, LETTERS[i*2-1])
+
+    plot_intensities(mar, geno=snpg[,mar],
+                     mgp.x=c(1.4,0.3,0), mgp.y=c(1.8,0.3,0))
+    title(main=mar, line=1.05, cex.main=0.9)
+    title(main="(predicted genotypes)", cex.main=0.8, line=0.25)
+
+    #mtext(side=3, adj=0, LETTERS[i*2])
+}
+```
