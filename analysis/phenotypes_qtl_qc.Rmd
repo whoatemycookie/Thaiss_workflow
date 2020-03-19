@@ -28,6 +28,7 @@ setwd("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss
 gm_DO112_ssqc <- get(load("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old/data/gm_DO112_ssqc.RData"))
 
 library(qtl2)
+library("ggpubr")
 
 #phenos[111,1] 
 
@@ -243,6 +244,25 @@ table(phenos$stden.rnormo)
 No outliers were detected. 
 
 
+### Correlation
+```{r correlation}
+
+phenos$Mouse.ID <- rownames(phenos)
+
+phenosn <- phenos[c("Mouse.ID","Time_min","Distance_m","Energy_J","rsqrt_Time_min","Time_min_rnorm","Distance_m_rnorm","Energy_J_rnorm")]
+
+Hmisc::rcorr(as.matrix(phenosn[2:8]))
+
+#cor.test(phenosn[2:8], phenosn[2:8],method=c("pearson", "kendall", "spearman")
+#cor(phenosn[2:8], method=c("pearson", "kendall", "spearman"))
+
+#ggscatter(phenosn, x = "Time_min", y = "Distance_m", 
+#          add = "reg.line", conf.int = TRUE, 
+#          cor.coef = TRUE, cor.method = "pearson",
+#          xlab = "Time", ylab = "Distance")
+
+````
+
 ## Conclusion
 
 + rnorm all phenotypes
@@ -252,11 +272,12 @@ No outliers were detected.
 
 No outliers were detected. 
 
+
+
 ```{r saving new pheno file}
 
-phenos$Mouse.ID <- rownames(phenos)
 
-phenosn <- phenos[c("Mouse.ID","Time_min","Distance_m","Energy_J","rsqrt_Time_min","Time_min_rnorm","Distance_m_rnorm","Energy_J_rnorm")]
+
 #phenos$index <- 1:nrow(phenos)
 
 #phenosn <- merge(phenosn_cc, phenos[c("Mouse.ID","index")], by=c("Mouse.ID"), all=T)
