@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Belinda Cornes" />
+
+<meta name="date" content="2020-03-19" />
+
+<title>Results from R/qtl2 Analysis (Plots)</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Thaiss_workflowr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/whoatemycookie/Thaiss_workflow">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Results from <code>R/qtl2</code> Analysis (Plots)</h1>
+<h4 class="author">Belinda Cornes</h4>
+<h4 class="date">2020-03-19</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#plot-scan-results-m1-sexgeneration">Plot Scan Results: m1 (Sex+Generation)</a></li>
+<li><a href="#plot-scan-results-m2-sex">Plot Scan Results: m2 (Sex)</a></li>
+<li><a href="#plot-scan-results-m3-sex-and-intcovar">Plot Scan Results: m3 (Sex and intcovar)</a></li>
+</ul>
+</div>
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-03-19
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Thaiss_workflowr_old/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div class="panel-group" id="workflowr-checks">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200309code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200309)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200309code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200309)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old
+</td>
+<td style="text-align:left;">
+.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreed406d62d7d03e652bcb557535a1bc607e6f35e45targetblankd406d62a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/d406d62d7d03e652bcb557535a1bc607e6f35e45" target="_blank">d406d62</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreed406d62d7d03e652bcb557535a1bc607e6f35e45targetblankd406d62a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+    Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  Thaiss_workflow-master.zip
+    Untracked:  Thaiss_workflow-master/
+    Untracked:  Thaiss_workflowr.Rproj
+    Untracked:  Thaiss_workflowr_old/
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all copy.csv
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv
+    Untracked:  analysis/2.1_preparing_files.R
+    Untracked:  analysis/2.2_sample_qc.Rmd
+    Untracked:  analysis/2.3_sample_qc.R.old
+    Untracked:  analysis/2.3_sample_qc.Rmd.old
+    Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/3.1.1_html_founder_prop.Rmd
+    Untracked:  analysis/3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/array_intensities_markers.R
+    Untracked:  analysis/array_intensities_markers.Rmd.R
+    Untracked:  analysis/cadillac/
+    Untracked:  analysis/genotype_intensities.Rmd.R
+    Untracked:  analysis/genotype_intensities.Rmd.old
+    Untracked:  analysis/phenotypes_qtl_qc.Rmd.R
+    Untracked:  analysis/reconst_utils_gtQC.R
+    Untracked:  analysis_new/
+    Untracked:  code_old/
+    Untracked:  data/Final.Report/
+    Untracked:  data/GM_foundergeno1.csv
+    Untracked:  data/GM_foundergeno10.csv
+    Untracked:  data/GM_foundergeno11.csv
+    Untracked:  data/GM_foundergeno12.csv
+    Untracked:  data/GM_foundergeno13.csv
+    Untracked:  data/GM_foundergeno14.csv
+    Untracked:  data/GM_foundergeno15.csv
+    Untracked:  data/GM_foundergeno16.csv
+    Untracked:  data/GM_foundergeno17.csv
+    Untracked:  data/GM_foundergeno18.csv
+    Untracked:  data/GM_foundergeno19.csv
+    Untracked:  data/GM_foundergeno2.csv
+    Untracked:  data/GM_foundergeno3.csv
+    Untracked:  data/GM_foundergeno4.csv
+    Untracked:  data/GM_foundergeno5.csv
+    Untracked:  data/GM_foundergeno6.csv
+    Untracked:  data/GM_foundergeno7.csv
+    Untracked:  data/GM_foundergeno8.csv
+    Untracked:  data/GM_foundergeno9.csv
+    Untracked:  data/GM_foundergenoM.csv
+    Untracked:  data/GM_foundergenoX.csv
+    Untracked:  data/GM_foundergenoY.csv
+    Untracked:  data/GM_gmap1.csv
+    Untracked:  data/GM_gmap10.csv
+    Untracked:  data/GM_gmap11.csv
+    Untracked:  data/GM_gmap12.csv
+    Untracked:  data/GM_gmap13.csv
+    Untracked:  data/GM_gmap14.csv
+    Untracked:  data/GM_gmap15.csv
+    Untracked:  data/GM_gmap16.csv
+    Untracked:  data/GM_gmap17.csv
+    Untracked:  data/GM_gmap18.csv
+    Untracked:  data/GM_gmap19.csv
+    Untracked:  data/GM_gmap2.csv
+    Untracked:  data/GM_gmap3.csv
+    Untracked:  data/GM_gmap4.csv
+    Untracked:  data/GM_gmap5.csv
+    Untracked:  data/GM_gmap6.csv
+    Untracked:  data/GM_gmap7.csv
+    Untracked:  data/GM_gmap8.csv
+    Untracked:  data/GM_gmap9.csv
+    Untracked:  data/GM_gmapM.csv
+    Untracked:  data/GM_gmapX.csv
+    Untracked:  data/GM_gmapY.csv
+    Untracked:  data/GM_info.csv
+    Untracked:  data/GM_pmap1.csv
+    Untracked:  data/GM_pmap10.csv
+    Untracked:  data/GM_pmap11.csv
+    Untracked:  data/GM_pmap12.csv
+    Untracked:  data/GM_pmap13.csv
+    Untracked:  data/GM_pmap14.csv
+    Untracked:  data/GM_pmap15.csv
+    Untracked:  data/GM_pmap16.csv
+    Untracked:  data/GM_pmap17.csv
+    Untracked:  data/GM_pmap18.csv
+    Untracked:  data/GM_pmap19.csv
+    Untracked:  data/GM_pmap2.csv
+    Untracked:  data/GM_pmap3.csv
+    Untracked:  data/GM_pmap4.csv
+    Untracked:  data/GM_pmap5.csv
+    Untracked:  data/GM_pmap6.csv
+    Untracked:  data/GM_pmap7.csv
+    Untracked:  data/GM_pmap8.csv
+    Untracked:  data/GM_pmap9.csv
+    Untracked:  data/GM_pmapM.csv
+    Untracked:  data/GM_pmapX.csv
+    Untracked:  data/GM_pmapY.csv
+    Untracked:  data/GM_snps.Rdata
+    Untracked:  data/Univ_of_Penn_Thaiss_covar_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all_rnorm.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrXint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrYint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno1.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno10.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno11.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno12.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno13.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno14.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno15.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno16.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno17.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno18.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno19.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno2.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno3.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno4.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno5.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno6.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno7.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno8.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno9.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoM.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoX.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoY.csv
+    Untracked:  data/apr_69kchr_DO112_ssqc.RData
+    Untracked:  data/apr_DO110.RData
+    Untracked:  data/apr_DO112_ssqc.RData
+    Untracked:  data/bad_markers.RData
+    Untracked:  data/e.RData
+    Untracked:  data/e_g_snpg_samqc.RData
+    Untracked:  data/errors_ind.RData
+    Untracked:  data/errors_ind_qc.RData
+    Untracked:  data/fp.RData
+    Untracked:  data/gm.json
+    Untracked:  data/gm.no.bad.cr.dup.gf.RData
+    Untracked:  data/gm.yaml
+    Untracked:  data/gm_2.json
+    Untracked:  data/gm_DO110_qc.RData
+    Untracked:  data/gm_DO112.RData
+    Untracked:  data/gm_DO112_samqc.RData
+    Untracked:  data/gm_DO112_samqc_qc.RData
+    Untracked:  data/gm_DO112_ssqc.RData
+    Untracked:  data/gm_heh.json
+    Untracked:  data/heh/
+    Untracked:  data/intensities.fst
+    Untracked:  data/intensities.fst.RData
+    Untracked:  data/m.RData
+    Untracked:  data/nxo.RData
+    Untracked:  data/percent_missing_id.RData
+    Untracked:  data/percent_missing_id_allsamples.RData
+    Untracked:  data/percent_missing_id_qc.RData
+    Untracked:  data/pheno.csv
+    Untracked:  data/pr.RData
+    Untracked:  data/pr_69k_DO112_ssqc.RData
+    Untracked:  data/pr_69kchr_DO112_ssqc.RData
+    Untracked:  data/pr_DO110.RData
+    Untracked:  data/pr_DO112_ssqc.RData
+    Untracked:  data/prcl.RData
+    Untracked:  data/qc_info_bad_sample.RData
+    Untracked:  data/qc_info_bad_sample_qc.RData
+    Untracked:  data/recom_block_size.RData
+    Untracked:  data/snpg.RData
+    Untracked:  data/snps.gigamuga.Rdata
+    Untracked:  data/summary.cg.RData
+    Untracked:  data/summary.cg_allsamples.RData
+    Untracked:  data/summary.cg_qc.RData
+    Untracked:  data_old/
+    Untracked:  docs.old/
+    Untracked:  docs_new/
+    Untracked:  output/DO_Gigamuga_founder_proportions_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32_chr2.png
+    Untracked:  output/DO_recom_block_size_G32.png
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted.pdf
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted_qc.pdf
+    Untracked:  output/Percent_missing_genotype_data.pdf
+    Untracked:  output/Percent_missing_genotype_data_per_marker.pdf
+    Untracked:  output/Percent_missing_genotype_data_qc.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples_qc.pdf
+    Untracked:  output/blup/
+    Untracked:  output/blup_rnorm.9/
+    Untracked:  output/blup_rnorm/
+    Untracked:  output/genotype_error_marker.pdf
+    Untracked:  output/genotype_error_marker_qc.pdf
+    Untracked:  output/genotype_frequency_marker.pdf
+    Untracked:  output/genotype_frequency_marker_qc.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_coeffgeneplot.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_rnorm_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/number_crossover.pdf
+    Untracked:  output/number_crossover_qc.pdf
+    Untracked:  output/permu/
+    Untracked:  output/permu_rnorm.9/
+    Untracked:  output/prop_across_generation_chr_p.RData
+    Untracked:  output_old/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/d406d62d7d03e652bcb557535a1bc607e6f35e45/analysis/3.6_plot_qtl_mapping_rnorm.Rmd" target="_blank">d406d62</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-19
+</td>
+<td>
+rnorm analysis
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>This script will plot the qtl mapping results.</p>
+<div id="plot-scan-results-m1-sexgeneration" class="section level3">
+<h3>Plot Scan Results: m1 (Sex+Generation)</h3>
+<pre class="r"><code>pheno &lt;- read.csv(&quot;data/Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv&quot;, header = TRUE)
+
+pheno[1:10,]</code></pre>
+<pre><code>                                        Mouse.ID Time_min Distance_m  Energy_J
+1    Univ_of_Penn_Thaiss_MURMUGV01_20200130_1_G1 131.6778   1418.556  37.39000
+2    Univ_of_Penn_Thaiss_MURMUGV01_20200130_2_D2 159.4945   1998.626  71.57000
+3    Univ_of_Penn_Thaiss_MURMUGV01_20200130_3_D1 151.9611   1829.126  48.49000
+4    Univ_of_Penn_Thaiss_MURMUGV01_20200130_4_G7 145.1278   1687.556  51.27000
+5   Univ_of_Penn_Thaiss_MURMUGV01_20200130_6_C12 193.7856   2819.780 113.25768
+6    Univ_of_Penn_Thaiss_MURMUGV01_20200130_7_E1 179.7611   2454.622 112.08658
+7    Univ_of_Penn_Thaiss_MURMUGV01_20200130_8_A2 213.5689   3265.302 118.50249
+8  Univ_of_Penn_Thaiss_MURMUGV01_20200130_10_G10 208.4278   3195.695 149.46707
+9   Univ_of_Penn_Thaiss_MURMUGV01_20200130_11_H9 161.2611   2038.376  86.84283
+10 Univ_of_Penn_Thaiss_MURMUGV01_20200130_12_G11 213.5689   3265.302 109.64250
+   rsqrt_Time_min Time_min_rnorm Distance_m_rnorm Energy_J_rnorm Sex SexP
+1        9.163333    -0.97391834      -0.97391834    -1.01379703   0    F
+2        7.493330    -0.10973271      -0.10973271    -0.08527994   0    F
+3        7.980184    -0.43964509      -0.43964509    -0.63677434   0    F
+4        8.397420    -0.60724351      -0.60724351    -0.49392489   0    F
+5        4.675346     1.01379703       1.01379703     0.79401884   0    F
+6        5.990270     0.52161022       0.52161022     0.76109230   1    M
+7        1.440669     1.82526423       1.89379348     0.86261439   0    F
+8        2.686385     1.42092073       1.42092073     1.76436883   0    F
+9        7.374506    -0.06087807      -0.03651241     0.20835543   1    M
+10       1.440669     1.82526423       1.89379348     0.66687126   0    F
+   Generation
+1          32
+2          32
+3          32
+4          32
+5          32
+6          32
+7          32
+8          32
+9          32
+10         32</code></pre>
+<pre class="r"><code>print(&quot;m1&quot;)</code></pre>
+<pre><code>[1] &quot;m1&quot;</code></pre>
+<pre class="r"><code>load(&quot;output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData&quot;)
+
+#permutation results
+#The default is to return the 5% significance thresholds. Thresholds for other (or for multiple) significance levels can be obtained via the alpha argument.
+# operm &lt;- list()
+# for(i in 1:100){
+#   operm[[i]] &lt;- get(load(paste0(&quot;output/permu_rnorm/m2_Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_&quot;, colnames(pheno)[2], &quot;_&quot;, i, &quot;.RData&quot;)))
+#   #operm[[i]] &lt;- operm[[i]]$OFA.total.distance.traveled
+# }
+# operm &lt;- matrix(do.call(rbind, operm[3:5]),ncol = 1)
+# class(operm) &lt;- c(&quot;scan1perm&quot;, &quot;matrix&quot;)
+# cutoff &lt;- summary(operm, c(0.05, 0.1))[,1]
+
+#genome-wide results
+pdf(file = paste0(&quot;output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm&quot;, &quot;_genomescan.pdf&quot;), width = 14)
+for(i in names(m1.qtl.out)){
+  par(mar=c(5.1, 4.1, 1.1, 1.1))
+  ymx &lt;- maxlod(m1.qtl.out[[i]]) # overall maximum LOD score
+  plot(m1.qtl.out[[i]], gm_DO112_ssqc$gmap, lodcolumn=1,
+       col=&quot;slateblue&quot;, ylim=c(0, ymx*1.02),
+       main=i)
+#   abline(h=cutoff[1], col=&quot;red&quot;,lty=2) # 0.05 cutoff
+#   abline(h=cutoff[2], col=&quot;red&quot;,lty=1) # 0.1 cutoff
+}
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<pre class="r"><code>for(i in names(m1.qtl.out)){
+  par(mar=c(5.1, 4.1, 1.1, 1.1))
+  ymx &lt;- maxlod(m1.qtl.out[[i]]) # overall maximum LOD score
+  plot(m1.qtl.out[[i]], gm_DO112_ssqc$gmap, lodcolumn=1,
+       col=&quot;slateblue&quot;, ylim=c(0, ymx*1.02),
+       main=i)
+#   abline(h=cutoff[1], col=&quot;red&quot;,lty=2) # 0.05 cutoff
+#   abline(h=cutoff[2], col=&quot;red&quot;,lty=1) # 0.1 cutoff
+}</code></pre>
+<p><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-1.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-2.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-3.png" width="1344" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#load blup results
+x &lt;- list()
+for(i in colnames(pheno)[6:8]){
+  y &lt;- get(load(paste0(&quot;output/blup_rnorm/m1_blup_Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_&quot;,i,&quot;.RData&quot;)))
+  x[[i]] &lt;- y[[i]]
+}
+m1.blup = x
+
+#coeffects plot
+#pdf(file = paste0(&quot;output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm&quot;, &quot;_coeffgeneplot.pdf&quot;), width = 14)
+for(i in names(m1.qtl.out)){
+  chr &lt;- as.character(m1.peak[[i]][m1.peak[[i]]$lodcolumn == i,&quot;chr&quot;])
+  par(mar=c(4.1, 4.1, 1.6, 1.6))
+  plot_coefCC(m1.coef[[i]], 
+              gm_DO112_ssqc$gmap[chr], 
+              scan1_output=m1.qtl.out[[i]], 
+              bgcolor=&quot;gray95&quot;, #legend=&quot;bottomleft&quot;, 
+              main =i)
+  plot_coefCC(m1.blup[[i]], 
+              gm_DO112_ssqc$gmap[chr], 
+              scan1_output=m1.qtl.out[[i]], 
+              bgcolor=&quot;gray95&quot;, #legend=&quot;bottomleft&quot;, 
+              main =i)
+  plot(m1.snps[[i]]$lod, 
+       m1.snps[[i]]$snpinfo, 
+       drop_hilit=1.5, 
+       genes=m1.genes[[i]],
+       main = i)
+}</code></pre>
+<p><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-4.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-5.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-6.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-7.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-8.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-9.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-10.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-11.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m1%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-12.png" width="1344" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#dev.off()</code></pre>
+</div>
+<div id="plot-scan-results-m2-sex" class="section level3">
+<h3>Plot Scan Results: m2 (Sex)</h3>
+<pre class="r"><code>print(&quot;m2&quot;)</code></pre>
+<pre><code>[1] &quot;m2&quot;</code></pre>
+<pre class="r"><code>load(&quot;output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData&quot;)
+
+#permutation results
+#The default is to return the 5% significance thresholds. Thresholds for other (or for multiple) significance levels can be obtained via the alpha argument.
+# operm &lt;- list()
+# for(i in 3:5){
+#   operm[[i]] &lt;- get(load(paste0(&quot;output/permu_rnorm/m2_Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_&quot;, colnames(pheno)[14], &quot;_&quot;, i, &quot;.RData&quot;)))
+#   operm[[i]] &lt;- operm[[i]]$OFA.total.distance.traveled
+# }
+# operm &lt;- matrix(do.call(rbind, operm[3:5]),ncol = 1)
+# class(operm) &lt;- c(&quot;scan1perm&quot;, &quot;matrix&quot;)
+# cutoff &lt;- summary(operm, c(0.05, 0.1))[,1]
+
+#genome-wide results
+pdf(file = paste0(&quot;output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm&quot;, &quot;_genomescan.pdf&quot;), width = 14)
+for(i in names(m2.qtl.out)){
+  par(mar=c(5.1, 4.1, 1.1, 1.1))
+  ymx &lt;- maxlod(m2.qtl.out[[i]]) # overall maximum LOD score
+  plot(m2.qtl.out[[i]], gm_DO112_ssqc$gmap, lodcolumn=1,
+       col=&quot;slateblue&quot;, ylim=c(0, ymx*1.02),
+       main=i)
+  # abline(h=cutoff[1], col=&quot;red&quot;,lty=2) # 0.05 cutoff
+  # abline(h=cutoff[2], col=&quot;red&quot;,lty=1) # 0.1 cutoff
+}
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<pre class="r"><code>for(i in names(m2.qtl.out)){
+  par(mar=c(5.1, 4.1, 1.1, 1.1))
+  ymx &lt;- maxlod(m2.qtl.out[[i]]) # overall maximum LOD score
+  plot(m2.qtl.out[[i]], gm_DO112_ssqc$gmap, lodcolumn=1,
+       col=&quot;slateblue&quot;, ylim=c(0, ymx*1.02),
+       main=i)
+  # abline(h=cutoff[1], col=&quot;red&quot;,lty=2) # 0.05 cutoff
+  # abline(h=cutoff[2], col=&quot;red&quot;,lty=1) # 0.1 cutoff
+}</code></pre>
+<p><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-1.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-2.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-3.png" width="1344" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#load blup results
+x &lt;- list()
+for(i in colnames(pheno)[6:8]){
+  y &lt;- get(load(paste0(&quot;output/blup_rnorm/m2_blup_Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_&quot;,i,&quot;.RData&quot;)))
+  x[[i]] &lt;- y[[i]]
+}
+m2.blup = x
+
+#coeffects plot
+#pdf(file = paste0(&quot;output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm&quot;, &quot;_coeffgeneplot.pdf&quot;), width = 14)
+for(i in names(m2.qtl.out)){
+  chr &lt;- as.character(m2.peak[[i]][m2.peak[[i]]$lodcolumn == i,&quot;chr&quot;])
+  par(mar=c(4.1, 4.1, 1.6, 1.6))
+  plot_coefCC(m2.coef[[i]], 
+              gm_DO112_ssqc$gmap[chr], 
+              scan1_output=m2.qtl.out[[i]], 
+              bgcolor=&quot;gray95&quot;, #legend=&quot;bottomleft&quot;, 
+              main =i)
+  plot_coefCC(m2.blup[[i]], 
+              gm_DO112_ssqc$gmap[chr], 
+              scan1_output=m2.qtl.out[[i]], 
+              bgcolor=&quot;gray95&quot;, #legend=&quot;bottomleft&quot;, 
+              main =i)
+  plot(m2.snps[[i]]$lod, 
+       m2.snps[[i]]$snpinfo, 
+       drop_hilit=1.5, 
+       genes=m2.genes[[i]],
+       main = i)
+}</code></pre>
+<p><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-4.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-5.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-6.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-7.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-8.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-9.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-10.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-11.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m2%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-12.png" width="1344" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#dev.off()</code></pre>
+</div>
+<div id="plot-scan-results-m3-sex-and-intcovar" class="section level3">
+<h3>Plot Scan Results: m3 (Sex and intcovar)</h3>
+<pre class="r"><code>print(&quot;m3&quot;)</code></pre>
+<pre><code>[1] &quot;m3&quot;</code></pre>
+<pre class="r"><code>load(&quot;output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData&quot;)
+
+#permutation results
+#The default is to return the 5% significance thresholds. Thresholds for other (or for multiple) significance levels can be obtained via the alpha argument.
+# operm &lt;- list()
+# for(i in 3:5){
+#   operm[[i]] &lt;- get(load(paste0(&quot;output/permu_rnorm/m3_Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_&quot;, colnames(pheno)[14], &quot;_&quot;, i, &quot;.RData&quot;)))
+#   operm[[i]] &lt;- operm[[i]]$OFA.total.distance.traveled
+# }
+# operm &lt;- matrix(do.call(rbind, operm[3:5]),ncol = 1)
+# class(operm) &lt;- c(&quot;scan1perm&quot;, &quot;matrix&quot;)
+# cutoff &lt;- summary(operm, c(0.05, 0.1))[,1]
+
+#genome-wide results
+pdf(file = paste0(&quot;output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm&quot;, &quot;_genomescan.pdf&quot;), width = 14)
+for(i in names(m3.qtl.out)){
+  par(mar=c(5.1, 4.1, 1.1, 1.1))
+  ymx &lt;- maxlod(m3.qtl.out[[i]]) # overall maximum LOD score
+  plot(m3.qtl.out[[i]], gm_DO112_ssqc$gmap, lodcolumn=1,
+       col=&quot;slateblue&quot;, ylim=c(0, ymx*1.02),
+       main=i)
+  # abline(h=cutoff[1], col=&quot;red&quot;,lty=2) # 0.05 cutoff
+  # abline(h=cutoff[2], col=&quot;red&quot;,lty=1) # 0.1 cutoff
+}
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<pre class="r"><code>for(i in names(m3.qtl.out)){
+  par(mar=c(5.1, 4.1, 1.1, 1.1))
+  ymx &lt;- maxlod(m3.qtl.out[[i]]) # overall maximum LOD score
+  plot(m3.qtl.out[[i]], gm_DO112_ssqc$gmap, lodcolumn=1,
+       col=&quot;slateblue&quot;, ylim=c(0, ymx*1.02),
+       main=i)
+  # abline(h=cutoff[1], col=&quot;red&quot;,lty=2) # 0.05 cutoff
+  # abline(h=cutoff[2], col=&quot;red&quot;,lty=1) # 0.1 cutoff
+}</code></pre>
+<p><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-1.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-2.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-3.png" width="1344" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#load blup results
+x &lt;- list()
+for(i in colnames(pheno)[6:8]){
+  y &lt;- get(load(paste0(&quot;output/blup_rnorm/m3_blup_Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_&quot;,i,&quot;.RData&quot;)))
+  x[[i]] &lt;- y[[i]]
+}
+m3.blup = x
+
+#coeffects plot
+#pdf(file = paste0(&quot;output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm&quot;, &quot;_coeffgeneplot.pdf&quot;), width = 14)
+for(i in names(m3.qtl.out)){
+  chr &lt;- as.character(m3.peak[[i]][m3.peak[[i]]$lodcolumn == i,&quot;chr&quot;])
+  par(mar=c(4.1, 4.1, 1.6, 1.6))
+  plot_coefCC(m3.coef[[i]], 
+              gm_DO112_ssqc$gmap[chr], 
+              scan1_output=m3.qtl.out[[i]], 
+              bgcolor=&quot;gray95&quot;, #legend=&quot;bottomleft&quot;, 
+              main =i)
+  plot_coefCC(m3.blup[[i]], 
+              gm_DO112_ssqc$gmap[chr], 
+              scan1_output=m3.qtl.out[[i]], 
+              bgcolor=&quot;gray95&quot;, #legend=&quot;bottomleft&quot;, 
+              main =i)
+  plot(m3.snps[[i]]$lod, 
+       m3.snps[[i]]$snpinfo, 
+       drop_hilit=1.5, 
+       genes=m3.genes[[i]],
+       main = i)
+}</code></pre>
+<p><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-4.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-5.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-6.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-7.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-8.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-9.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-10.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-11.png" width="1344" style="display: block; margin: auto;" /><img src="figure/3.6_plot_qtl_mapping_rnorm.Rmd/plot%20scan%20result%20for%20m3%20Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm-12.png" width="1344" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>#dev.off()</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.2 (2019-12-12)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Catalina 10.15.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_3.2.1   qtl2_0.21-19    workflowr_1.6.0
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.3        pillar_1.4.3      compiler_3.6.2    later_1.0.0      
+ [5] git2r_0.26.1      highr_0.8         tools_3.6.2       digest_0.6.24    
+ [9] bit_1.1-15.2      tibble_2.1.3      RSQLite_2.2.0     evaluate_0.14    
+[13] memoise_1.1.0     lifecycle_0.1.0   gtable_0.3.0      pkgconfig_2.0.3  
+[17] rlang_0.4.4       DBI_1.1.0         yaml_2.2.1        parallel_3.6.2   
+[21] xfun_0.12         withr_2.1.2       dplyr_0.8.4       stringr_1.4.0    
+[25] knitr_1.28        fs_1.3.1          vctrs_0.2.2       tidyselect_1.0.0 
+[29] rprojroot_1.3-2   bit64_0.9-7       grid_3.6.2        glue_1.3.1       
+[33] data.table_1.12.8 R6_2.4.1          rmarkdown_2.1     purrr_0.3.3      
+[37] blob_1.2.1        magrittr_1.5      whisker_0.4       backports_1.1.5  
+[41] scales_1.1.0      promises_1.1.0    htmltools_0.4.0   assertthat_0.2.1 
+[45] colorspace_1.4-1  httpuv_1.5.2      stringi_1.4.6     lazyeval_0.2.2   
+[49] munsell_0.5.0     crayon_1.3.4     </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
