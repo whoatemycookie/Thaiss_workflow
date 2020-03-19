@@ -11,9 +11,9 @@
 
 <meta name="author" content="Belinda Cornes" />
 
-<meta name="date" content="2020-03-19" />
+<meta name="date" content="2020-03-11" />
 
-<title>Thaiss Workflow</title>
+<title>Phenotype QC</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -309,24 +309,25 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Thaiss Workflow</h1>
+<h1 class="title toc-ignore">Phenotype QC</h1>
 <h4 class="author">Belinda Cornes</h4>
-<h4 class="date">2020-03-19</h4>
+<h4 class="date">2020-03-11</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#project-at-a-glance">Project At A Glance</a></li>
-<li><a href="#phenotype-qc">1. Phenotype QC</a></li>
-<li><a href="#genotype-qc">2. Genotype QC</a></li>
-<li><a href="#qtl-analysis">3. QTL Analysis</a></li>
+<li><a href="#phenotype-time">Phenotype : Time</a></li>
+<li><a href="#phenotype-distance">Phenotype : Distance</a></li>
+<li><a href="#phenotype-energy">Phenotype : Energy</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#all-problematic-samples">All Problematic Samples</a></li>
 </ul>
 </div>
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -335,7 +336,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -347,7 +348,7 @@ div.section {
 <strong>Last updated:</strong> 2020-03-19
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>Thaiss_workflowr_old/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -359,7 +360,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <hr>
 </div>
 <div id="checks" class="tab-pane fade">
-<div id="workflowr-checks" class="panel-group">
+<div class="panel-group" id="workflowr-checks">
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
@@ -423,12 +424,44 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
 </p>
 </div>
-<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>
+Using absolute paths to the files within your workflowr project makes it difficult for you and others to run your code on a different machine. Change the absolute path(s) below to the suggested relative path(s) to make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old/data/heh/
+</td>
+<td style="text-align:left;">
+data/heh
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old/data/gm_DO112_ssqc.RData
+</td>
+<td style="text-align:left;">
+data/gm_DO112_ssqc.RData
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -708,7 +741,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/0978505250bcc6cee7dfb9dd3cce1a9a1f50284d/analysis/index.Rmd" target="_blank">0978505</a>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/0978505250bcc6cee7dfb9dd3cce1a9a1f50284d/analysis/phenotypes_qtl_qc.Rmd" target="_blank">0978505</a>
 </td>
 <td>
 Belinda Cornes
@@ -720,176 +753,6 @@ Belinda Cornes
 rnorm analysis
 </td>
 </tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/d6a9e553161a9d1ed01057d3eb503da35bc0ba18/docs/index.html" target="_blank">d6a9e55</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/ed2c6c19cc129d147d2ad6757b661e7ab981c443/analysis/index.Rmd" target="_blank">ed2c6c1</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-fourth publication
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/4ef496c7802dd2f0e75589fd5b90d5f0b63127d6/docs/index.html" target="_blank">4ef496c</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/f97e33c4b2d77c066fa80e4014469b9c048c7849/analysis/index.Rmd" target="_blank">f97e33c</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/analysis/index.Rmd" target="_blank">b4951f7</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/docs/index.html" target="_blank">b4951f7</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/c035ceeae571e26617a5f863913486ac80eb1e21/docs/index.html" target="_blank">c035cee</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-16
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/624db593a1a07d49337d68043904fb8800415563/analysis/index.Rmd" target="_blank">624db59</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-16
-</td>
-<td>
-second publication
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/61381d4c76e2cc3e14a14b6a2a7472851c3dfa97/docs/index.html" target="_blank">61381d4</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-10
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/1fb98731a92c808a8df44fc49813709579aa2792/analysis/index.Rmd" target="_blank">1fb9873</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-10
-</td>
-<td>
-initial publication
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -897,43 +760,324 @@ initial publication
 </div>
 </div>
 </div>
-<div id="project-at-a-glance" class="section level3">
-<h3>Project At A Glance</h3>
+<p>This script is to check the distribution of the data and to remove any outliers.</p>
+<div id="phenotype-time" class="section level3">
+<h3>Phenotype : Time</h3>
+<pre class="r"><code>time &lt;- ggplot(data= phenos, aes(x=phenos$Time_min)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos$Time_min),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Time [mins]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos$Time_min), sd=sd(phenos$Time_min))) +
+ggtitle(&quot;Distribution of Time [min]&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+time</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes_qtl_qc.Rmd/plot%20sample%20distribution%20for%20Time-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Hmisc::describe(phenos$Time_min) </code></pre>
+<pre><code>phenos$Time_min 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     102        0       99        1    160.6    35.52    112.5    117.7 
+     .25      .50      .75      .90      .95 
+   142.7    161.5    181.8    198.4    210.9 
+
+lowest :  50.15367  69.30567  76.68400 104.20867 106.70867
+highest: 208.42781 210.34448 210.91619 213.56895 214.64448</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Time_min) </code></pre>
+<pre><code>     nbr.val     nbr.null       nbr.na          min          max        range 
+1.020000e+02 0.000000e+00 0.000000e+00 5.015367e+01 2.146445e+02 1.644908e+02 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+1.638466e+04 1.615243e+02 1.606339e+02 3.170073e+00 6.288571e+00 1.025035e+03 
+     std.dev     coef.var 
+3.201616e+01 1.993114e-01 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Time_min) </code></pre>
+<pre><code>   vars   n   mean    sd median trimmed   mad   min    max  range  skew
+X1    1 102 160.63 32.02 161.52  162.26 29.81 50.15 214.64 164.49 -0.68
+   kurtosis   se
+X1     0.79 3.17</code></pre>
+<p>Given the negative skewness of the data, the intent is to transform by square rooting the reflected data, then check the skewness</p>
+<pre class="r"><code>rz.transform &lt;- function(y) {
+  rankY=rank(y, ties.method=&quot;average&quot;, na.last=&quot;keep&quot;)
+  rzT=qnorm(rankY/(length(na.exclude(rankY))+1))
+  return(rzT)
+}
+
+phenos$Time_min_rnorm &lt;- rz.transform(phenos$Time_min)
+
+Time_min_rnorm &lt;- ggplot(data= phenos, aes(x=phenos$Time_min_rnorm)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos$Time_min_rnorm),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Time [mins]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos$Time_min_rnorm), sd=sd(phenos$Time_min_rnorm))) +
+ggtitle(&quot;Distribution of (transformed)Time [min] (rnorm)&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+Time_min_rnorm</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes_qtl_qc.Rmd/transforming%20Time-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Hmisc::describe(phenos$Time_min_rnorm)  </code></pre>
+<pre><code>phenos$Time_min_rnorm 
+         n    missing   distinct       Info       Mean        Gmd        .05 
+       102          0         99          1 -0.0008057      1.101    -1.5657 
+       .10        .25        .50        .75        .90        .95 
+   -1.2386    -0.6593     0.0000     0.6593     1.2386     1.5657 
+
+lowest : -2.337418 -2.065931 -1.893793 -1.764369 -1.659141
+highest:  1.420921  1.491149  1.569614  1.825264  2.337418</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Time_min_rnorm) </code></pre>
+<pre><code>      nbr.val      nbr.null        nbr.na           min           max 
+ 1.020000e+02  0.000000e+00  0.000000e+00 -2.337418e+00  2.337418e+00 
+        range           sum        median          mean       SE.mean 
+ 4.674835e+00 -8.217787e-02  0.000000e+00 -8.056654e-04  9.544383e-02 
+ CI.mean.0.95           var       std.dev      coef.var 
+ 1.893349e-01  9.291716e-01  9.639355e-01 -1.196446e+03 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Time_min_rnorm) </code></pre>
+<pre><code>   vars   n mean   sd median trimmed  mad   min  max range  skew kurtosis  se
+X1    1 102    0 0.96      0       0 0.99 -2.34 2.34  4.67 -0.01    -0.43 0.1</code></pre>
+<pre class="r"><code>phenos$trsfTime &lt;- sqrt(max(phenos$Time_min+1) - phenos$Time_min)
+
+trsfTime &lt;- ggplot(data= phenos, aes(x=phenos$trsfTime)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos$trsfTime),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Time [mins]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos$trsfTime), sd=sd(phenos$trsfTime))) +
+ggtitle(&quot;Distribution of (transformed)Time [min]&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+trsfTime</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes_qtl_qc.Rmd/transforming%20Time-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Hmisc::describe(phenos$trsfTime)  </code></pre>
+<pre><code>phenos$trsfTime 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     102        0       99        1    7.029    2.639    2.181    4.150 
+     .25      .50      .75      .90      .95 
+   5.818    7.357    8.540    9.897   10.156 
+
+lowest :  1.000000  1.440669  2.174464  2.302173  2.686385
+highest: 10.437232 10.556316 11.788150 12.097058 12.864323</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$trsfTime) </code></pre>
+<pre><code>     nbr.val     nbr.null       nbr.na          min          max        range 
+ 102.0000000    0.0000000    0.0000000    1.0000000   12.8643232   11.8643232 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+ 716.9396369    7.3566420    7.0288200    0.2356005    0.4673681    5.6617757 
+     std.dev     coef.var 
+   2.3794486    0.3385275 </code></pre>
+<pre class="r"><code>psych::describe(phenos$trsfTime) </code></pre>
+<pre><code>   vars   n mean   sd median trimmed  mad min   max range  skew kurtosis   se
+X1    1 102 7.03 2.38   7.36    7.16 2.12   1 12.86 11.86 -0.44     0.29 0.24</code></pre>
+<p>Now that the transformation improved the fit of the data, we will check for any outliers</p>
+<pre class="r"><code>#Working out 3SD from mean
+
+phenos$stdTime_min_rnorm &lt;- scale(phenos$Time_min_rnorm)
+
+phenos$stdTime_min_rnormo &lt;- ifelse(phenos$stdTime_min_rnorm &gt;= 3 | phenos$stdTime_min_rnorm &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos$stdTime_min_rnormo)</code></pre>
+<pre><code>
+Keep 
+ 102 </code></pre>
+<pre class="r"><code>phenos$stdtrsfTime &lt;- scale(phenos$trsfTime)
+
+phenos$stdtrsfTimeo &lt;- ifelse(phenos$stdtrsfTime &gt;= 3 | phenos$stdtrsfTime &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos$stdtrsfTimeo)</code></pre>
+<pre><code>
+Keep 
+ 102 </code></pre>
+<p>No outliers were detected.</p>
+</div>
+<div id="phenotype-distance" class="section level3">
+<h3>Phenotype : Distance</h3>
+<pre class="r"><code>distance &lt;- ggplot(data= phenos, aes(x=phenos$Distance_m)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos$Distance_m),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Distance [m]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos$Distance_m), sd=sd(phenos$Distance_m))) +
+ggtitle(&quot;Distribution of Distance [m]&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+distance</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes_qtl_qc.Rmd/plot%20sample%20distribution%20for%20Distance-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Hmisc::describe(phenos$Distance_m) </code></pre>
+<pre><code>phenos$Distance_m 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     102        0      100        1     2074    761.9     1078     1168 
+     .25      .50      .75      .90      .95 
+    1637     2044     2530     2937     3257 
+
+lowest :  282.1218  475.1608  566.5448  945.2883  982.2883
+highest: 3243.6119 3257.9047 3265.3014 3265.3025 3351.1119</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Distance_m) </code></pre>
+<pre><code>     nbr.val     nbr.null       nbr.na          min          max        range 
+1.020000e+02 0.000000e+00 0.000000e+00 2.821218e+02 3.351112e+03 3.068990e+03 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+2.115671e+05 2.043763e+03 2.074187e+03 6.633983e+01 1.316004e+02 4.488993e+05 
+     std.dev     coef.var 
+6.699995e+02 3.230179e-01 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Distance_m)</code></pre>
+<pre><code>   vars   n    mean  sd  median trimmed   mad    min     max   range  skew
+X1    1 102 2074.19 670 2043.76  2081.2 692.4 282.12 3351.11 3068.99 -0.17
+   kurtosis    se
+X1    -0.32 66.34</code></pre>
+<pre class="r"><code>phenos$Distance_m_rnorm &lt;- rz.transform(phenos$Distance_m)
+
+Distance_m_rnorm &lt;- ggplot(data= phenos, aes(x=phenos$Distance_m_rnorm)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos$Distance_m_rnorm),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Time [mins]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos$Distance_m_rnorm), sd=sd(phenos$Distance_m_rnorm))) +
+ggtitle(&quot;Distribution of (transformed) Distance [m] (rnorm)&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+Distance_m_rnorm</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes_qtl_qc.Rmd/plot%20sample%20distribution%20for%20Distance-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Hmisc::describe(phenos$Distance_m_rnorm)  </code></pre>
+<pre><code>phenos$Distance_m_rnorm 
+         n    missing   distinct       Info       Mean        Gmd        .05 
+       102          0        100          1 -0.0004188      1.102    -1.5657 
+       .10        .25        .50        .75        .90        .95 
+   -1.2386    -0.6593     0.0000     0.6593     1.2386     1.5657 
+
+lowest : -2.337418 -2.065931 -1.893793 -1.764369 -1.659141
+highest:  1.491149  1.569614  1.659141  1.893793  2.337418</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Distance_m_rnorm) </code></pre>
+<pre><code>      nbr.val      nbr.null        nbr.na           min           max 
+ 1.020000e+02  0.000000e+00  0.000000e+00 -2.337418e+00  2.337418e+00 
+        range           sum        median          mean       SE.mean 
+ 4.674835e+00 -4.271333e-02  0.000000e+00 -4.187581e-04  9.553827e-02 
+ CI.mean.0.95           var       std.dev      coef.var 
+ 1.895222e-01  9.310112e-01  9.648892e-01 -2.304168e+03 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Distance_m_rnorm) </code></pre>
+<pre><code>   vars   n mean   sd median trimmed  mad   min  max range  skew kurtosis  se
+X1    1 102    0 0.96      0       0 0.99 -2.34 2.34  4.67 -0.01    -0.42 0.1</code></pre>
+<p>Transforming the data using the same method as <code>Time</code> worsened the negative skew, so we chose to keep the meaure untransformed.</p>
+<pre class="r"><code>#Working out 3SD from mean
+phenos$stddist &lt;- scale(phenos$Distance_m)
+
+phenos$stddisto &lt;- ifelse(phenos$stddist  &gt;= 3 | phenos$stddist  &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos$stddisto)</code></pre>
+<pre><code>
+Keep 
+ 102 </code></pre>
+<pre class="r"><code>phenos$stddist.rnorm &lt;- scale(phenos$Distance_m_rnorm)
+
+phenos$stddist.rnormo &lt;- ifelse(phenos$stddist.rnorm  &gt;= 3 | phenos$stddist.rnorm  &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos$stddist.rnormo)</code></pre>
+<pre><code>
+Keep 
+ 102 </code></pre>
+<p>No outliers were detected.</p>
+</div>
+<div id="phenotype-energy" class="section level3">
+<h3>Phenotype : Energy</h3>
+<pre class="r"><code>energy &lt;- ggplot(data= phenos, aes(x=phenos$Energy_J)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos$Energy_J),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Energy [J]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos$Energy_J), sd=sd(phenos$Energy_J))) +
+ggtitle(&quot;Distribution of Engery [J]&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+energy</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes_qtl_qc.Rmd/plot%20sample%20distribution%20for%20Energy-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Hmisc::describe(phenos$Energy_J) </code></pre>
+<pre><code>phenos$Energy_J 
+       n  missing distinct     Info     Mean      Gmd      .05      .10 
+     102        0      102        1    78.05    44.25    25.74    28.52 
+     .25      .50      .75      .90      .95 
+   48.11    74.67   109.44   127.45   144.21 
+
+lowest :   2.925429   7.695262  12.406380  20.544888  24.161591
+highest: 147.650433 149.467073 153.501166 154.004468 157.027689</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Energy_J) </code></pre>
+<pre><code>     nbr.val     nbr.null       nbr.na          min          max        range 
+ 102.0000000    0.0000000    0.0000000    2.9254285  157.0276892  154.1022607 
+         sum       median         mean      SE.mean CI.mean.0.95          var 
+7961.4140293   74.6696000   78.0530787    3.8024963    7.5431299 1474.8158053 
+     std.dev     coef.var 
+  38.4033307    0.4920156 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Energy_J) </code></pre>
+<pre><code>   vars   n  mean   sd median trimmed   mad  min    max range skew kurtosis  se
+X1    1 102 78.05 38.4  74.67   76.76 45.23 2.93 157.03 154.1 0.22    -0.93 3.8</code></pre>
+<pre class="r"><code>phenos$Energy_J_rnorm &lt;- rz.transform(phenos$Energy_J)
+
+Energy_J_rnorm &lt;- ggplot(data= phenos, aes(x=phenos$Energy_J_rnorm)) + 
+geom_histogram(aes(y=..density..), fill=&quot;grey&quot;, color=&quot;white&quot;, position=&quot;identity&quot;) + 
+geom_vline(xintercept=mean(phenos$Energy_J_rnorm),size = 1, col=&quot;red&quot;) + 
+labs(x=&quot;Time [mins]&quot;) + 
+stat_function(fun = dnorm, color=&quot;blue&quot;, size=1, args=list(mean=mean(phenos$Energy_J_rnorm), sd=sd(phenos$Energy_J_rnorm))) +
+ggtitle(&quot;Distribution of (transformed) Energy J (rnorm&quot;) +
+theme(plot.title = element_text(hjust = 0.5))
+
+Energy_J_rnorm</code></pre>
+<pre><code>`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="figure/phenotypes_qtl_qc.Rmd/plot%20sample%20distribution%20for%20Energy-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Hmisc::describe(phenos$Energy_J_rnorm)  </code></pre>
+<pre><code>phenos$Energy_J_rnorm 
+        n   missing  distinct      Info      Mean       Gmd       .05       .10 
+      102         0       102         1 1.714e-17     1.103   -1.5657   -1.2386 
+      .25       .50       .75       .90       .95 
+  -0.6593    0.0000    0.6593    1.2386    1.5657 
+
+lowest : -2.337418 -2.065931 -1.893793 -1.764369 -1.659141
+highest:  1.659141  1.764369  1.893793  2.065931  2.337418</code></pre>
+<pre class="r"><code>pastecs::stat.desc(phenos$Energy_J_rnorm) </code></pre>
+<pre><code>      nbr.val      nbr.null        nbr.na           min           max 
+ 1.020000e+02  0.000000e+00  0.000000e+00 -2.337418e+00  2.337418e+00 
+        range           sum        median          mean       SE.mean 
+ 4.674835e+00  1.748601e-15  0.000000e+00  1.702835e-17  9.564397e-02 
+ CI.mean.0.95           var       std.dev      coef.var 
+ 1.897319e-01  9.330724e-01  9.659567e-01  5.672638e+16 </code></pre>
+<pre class="r"><code>psych::describe(phenos$Energy_J_rnorm) </code></pre>
+<pre><code>   vars   n mean   sd median trimmed  mad   min  max range skew kurtosis  se
+X1    1 102    0 0.97      0       0 0.99 -2.34 2.34  4.67    0    -0.41 0.1</code></pre>
+<p>Trait did not need transforming. Checking for any outliers:</p>
+<pre class="r"><code>#Working out 3SD from mean
+phenos$stden &lt;- scale(phenos$Energy_J)
+phenos$stdeno &lt;- ifelse(phenos$stden  &gt;= 3 | phenos$stden  &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos$stdeno)</code></pre>
+<pre><code>
+Keep 
+ 102 </code></pre>
+<pre class="r"><code>phenos$stden.rnorm &lt;- scale(phenos$Energy_J_rnorm)
+phenos$stden.rnormo &lt;- ifelse(phenos$stden.rnorm  &gt;= 3 | phenos$stden.rnorm  &lt;= -3, &#39;Outlier&#39;,&#39;Keep&#39;)
+
+table(phenos$stden.rnormo)</code></pre>
+<pre><code>
+Keep 
+ 102 </code></pre>
+<p>No outliers were detected.</p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
 <ul>
-<li><a href="summary.html">Batch Summaries</a></li>
+<li>rnorm all phenotypes</li>
 </ul>
 </div>
-<div id="phenotype-qc" class="section level3">
-<h3>1. Phenotype QC</h3>
-<ul>
-<li><a href="phenotypes.html">Phenotypes</a></li>
-</ul>
-</div>
-<div id="genotype-qc" class="section level3">
-<h3>2. Genotype QC</h3>
-<ul>
-<li><a href="2.1_preparing_files.html">Preparing Files</a></li>
-<li><a href="2.2_sample_bqc.html">Step 1: Sample QC</a></li>
-<li><a href="2.3_snp_qc.html">Step 2: SNP QC</a></li>
-<li><a href="2.4_afterqc.html">Step 3: Effect of Data Cleaning</a></li>
-<li><a href="2.5_preparing_files_qtl2.html">Step 4: Preparing Files for QTL Analysis</a></li>
-</ul>
-</div>
-<div id="qtl-analysis" class="section level3">
-<h3>3. QTL Analysis</h3>
-<ul>
-<li><a href="phenotypes_qtl_qc.html">Phenotypes</a></li>
-<li><a href="3.1_recomb_size_founder_prop.html">Step 1: Recombination Block Size &amp; Founder Proportions</a></li>
-<li>Step 2: GCTA Heritability</li>
-<li>Step 3: QTL Mapping (<code>R/qtl2</code>)</li>
-<li>Step 4: QTL Permutation (<code>R/qtl2</code>)</li>
-<li>Step 5: QTL Best Linear Unbiased Prediction (BLUP) (<code>R/qtl2</code>)</li>
-<li>Step 6: Results from <code>R/qtl2</code> analysis
-<ul>
-<li><a href="3.6_plot_qtl_mapping.html">inital phenotypes</a></li>
-<li><a href="3.6_plot_qtl_mapping_rnorm.html">rnorm phenotypes</a></li>
-</ul></li>
-</ul>
+<div id="all-problematic-samples" class="section level2">
+<h2>All Problematic Samples</h2>
+<p>No outliers were detected.</p>
+<pre class="r"><code>phenos$Mouse.ID &lt;- rownames(phenos)
+
+phenosn &lt;- phenos[c(&quot;Mouse.ID&quot;,&quot;Time_min&quot;,&quot;Distance_m&quot;,&quot;Energy_J&quot;,&quot;rsqrt_Time_min&quot;,&quot;Time_min_rnorm&quot;,&quot;Distance_m_rnorm&quot;,&quot;Energy_J_rnorm&quot;)]
+#phenos$index &lt;- 1:nrow(phenos)
+
+#phenosn &lt;- merge(phenosn_cc, phenos[c(&quot;Mouse.ID&quot;,&quot;index&quot;)], by=c(&quot;Mouse.ID&quot;), all=T)
+
+#names(phenosn_cc)[2:5] &lt;- c(&quot;Time_min&quot;,&quot;Distance_m&quot;,&quot;Energy_J&quot;,&quot;rsqrt_Time_min&quot;)
+phenosn[is.na(phenosn)] &lt;- &#39;&#39;
+
+
+#phenosno &lt;- phenosn[order(phenosn$index),]
+
+write.csv(phenosn,&quot;Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv&quot;, row.names=F, quote=F)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -957,15 +1101,35 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] workflowr_1.6.0
+[1] qtl2_0.21-19    psych_1.9.12.31 pastecs_1.3.21  Hmisc_4.3-1    
+[5] Formula_1.2-3   survival_3.1-8  lattice_0.20-38 ggplot2_3.2.1  
+[9] workflowr_1.6.0
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.3      rprojroot_1.3-2 digest_0.6.24   later_1.0.0    
- [5] R6_2.4.1        backports_1.1.5 git2r_0.26.1    magrittr_1.5   
- [9] evaluate_0.14   stringi_1.4.6   rlang_0.4.4     fs_1.3.1       
-[13] promises_1.1.0  whisker_0.4     rmarkdown_2.1   tools_3.6.2    
-[17] stringr_1.4.0   glue_1.3.1      httpuv_1.5.2    xfun_0.12      
-[21] yaml_2.2.1      compiler_3.6.2  htmltools_0.4.0 knitr_1.28     </code></pre>
+ [1] Rcpp_1.0.3          png_0.1-7           assertthat_0.2.1   
+ [4] rprojroot_1.3-2     digest_0.6.24       R6_2.4.1           
+ [7] backports_1.1.5     acepack_1.4.1       RSQLite_2.2.0      
+[10] evaluate_0.14       highr_0.8           pillar_1.4.3       
+[13] rlang_0.4.4         lazyeval_0.2.2      rstudioapi_0.11    
+[16] data.table_1.12.8   blob_1.2.1          whisker_0.4        
+[19] rpart_4.1-15        Matrix_1.2-18       checkmate_2.0.0    
+[22] rmarkdown_2.1       labeling_0.3        splines_3.6.2      
+[25] stringr_1.4.0       foreign_0.8-75      htmlwidgets_1.5.1  
+[28] bit_1.1-15.2        munsell_0.5.0       compiler_3.6.2     
+[31] httpuv_1.5.2        xfun_0.12           pkgconfig_2.0.3    
+[34] base64enc_0.1-3     mnormt_1.5-6        htmltools_0.4.0    
+[37] nnet_7.3-12         tidyselect_1.0.0    tibble_2.1.3       
+[40] gridExtra_2.3       htmlTable_1.13.3    crayon_1.3.4       
+[43] dplyr_0.8.4         withr_2.1.2         later_1.0.0        
+[46] grid_3.6.2          nlme_3.1-144        gtable_0.3.0       
+[49] lifecycle_0.1.0     DBI_1.1.0           git2r_0.26.1       
+[52] magrittr_1.5        scales_1.1.0        stringi_1.4.6      
+[55] farver_2.0.3        fs_1.3.1            promises_1.1.0     
+[58] latticeExtra_0.6-29 vctrs_0.2.2         boot_1.3-24        
+[61] RColorBrewer_1.1-2  tools_3.6.2         bit64_0.9-7        
+[64] glue_1.3.1          purrr_0.3.3         jpeg_0.1-8.1       
+[67] parallel_3.6.2      yaml_2.2.1          colorspace_1.4-1   
+[70] cluster_2.1.0       memoise_1.1.0       knitr_1.28         </code></pre>
 </div>
 </div>
 
