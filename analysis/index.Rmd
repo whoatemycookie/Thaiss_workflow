@@ -22,9 +22,12 @@ output:
 * [Step 4: Preparing Files for QTL Analysis](2.5_preparing_files_qtl2.html)
 
 ### 3. QTL Analysis
+* [Phenotypes](phenotypes_qtl_qc.html)
 * [Step 1: Recombination Block Size & Founder Proportions](3.1_recomb_size_founder_prop.html)
 * Step 2: GCTA Heritability
 * Step 3: QTL Mapping (`R/qtl2`)
 * Step 4: QTL Permutation (`R/qtl2`)
 * Step 5: QTL Best Linear Unbiased Prediction (BLUP) (`R/qtl2`)
-* [Step 6: Results from `R/qtl2` analysis](3.6_plot_qtl_mapping.html)
+* Step 6: Results from `R/qtl2` analysis
+	+ [inital phenotypes](3.6_plot_qtl_mapping.html)
+	+ [rnorm phenotypes](3.6_plot_qtl_mapping_rnorm.html)

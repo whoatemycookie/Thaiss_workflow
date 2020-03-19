@@ -1,0 +1,271 @@
+---
+title: "Phenotype QC"
+author: "Belinda Cornes"
+date: "2020-03-11"
+output: html_document
+---
+
+This script is to check the distribution of the data and to remove any outliers. 
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+
+#filepathp = '/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old/data/heh/'
+#pheno_file <- dir(path = filepathp, pattern = "Univ_of_Penn_Thaiss_pheno_all.csv", full.names = TRUE)
+#phenos <- read.csv(pheno_file)
+
+#phenos <- subset(phenos, !is.na(Time_min))
+
+library(Hmisc)
+library(pastecs)
+library(psych)
+
+setwd("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old/data/heh/")
+
+gm_DO112_ssqc <- get(load("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old/data/gm_DO112_ssqc.RData"))
+
+library(qtl2)
+
+#phenos[111,1] 
+
+#rownames(phenos) <- phenos$Mouse.ID
+
+
+
+#phenosn <- phenos[ind_ids(gm_DO112_ssqc),]
+
+gm_DO112_ssqc$pheno
+
+phenos <- as.data.frame(gm_DO112_ssqc$pheno)
+
+```
+
+### Phenotype : Time
+```{r plot sample distribution for Time}
+
+time <- ggplot(data= phenos, aes(x=phenos$Time_min)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos$Time_min),size = 1, col="red") + 
+labs(x="Time [mins]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos$Time_min), sd=sd(phenos$Time_min))) +
+ggtitle("Distribution of Time [min]") +
+theme(plot.title = element_text(hjust = 0.5))
+
+time
+
+Hmisc::describe(phenos$Time_min) 
+pastecs::stat.desc(phenos$Time_min) 
+psych::describe(phenos$Time_min) 
+
+```
+Given the negative skewness of the data, the intent is to transform by square rooting the reflected data, then check the skewness
+
+```{r transforming Time}
+
+rz.transform <- function(y) {
+  rankY=rank(y, ties.method="average", na.last="keep")
+  rzT=qnorm(rankY/(length(na.exclude(rankY))+1))
+  return(rzT)
+}
+
+phenos$Time_min_rnorm <- rz.transform(phenos$Time_min)
+
+Time_min_rnorm <- ggplot(data= phenos, aes(x=phenos$Time_min_rnorm)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos$Time_min_rnorm),size = 1, col="red") + 
+labs(x="Time [mins]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos$Time_min_rnorm), sd=sd(phenos$Time_min_rnorm))) +
+ggtitle("Distribution of (transformed)Time [min] (rnorm)") +
+theme(plot.title = element_text(hjust = 0.5))
+
+Time_min_rnorm
+
+Hmisc::describe(phenos$Time_min_rnorm)  
+pastecs::stat.desc(phenos$Time_min_rnorm) 
+psych::describe(phenos$Time_min_rnorm) 
+
+
+phenos$trsfTime <- sqrt(max(phenos$Time_min+1) - phenos$Time_min)
+
+trsfTime <- ggplot(data= phenos, aes(x=phenos$trsfTime)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos$trsfTime),size = 1, col="red") + 
+labs(x="Time [mins]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos$trsfTime), sd=sd(phenos$trsfTime))) +
+ggtitle("Distribution of (transformed)Time [min]") +
+theme(plot.title = element_text(hjust = 0.5))
+
+trsfTime
+
+Hmisc::describe(phenos$trsfTime)  
+pastecs::stat.desc(phenos$trsfTime) 
+psych::describe(phenos$trsfTime) 
+
+````
+Now that the transformation improved the fit of the data, we will check for any outliers
+
+```{r checking outliers Time}
+#Working out 3SD from mean
+
+phenos$stdTime_min_rnorm <- scale(phenos$Time_min_rnorm)
+
+phenos$stdTime_min_rnormo <- ifelse(phenos$stdTime_min_rnorm >= 3 | phenos$stdTime_min_rnorm <= -3, 'Outlier','Keep')
+
+table(phenos$stdTime_min_rnormo)
+
+
+phenos$stdtrsfTime <- scale(phenos$trsfTime)
+
+phenos$stdtrsfTimeo <- ifelse(phenos$stdtrsfTime >= 3 | phenos$stdtrsfTime <= -3, 'Outlier','Keep')
+
+table(phenos$stdtrsfTimeo)
+
+```
+
+
+No outliers were detected. 
+
+
+### Phenotype : Distance
+```{r plot sample distribution for Distance}
+
+distance <- ggplot(data= phenos, aes(x=phenos$Distance_m)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos$Distance_m),size = 1, col="red") + 
+labs(x="Distance [m]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos$Distance_m), sd=sd(phenos$Distance_m))) +
+ggtitle("Distribution of Distance [m]") +
+theme(plot.title = element_text(hjust = 0.5))
+
+distance
+
+Hmisc::describe(phenos$Distance_m) 
+pastecs::stat.desc(phenos$Distance_m) 
+psych::describe(phenos$Distance_m)
+
+
+phenos$Distance_m_rnorm <- rz.transform(phenos$Distance_m)
+
+Distance_m_rnorm <- ggplot(data= phenos, aes(x=phenos$Distance_m_rnorm)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos$Distance_m_rnorm),size = 1, col="red") + 
+labs(x="Time [mins]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos$Distance_m_rnorm), sd=sd(phenos$Distance_m_rnorm))) +
+ggtitle("Distribution of (transformed) Distance [m] (rnorm)") +
+theme(plot.title = element_text(hjust = 0.5))
+
+Distance_m_rnorm
+
+Hmisc::describe(phenos$Distance_m_rnorm)  
+pastecs::stat.desc(phenos$Distance_m_rnorm) 
+psych::describe(phenos$Distance_m_rnorm) 
+
+```
+
+Transforming the data using the same method as `Time` worsened the negative skew, so we chose to keep the meaure untransformed. 
+
+```{r checking outliers Distance}
+#Working out 3SD from mean
+phenos$stddist <- scale(phenos$Distance_m)
+
+phenos$stddisto <- ifelse(phenos$stddist  >= 3 | phenos$stddist  <= -3, 'Outlier','Keep')
+
+table(phenos$stddisto)
+
+
+phenos$stddist.rnorm <- scale(phenos$Distance_m_rnorm)
+
+phenos$stddist.rnormo <- ifelse(phenos$stddist.rnorm  >= 3 | phenos$stddist.rnorm  <= -3, 'Outlier','Keep')
+
+table(phenos$stddist.rnormo)
+
+
+```
+
+No outliers were detected. 
+
+
+### Phenotype : Energy
+```{r plot sample distribution for Energy}
+
+energy <- ggplot(data= phenos, aes(x=phenos$Energy_J)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos$Energy_J),size = 1, col="red") + 
+labs(x="Energy [J]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos$Energy_J), sd=sd(phenos$Energy_J))) +
+ggtitle("Distribution of Engery [J]") +
+theme(plot.title = element_text(hjust = 0.5))
+
+energy
+
+Hmisc::describe(phenos$Energy_J) 
+pastecs::stat.desc(phenos$Energy_J) 
+psych::describe(phenos$Energy_J) 
+
+
+phenos$Energy_J_rnorm <- rz.transform(phenos$Energy_J)
+
+Energy_J_rnorm <- ggplot(data= phenos, aes(x=phenos$Energy_J_rnorm)) + 
+geom_histogram(aes(y=..density..), fill="grey", color="white", position="identity") + 
+geom_vline(xintercept=mean(phenos$Energy_J_rnorm),size = 1, col="red") + 
+labs(x="Time [mins]") + 
+stat_function(fun = dnorm, color="blue", size=1, args=list(mean=mean(phenos$Energy_J_rnorm), sd=sd(phenos$Energy_J_rnorm))) +
+ggtitle("Distribution of (transformed) Energy J (rnorm") +
+theme(plot.title = element_text(hjust = 0.5))
+
+Energy_J_rnorm
+
+Hmisc::describe(phenos$Energy_J_rnorm)  
+pastecs::stat.desc(phenos$Energy_J_rnorm) 
+psych::describe(phenos$Energy_J_rnorm) 
+
+```
+
+Trait did not need transforming.  Checking for any outliers:
+
+```{r checking outliers Energy}
+#Working out 3SD from mean
+phenos$stden <- scale(phenos$Energy_J)
+phenos$stdeno <- ifelse(phenos$stden  >= 3 | phenos$stden  <= -3, 'Outlier','Keep')
+
+table(phenos$stdeno)
+
+phenos$stden.rnorm <- scale(phenos$Energy_J_rnorm)
+phenos$stden.rnormo <- ifelse(phenos$stden.rnorm  >= 3 | phenos$stden.rnorm  <= -3, 'Outlier','Keep')
+
+table(phenos$stden.rnormo)
+
+```
+
+No outliers were detected. 
+
+
+## Conclusion
+
++ rnorm all phenotypes
+
+
+## All Problematic Samples
+
+No outliers were detected. 
+
+```{r saving new pheno file}
+
+phenos$Mouse.ID <- rownames(phenos)
+
+phenosn <- phenos[c("Mouse.ID","Time_min","Distance_m","Energy_J","rsqrt_Time_min","Time_min_rnorm","Distance_m_rnorm","Energy_J_rnorm")]
+#phenos$index <- 1:nrow(phenos)
+
+#phenosn <- merge(phenosn_cc, phenos[c("Mouse.ID","index")], by=c("Mouse.ID"), all=T)
+
+#names(phenosn_cc)[2:5] <- c("Time_min","Distance_m","Energy_J","rsqrt_Time_min")
+phenosn[is.na(phenosn)] <- ''
+
+
+#phenosno <- phenosn[order(phenosn$index),]
+
+write.csv(phenosn,"Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv", row.names=F, quote=F)
+```
