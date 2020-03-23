@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Belinda Cornes" />
+
+<meta name="date" content="2020-03-23" />
+
+<title>Array Intensities</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Thaiss_workflowr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/whoatemycookie/Thaiss_workflow">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Array Intensities</h1>
+<h4 class="author">Belinda Cornes</h4>
+<h4 class="date">2020-03-23</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-03-23
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Thaiss_workflowr_old/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200309code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200309)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200309code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200309)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree2b7d7c8c811bd09946de24c113b39c03e6240817targetblank2b7d7c8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/2b7d7c8c811bd09946de24c113b39c03e6240817" target="_blank">2b7d7c8</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree2b7d7c8c811bd09946de24c113b39c03e6240817targetblank2b7d7c8a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+    Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  Thaiss_workflow-master.zip
+    Untracked:  Thaiss_workflow-master/
+    Untracked:  Thaiss_workflowr.Rproj
+    Untracked:  Thaiss_workflowr_old/
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all copy.csv
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv
+    Untracked:  analysis/2.1_preparing_files.R
+    Untracked:  analysis/2.2_sample_qc.Rmd
+    Untracked:  analysis/2.3.1_snp_qc.Rmd.R
+    Untracked:  analysis/2.3_sample_qc.R.old
+    Untracked:  analysis/2.3_sample_qc.Rmd.old
+    Untracked:  analysis/2.3_snp_qc.Rmd.R
+    Untracked:  analysis/2.4.1_afterqc.Rmd.R
+    Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/2.6_final_pr_apr_69K.R
+    Untracked:  analysis/3.1.1.1_html_founder_prop.Rmd
+    Untracked:  analysis/3.1.1_html_founder_prop.Rmd
+    Untracked:  analysis/3.1.1_recomb_size_founder_prop.Rmd.R
+    Untracked:  analysis/3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/array_intensities_bad.markers_allqc.Rmd.R
+    Untracked:  analysis/array_intensities_bad.markers_v2.Rmd.R
+    Untracked:  analysis/array_intensities_markers.R
+    Untracked:  analysis/array_intensities_markers.Rmd.R
+    Untracked:  analysis/bad_markers_allqc.Rmd.R
+    Untracked:  analysis/cadillac/
+    Untracked:  analysis/genotype_intensities.Rmd.R
+    Untracked:  analysis/genotype_intensities.Rmd.old
+    Untracked:  analysis/phenotypes_qtl_qc.Rmd.R
+    Untracked:  analysis/reconst_utils_gtQC.R
+    Untracked:  analysis/run_2.6_final_pr_apr_69K.R
+    Untracked:  analysis_new/
+    Untracked:  code_old/
+    Untracked:  data/Final.Report/
+    Untracked:  data/GM_foundergeno1.csv
+    Untracked:  data/GM_foundergeno10.csv
+    Untracked:  data/GM_foundergeno11.csv
+    Untracked:  data/GM_foundergeno12.csv
+    Untracked:  data/GM_foundergeno13.csv
+    Untracked:  data/GM_foundergeno14.csv
+    Untracked:  data/GM_foundergeno15.csv
+    Untracked:  data/GM_foundergeno16.csv
+    Untracked:  data/GM_foundergeno17.csv
+    Untracked:  data/GM_foundergeno18.csv
+    Untracked:  data/GM_foundergeno19.csv
+    Untracked:  data/GM_foundergeno2.csv
+    Untracked:  data/GM_foundergeno3.csv
+    Untracked:  data/GM_foundergeno4.csv
+    Untracked:  data/GM_foundergeno5.csv
+    Untracked:  data/GM_foundergeno6.csv
+    Untracked:  data/GM_foundergeno7.csv
+    Untracked:  data/GM_foundergeno8.csv
+    Untracked:  data/GM_foundergeno9.csv
+    Untracked:  data/GM_foundergenoM.csv
+    Untracked:  data/GM_foundergenoX.csv
+    Untracked:  data/GM_foundergenoY.csv
+    Untracked:  data/GM_gmap1.csv
+    Untracked:  data/GM_gmap10.csv
+    Untracked:  data/GM_gmap11.csv
+    Untracked:  data/GM_gmap12.csv
+    Untracked:  data/GM_gmap13.csv
+    Untracked:  data/GM_gmap14.csv
+    Untracked:  data/GM_gmap15.csv
+    Untracked:  data/GM_gmap16.csv
+    Untracked:  data/GM_gmap17.csv
+    Untracked:  data/GM_gmap18.csv
+    Untracked:  data/GM_gmap19.csv
+    Untracked:  data/GM_gmap2.csv
+    Untracked:  data/GM_gmap3.csv
+    Untracked:  data/GM_gmap4.csv
+    Untracked:  data/GM_gmap5.csv
+    Untracked:  data/GM_gmap6.csv
+    Untracked:  data/GM_gmap7.csv
+    Untracked:  data/GM_gmap8.csv
+    Untracked:  data/GM_gmap9.csv
+    Untracked:  data/GM_gmapM.csv
+    Untracked:  data/GM_gmapX.csv
+    Untracked:  data/GM_gmapY.csv
+    Untracked:  data/GM_info.csv
+    Untracked:  data/GM_pmap1.csv
+    Untracked:  data/GM_pmap10.csv
+    Untracked:  data/GM_pmap11.csv
+    Untracked:  data/GM_pmap12.csv
+    Untracked:  data/GM_pmap13.csv
+    Untracked:  data/GM_pmap14.csv
+    Untracked:  data/GM_pmap15.csv
+    Untracked:  data/GM_pmap16.csv
+    Untracked:  data/GM_pmap17.csv
+    Untracked:  data/GM_pmap18.csv
+    Untracked:  data/GM_pmap19.csv
+    Untracked:  data/GM_pmap2.csv
+    Untracked:  data/GM_pmap3.csv
+    Untracked:  data/GM_pmap4.csv
+    Untracked:  data/GM_pmap5.csv
+    Untracked:  data/GM_pmap6.csv
+    Untracked:  data/GM_pmap7.csv
+    Untracked:  data/GM_pmap8.csv
+    Untracked:  data/GM_pmap9.csv
+    Untracked:  data/GM_pmapM.csv
+    Untracked:  data/GM_pmapX.csv
+    Untracked:  data/GM_pmapY.csv
+    Untracked:  data/GM_snps.Rdata
+    Untracked:  data/Univ_of_Penn_Thaiss_covar_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all_rnorm.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrXint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrYint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno1.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno10.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno11.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno12.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno13.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno14.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno15.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno16.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno17.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno18.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno19.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno2.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno3.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno4.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno5.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno6.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno7.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno8.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno9.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoM.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoX.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoY.csv
+    Untracked:  data/apr_69kchr_DO112_ssqc.RData
+    Untracked:  data/apr_DO110.RData
+    Untracked:  data/apr_DO112_allqc.RData
+    Untracked:  data/apr_DO112_ssqc.RData
+    Untracked:  data/bad_markers.RData
+    Untracked:  data/bad_markers_all.RData
+    Untracked:  data/e.RData
+    Untracked:  data/e_g_snpg_samqc.RData
+    Untracked:  data/errors_ind.RData
+    Untracked:  data/errors_ind_qc.RData
+    Untracked:  data/fp.RData
+    Untracked:  data/fp_allqc.RData
+    Untracked:  data/genotype_errors_marker.RData
+    Untracked:  data/genotype_freq_marker.RData
+    Untracked:  data/gm.json
+    Untracked:  data/gm.no.bad.cr.dup.gf.RData
+    Untracked:  data/gm.yaml
+    Untracked:  data/gm_2.json
+    Untracked:  data/gm_DO110_qc.RData
+    Untracked:  data/gm_DO112.RData
+    Untracked:  data/gm_DO112_allqc.RData
+    Untracked:  data/gm_DO112_samqc.RData
+    Untracked:  data/gm_DO112_samqc_qc.RData
+    Untracked:  data/gm_DO112_ssqc.RData
+    Untracked:  data/gm_heh.json
+    Untracked:  data/heh/
+    Untracked:  data/intensities.fst
+    Untracked:  data/intensities.fst.RData
+    Untracked:  data/m.RData
+    Untracked:  data/nxo.RData
+    Untracked:  data/percent_missing_id.RData
+    Untracked:  data/percent_missing_id_allsamples.RData
+    Untracked:  data/percent_missing_id_qc.RData
+    Untracked:  data/percent_missing_marker.RData
+    Untracked:  data/pheno.csv
+    Untracked:  data/pr.RData
+    Untracked:  data/pr_69k_DO112_ssqc.RData
+    Untracked:  data/pr_69kchr_DO112_ssqc.RData
+    Untracked:  data/pr_DO110.RData
+    Untracked:  data/pr_DO112_allqc.RData
+    Untracked:  data/pr_DO112_ssqc.RData
+    Untracked:  data/prcl.RData
+    Untracked:  data/qc_info_bad_sample.RData
+    Untracked:  data/qc_info_bad_sample_qc.RData
+    Untracked:  data/recom_block_size.RData
+    Untracked:  data/recom_block_size_allqc.RData
+    Untracked:  data/snpg.RData
+    Untracked:  data/snps.gigamuga.Rdata
+    Untracked:  data/summary.cg.RData
+    Untracked:  data/summary.cg_allsamples.RData
+    Untracked:  data/summary.cg_qc.RData
+    Untracked:  data_old/
+    Untracked:  docs.old/
+    Untracked:  docs_new/
+    Untracked:  output/DO_Gigamuga_founder_proportions_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32_chr2.png
+    Untracked:  output/DO_recom_block_size_G32.png
+    Untracked:  output/DO_recom_block_size_G32_allqc.png
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted.pdf
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted_qc.pdf
+    Untracked:  output/Percent_missing_genotype_data.pdf
+    Untracked:  output/Percent_missing_genotype_data_per_marker.pdf
+    Untracked:  output/Percent_missing_genotype_data_qc.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples_qc.pdf
+    Untracked:  output/blup/
+    Untracked:  output/blup_allqc/
+    Untracked:  output/blup_rnorm.9/
+    Untracked:  output/blup_rnorm/
+    Untracked:  output/blup_rnorm_allqc/
+    Untracked:  output/genotype_error_marker.pdf
+    Untracked:  output/genotype_error_marker_qc.pdf
+    Untracked:  output/genotype_frequency_marker.pdf
+    Untracked:  output/genotype_frequency_marker_qc.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_allqc.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_allqc_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_coeffgeneplot.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_rnorm_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_allqc.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_allqc_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_allqc.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_allqc_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/number_crossover.pdf
+    Untracked:  output/number_crossover_qc.pdf
+    Untracked:  output/permu/
+    Untracked:  output/permu_rnorm.9/
+    Untracked:  output/prop_across_generation_chr_p.RData
+    Untracked:  output/prop_across_generation_chr_p_allqc.RData
+    Untracked:  output_old/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/2b7d7c8c811bd09946de24c113b39c03e6240817/analysis/array_intensities_bad.markers_allqc.Rmd" target="_blank">2b7d7c8</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”, “analysis/2.3.1_snp_qc.Rmd”, “analysis/bad_markers_allqc.Rmd”,
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>gmall &lt;- get(load(&quot;data/gm_DO112_samqc.RData&quot;))
+load(&quot;data/bad_markers_all.RData&quot;)
+
+gm &lt;- pull_markers(gm_DO112_samqc, bad_markers$marker)
+
+m &lt;- get(load(&quot;data/m.RData&quot;))
+mn &lt;- m[rownames(gm$covar)]
+
+snpg &lt;- predict_snpgeno(gm, mn, cores=0)
+snpg &lt;- do.call(&quot;cbind&quot;, snpg)
+
+# get data for one marker
+read_intensities &lt;-
+    function(file=&quot;data/intensities.fst&quot;, marker=NULL, snps=NULL)
+{
+    if(is.null(snps)) {
+        snps &lt;- fst::read.fst(file, column=&quot;snp&quot;)[,1]
+    }
+
+    if(is.null(marker)) { # if marker is NULL, return the snp names
+        return(snps)
+    } else {
+        marker &lt;- as.character(marker)
+    }
+
+    n &lt;- match(marker, snps)
+    if(is.na(n)) stop(&quot;marker &quot;, marker, &quot; not found&quot;)
+
+    reorg_intensities( fst::read.fst(file, from=n, to=n+1) )
+}
+
+
+# reorganize SNP intensity data (for one marker)
+reorg_intensities &lt;-
+    function(intensities, marker=NULL)
+{
+    if(!is.null(marker)) {
+        marker &lt;- as.character(marker)
+        wh &lt;- which(intensities[,1] == marker)
+        if(sum(wh==0)) stop(&quot;Marker &quot;, marker, &quot; not found&quot;)
+        intensities &lt;- intensities[wh,]
+    }
+
+    result &lt;- data.frame(X=as.numeric(intensities[1,-(1:2)]),
+                         Y=as.numeric(intensities[2,-(1:2)]))
+    rownames(result) &lt;- colnames(intensities)[-(1:2)]
+
+    result
+}
+
+# combine intensities and genotypes
+grab_gni &lt;-
+    function(marker=NULL, cross=gm, intensities_file=&quot;data/intensities.fst&quot;,
+             intensities_data=NULL, drop_bad_samples=TRUE)
+{
+    if(is.null(intensities_data)) {
+        # get intensities
+        int &lt;- read_intensities(intensities_file, marker=marker)
+    } else {
+        int &lt;- reorg_intensities(intensities_data, marker)
+    }
+    marker &lt;- as.character(marker)
+
+    # get genotypes
+    chr &lt;- qtl2::find_markerpos(cross, marker)$chr
+    g &lt;- cross$geno[[chr]][,marker]
+    gg &lt;- setNames(rep(0, nrow(int)), rownames(int))
+    gg[names(g)] &lt;- g
+
+    if(drop_bad_samples) {
+        int &lt;- int[names(g),,drop=FALSE]
+        gg &lt;- gg[names(g)]
+    }
+
+    cbind(int, g=gg)
+}
+
+# load intensities and plot them, colored by genotype calls
+#
+# drop_bad_samples: if TRUE, don&#39;t plot points for samples that are not in the cross object
+#                   (e.g., were omitted previously as being bad DNAs)
+#
+
+plot_intensities &lt;-
+    function(marker, cross=gm, intensities_file=&quot;data/intensities.fst&quot;,
+             intensities_data=NULL, drop_bad_samples=TRUE, geno=NULL, ...)
+{
+    if(is.character(marker) || is.factor(marker)) {
+        marker &lt;- as.character(marker)
+        gni &lt;- grab_gni(marker, cross=cross, intensities_file=intensities_file,
+                        intensities_data=intensities_data, drop_bad_samples=drop_bad_samples)
+    } else {
+        gni &lt;- marker
+    }
+
+    if(!is.null(geno)) {
+        if(is.logical(geno)) geno &lt;- geno + 1 # FALSE/TRUE -&gt; 1/2
+        gni[names(geno),&quot;g&quot;] &lt;- geno
+    }
+
+    internal_plot &lt;-
+        function(pch=21, bg=broman::brocolors(&quot;f2&quot;),
+                 xlab=&quot;allele 1&quot;, ylab=&quot;allele 2&quot;,
+                 xlim=c(0, max(gni$X, na.rm=TRUE)),
+                 ylim=c(0, max(gni$Y, na.rm=TRUE)),
+                 ...)
+        {
+            grayplot(gni$X, gni$Y, pch=pch, bg=bg[match(gni$g, c(1:3,0))],
+                     xlab=xlab, ylab=ylab,
+                     xlim=xlim, ylim=ylim, ...)
+        }
+
+    internal_plot(...)
+
+    invisible(gni)
+}
+
+snpg[is.na(snpg)] &lt;- 0
+
+markers &lt;- colnames(snpg)
+
+par(mfrow=c(4,2), mar=c(3.1,3.1,2.1,1.1))
+for(i in seq_along(markers)) {
+    mar &lt;- markers[i]
+
+    plot_intensities(mar, mgp.x=c(1.4,0.3,0), mgp.y=c(1.8,0.3,0))
+    title(main=mar, line=1.05, cex.main=0.9)
+    title(main=&quot;(observed genotypes)&quot;, cex.main=0.8, line=0.25)
+
+    u &lt;- par(&quot;usr&quot;)
+    #mtext(side=3, adj=0, LETTERS[i*2-1])
+
+    plot_intensities(mar, geno=snpg[,mar],
+                     mgp.x=c(1.4,0.3,0), mgp.y=c(1.8,0.3,0))
+    title(main=mar, line=1.05, cex.main=0.9)
+    title(main=&quot;(predicted genotypes)&quot;, cex.main=0.8, line=0.25)
+
+    #mtext(side=3, adj=0, LETTERS[i*2])
+}</code></pre>
+<p><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-1.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-2.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-3.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-4.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-5.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-6.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-7.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-8.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-9.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-10.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-11.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-12.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-13.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-14.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-15.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-16.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-17.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-18.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-19.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-20.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-21.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-22.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-23.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-24.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-25.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-26.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-27.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-28.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-29.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-30.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-31.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-32.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-33.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-34.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-35.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-36.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-37.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-38.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-39.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-40.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-41.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-42.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-43.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-44.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-45.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-46.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-47.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-48.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-49.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-50.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-51.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-52.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-53.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-54.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-55.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-56.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-57.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-58.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-59.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-60.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-61.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-62.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-63.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-64.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-65.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-66.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-67.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-68.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-69.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-70.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-71.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-72.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-73.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-74.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-75.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-76.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-77.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-78.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-79.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-80.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-81.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-82.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-83.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-84.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-85.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-86.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-87.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-88.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-89.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-90.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-91.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-92.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-93.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-94.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-95.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-96.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-97.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-98.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-99.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-100.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-101.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-102.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-103.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-104.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-105.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-106.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-107.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-108.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-109.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-110.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-111.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-112.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-113.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-114.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-115.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-116.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-117.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-118.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-119.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-120.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-121.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-122.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-123.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-124.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-125.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-126.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-127.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-128.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-129.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-130.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-131.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-132.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-133.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-134.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-135.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-136.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-137.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-138.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-139.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-140.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-141.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-142.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-143.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-144.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-145.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-146.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-147.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-148.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-149.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-150.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-151.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-152.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-153.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-154.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-155.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-156.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-157.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-158.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-159.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-160.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-161.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-162.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-163.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-164.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-165.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-166.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-167.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-168.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-169.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-170.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-171.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-172.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-173.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-174.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-175.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-176.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-177.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-178.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-179.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-180.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-181.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-182.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-183.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-184.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-185.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-186.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-187.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-188.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-189.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-190.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-191.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-192.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-193.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-194.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-195.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-196.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-197.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-198.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-199.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-200.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-201.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-202.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-203.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-204.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-205.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-206.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-207.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-208.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-209.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-210.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-211.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-212.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-213.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-214.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-215.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-216.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-217.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-218.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-219.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-220.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-221.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-222.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-223.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-224.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-225.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-226.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-227.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-228.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-229.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-230.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-231.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-232.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-233.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-234.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-235.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-236.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-237.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-238.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-239.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-240.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-241.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-242.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-243.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-244.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-245.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-246.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-247.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-248.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-249.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-250.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-251.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-252.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-253.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-254.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-255.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-256.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-257.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-258.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-259.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-260.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-261.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-262.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-263.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-264.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-265.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-266.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-267.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-268.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-269.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-270.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-271.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-272.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-273.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-274.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-275.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-276.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-277.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-278.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-279.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-280.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-281.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-282.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-283.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-284.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-285.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-286.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-287.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-288.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-289.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-290.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-291.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-292.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-293.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-294.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-295.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-296.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-297.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-298.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-299.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-300.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-301.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-302.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-303.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-304.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-305.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-306.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-307.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-308.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-309.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-310.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-311.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-312.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-313.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-314.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-315.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-316.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-317.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-318.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-319.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-320.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-321.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-322.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-323.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-324.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-325.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-326.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-327.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-328.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-329.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-330.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-331.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-332.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-333.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-334.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-335.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-336.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-337.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-338.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-339.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-340.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-341.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-342.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-343.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-344.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-345.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-346.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-347.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-348.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-349.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-350.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-351.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-352.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-353.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-354.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-355.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-356.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-357.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-358.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-359.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-360.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-361.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-362.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-363.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-364.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-365.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-366.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-367.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-368.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-369.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-370.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-371.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-372.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-373.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-374.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-375.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-376.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-377.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-378.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-379.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-380.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-381.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-382.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-383.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-384.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-385.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-386.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-387.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-388.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-389.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-390.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-391.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-392.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-393.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-394.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-395.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-396.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-397.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-398.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-399.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-400.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-401.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-402.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-403.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-404.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-405.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-406.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-407.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-408.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-409.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-410.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-411.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-412.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-413.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-414.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-415.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-416.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-417.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-418.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-419.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-420.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-421.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-422.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-423.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-424.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-425.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-426.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-427.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-428.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-429.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-430.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-431.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-432.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-433.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-434.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-435.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-436.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-437.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-438.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-439.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-440.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-441.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-442.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-443.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-444.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-445.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-446.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-447.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-448.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-449.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-450.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-451.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-452.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-453.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-454.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-455.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-456.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-457.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-458.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-459.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-460.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-461.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-462.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-463.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-464.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-465.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-466.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-467.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-468.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-469.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-470.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-471.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-472.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-473.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-474.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-475.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-476.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-477.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-478.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-479.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-480.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-481.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-482.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-483.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-484.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-485.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-486.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-487.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-488.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-489.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-490.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-491.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-492.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-493.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-494.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-495.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-496.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-497.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-498.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-499.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-500.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-501.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-502.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-503.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-504.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-505.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-506.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-507.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-508.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-509.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-510.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-511.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-512.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-513.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-514.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-515.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-516.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-517.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-518.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-519.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-520.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-521.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-522.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-523.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-524.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-525.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-526.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-527.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-528.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-529.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-530.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-531.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-532.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-533.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-534.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-535.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-536.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-537.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-538.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-539.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-540.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-541.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-542.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-543.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-544.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-545.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-546.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-547.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-548.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-549.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-550.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-551.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-552.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-553.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-554.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-555.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-556.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-557.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-558.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-559.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-560.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-561.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-562.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-563.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-564.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-565.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-566.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-567.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-568.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-569.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-570.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-571.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-572.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-573.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-574.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-575.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-576.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-577.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-578.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-579.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-580.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-581.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-582.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-583.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-584.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-585.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-586.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-587.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-588.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-589.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-590.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-591.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-592.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-593.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-594.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-595.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-596.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-597.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-598.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-599.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-600.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-601.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-602.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-603.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-604.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-605.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-606.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-607.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-608.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-609.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-610.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-611.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-612.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-613.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-614.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-615.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-616.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-617.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-618.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-619.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-620.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-621.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-622.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-623.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-624.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-625.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-626.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-627.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-628.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-629.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-630.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-631.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-632.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-633.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-634.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-635.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-636.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-637.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-638.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-639.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-640.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-641.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-642.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-643.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-644.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-645.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-646.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-647.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-648.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-649.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-650.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-651.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-652.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-653.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-654.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-655.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-656.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-657.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-658.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-659.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-660.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-661.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-662.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-663.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-664.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-665.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-666.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-667.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-668.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-669.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-670.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-671.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-672.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-673.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-674.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-675.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-676.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-677.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-678.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-679.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-680.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-681.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-682.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-683.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-684.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-685.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-686.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-687.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-688.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-689.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-690.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-691.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-692.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-693.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-694.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-695.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-696.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-697.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-698.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-699.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-700.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-701.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-702.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-703.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-704.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-705.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-706.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-707.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-708.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-709.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-710.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-711.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-712.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-713.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-714.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-715.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-716.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-717.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-718.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-719.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-720.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-721.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-722.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-723.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-724.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-725.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-726.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-727.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-728.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-729.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-730.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-731.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-732.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-733.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-734.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-735.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-736.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-737.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-738.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-739.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-740.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-741.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-742.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-743.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-744.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-745.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-746.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-747.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-748.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-749.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-750.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-751.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-752.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-753.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-754.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-755.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-756.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-757.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-758.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-759.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-760.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-761.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-762.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-763.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-764.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-765.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-766.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-767.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-768.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-769.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-770.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-771.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-772.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-773.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-774.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-775.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-776.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-777.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-778.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-779.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-780.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-781.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-782.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-783.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-784.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-785.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-786.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-787.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-788.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-789.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-790.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-791.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-792.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-793.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-794.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-795.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-796.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-797.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-798.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-799.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-800.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-801.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-802.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-803.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-804.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-805.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-806.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-807.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-808.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-809.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-810.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-811.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-812.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-813.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-814.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-815.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-816.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-817.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-818.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-819.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-820.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-821.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-822.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-823.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-824.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-825.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-826.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-827.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-828.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-829.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-830.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-831.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-832.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-833.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-834.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-835.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-836.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-837.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-838.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-839.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-840.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-841.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-842.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-843.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-844.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-845.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-846.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-847.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-848.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-849.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-850.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-851.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-852.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-853.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-854.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-855.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-856.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-857.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-858.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-859.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-860.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-861.png" width="960" style="display: block; margin: auto;" /><img src="figure/array_intensities_bad.markers_allqc.Rmd/figures-862.png" width="960" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.2 (2019-12-12)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Catalina 10.15.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.28       kableExtra_1.1.0 mclust_5.4.5     ggrepel_0.8.2   
+[5] ggplot2_3.3.0    qtlcharts_0.11-6 qtl2_0.21-19     broman_0.69-5   
+[9] workflowr_1.6.0 
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.0.0  xfun_0.12         purrr_0.3.3       colorspace_1.4-1 
+ [5] vctrs_0.2.4       htmltools_0.4.0   viridisLite_0.3.0 yaml_2.2.1       
+ [9] blob_1.2.1        rlang_0.4.5       later_1.0.0       pillar_1.4.3     
+[13] glue_1.3.2        withr_2.1.2       DBI_1.1.0         bit64_0.9-7      
+[17] lifecycle_0.2.0   stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     
+[21] rvest_0.3.5       memoise_1.1.0     evaluate_0.14     fst_0.9.0        
+[25] httpuv_1.5.2      parallel_3.6.2    Rcpp_1.0.4        readr_1.3.1      
+[29] promises_1.1.0    scales_1.1.0      backports_1.1.5   webshot_0.5.2    
+[33] fs_1.3.1          bit_1.1-15.2      hms_0.5.3         digest_0.6.25    
+[37] stringi_1.4.6     dplyr_0.8.5       grid_3.6.2        rprojroot_1.3-2  
+[41] tools_3.6.2       magrittr_1.5      RSQLite_2.2.0     tibble_2.1.3     
+[45] crayon_1.3.4      whisker_0.4       pkgconfig_2.0.3   data.table_1.12.8
+[49] xml2_1.2.2        assertthat_0.2.1  rmarkdown_2.1     httr_1.4.1       
+[53] rstudioapi_0.11   qtl_1.45-11       R6_2.4.1          git2r_0.26.1     
+[57] compiler_3.6.2   </code></pre>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -13,7 +13,7 @@
 
 <meta name="date" content="2020-03-23" />
 
-<title>Thaiss Workflow</title>
+<title>Step 2: SNP QC</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,6 +24,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -309,7 +310,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Thaiss Workflow</h1>
+<h1 class="title toc-ignore">Step 2: SNP QC</h1>
 <h4 class="author">Belinda Cornes</h4>
 <h4 class="date">2020-03-23</h4>
 
@@ -317,10 +318,12 @@ div.section {
 
 <div id="TOC">
 <ul>
-<li><a href="#project-at-a-glance">Project At A Glance</a></li>
-<li><a href="#phenotype-qc">1. Phenotype QC</a></li>
-<li><a href="#genotype-qc">2. Genotype QC</a></li>
-<li><a href="#qtl-analysis">3. QTL Analysis</a></li>
+<li><a href="#loading-project">Loading Project</a></li>
+<li><a href="#marker-missing-data">Marker Missing Data</a></li>
+<li><a href="#marker-genotype-frequencies">Marker Genotype Frequencies</a></li>
+<li><a href="#marker-genotype-errors">Marker Genotype Errors</a></li>
+<li><a href="#removing-markers">Removing Markers</a></li>
+<li><a href="#array-intensities">Array Intensities</a></li>
 </ul>
 </div>
 
@@ -742,7 +745,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/2b7d7c8c811bd09946de24c113b39c03e6240817/analysis/index.Rmd" target="_blank">2b7d7c8</a>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/2b7d7c8c811bd09946de24c113b39c03e6240817/analysis/2.3.1_snp_qc.Rmd" target="_blank">2b7d7c8</a>
 </td>
 <td>
 Belinda Cornes
@@ -754,244 +757,6 @@ Belinda Cornes
 wflow_publish(c(“analysis/index.Rmd”, “analysis/2.3.1_snp_qc.Rmd”, “analysis/bad_markers_allqc.Rmd”,
 </td>
 </tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/23b6d5cbfc0e59a6e8345f32b93ddba739de82cd/docs/index.html" target="_blank">23b6d5c</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-19
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/96dc583ffd211cf42cac273c3127655c30788437/docs/index.html" target="_blank">96dc583</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-19
-</td>
-<td>
-correlation
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/d6cc281e6579c8a98e2aad95d576fb6cabff8ef3/docs/index.html" target="_blank">d6cc281</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-19
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/0978505250bcc6cee7dfb9dd3cce1a9a1f50284d/analysis/index.Rmd" target="_blank">0978505</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-19
-</td>
-<td>
-rnorm analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/d6a9e553161a9d1ed01057d3eb503da35bc0ba18/docs/index.html" target="_blank">d6a9e55</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/ed2c6c19cc129d147d2ad6757b661e7ab981c443/analysis/index.Rmd" target="_blank">ed2c6c1</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-fourth publication
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/4ef496c7802dd2f0e75589fd5b90d5f0b63127d6/docs/index.html" target="_blank">4ef496c</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/f97e33c4b2d77c066fa80e4014469b9c048c7849/analysis/index.Rmd" target="_blank">f97e33c</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/analysis/index.Rmd" target="_blank">b4951f7</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/b4951f7b0d8b5e2fe1f562cbc1784b176e51af82/docs/index.html" target="_blank">b4951f7</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-17
-</td>
-<td>
-Start workflowr project.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/c035ceeae571e26617a5f863913486ac80eb1e21/docs/index.html" target="_blank">c035cee</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-16
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/624db593a1a07d49337d68043904fb8800415563/analysis/index.Rmd" target="_blank">624db59</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-16
-</td>
-<td>
-second publication
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/61381d4c76e2cc3e14a14b6a2a7472851c3dfa97/docs/index.html" target="_blank">61381d4</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-10
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/1fb98731a92c808a8df44fc49813709579aa2792/analysis/index.Rmd" target="_blank">1fb9873</a>
-</td>
-<td>
-Belinda Cornes
-</td>
-<td>
-2020-03-10
-</td>
-<td>
-initial publication
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -999,77 +764,213 @@ initial publication
 </div>
 </div>
 </div>
-<div id="project-at-a-glance" class="section level3">
-<h3>Project At A Glance</h3>
-<ul>
-<li>Batch: MURMUGV01_20200130
-<ul>
-<li><a href="samples_batch_20200130.html">Total Samples: 104</a></li>
-</ul></li>
-<li>Batch: MURGIGV01_20200220
-<ul>
-<li><a href="samples_batch_20200220.html">Total Samples: 6</a></li>
-</ul></li>
-<li>Batch: MURGIGV01_20200226
-<ul>
-<li><a href="samples_batch_20200226.html">Total Samples: 2</a></li>
-</ul></li>
-</ul>
+<div id="loading-project" class="section level3">
+<h3>Loading Project</h3>
+<pre class="r"><code>load(&quot;data/e_g_snpg_samqc.RData&quot;)
+gm &lt;- get(load(&quot;data/gm_DO112_samqc.RData&quot;))
+
+gm</code></pre>
+<pre><code>Object of class cross2 (crosstype &quot;do&quot;)
+
+Total individuals               102
+No. genotyped individuals       102
+No. phenotyped individuals      102
+No. with both geno &amp; pheno      102
+
+No. phenotypes                    4
+No. covariates                    5
+No. phenotype covariates          0
+
+No. chromosomes                  20
+Total markers                112728
+
+No. markers by chr:
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16 
+8555 8666 6420 6615 6571 6443 6294 5677 5870 5447 6352 5167 5274 5039 4555 4369 
+  17   18   19    X 
+4330 4002 3108 3974 </code></pre>
+<p>It can also be useful to look at the proportion of missing genotypes by marker. Markers with a lot of missing data were likely difficult to call, and so the genotypes that were called may contain a lot of errors.</p>
 </div>
-<div id="phenotype-qc" class="section level3">
-<h3>1. Phenotype QC</h3>
-<ul>
-<li>[Phenotypes]
-<ul>
-<li><a href="phenotypes.html">Before QC</a></li>
-<li><a href="phenotypes_qtl_qc.html">After QC</a></li>
-</ul></li>
-</ul>
+<div id="marker-missing-data" class="section level3">
+<h3>Marker Missing Data</h3>
+<pre class="r"><code>pmis_mar &lt;- n_missing(gm, &quot;marker&quot;, &quot;proportion&quot;)*100
+save(pmis_mar, file = &quot;data/percent_missing_marker.RData&quot;)
+
+par(mar=c(5.1,0.6,0.6, 0.6))
+hist(pmis_mar, breaks=seq(0, 100, length=201),
+     main=&quot;&quot;, yaxt=&quot;n&quot;, ylab=&quot;&quot;, xlab=&quot;Percent missing genotypes&quot;)
+rug(pmis_mar)</code></pre>
+<p><img src="figure/2.3.1_snp_qc.Rmd/Missing%20data%20in%20Markers%20and%20Genotype%20frequencies%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pdf(file = &quot;output/Percent_missing_genotype_data_per_marker.pdf&quot;)
+par(mar=c(5.1,0.6,0.6, 0.6))
+hist(pmis_mar, breaks=seq(0, 100, length=201),
+     main=&quot;&quot;, yaxt=&quot;n&quot;, ylab=&quot;&quot;, xlab=&quot;Percent missing genotypes&quot;)
+rug(pmis_mar)
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<table class="table table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+count
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+pmis_mar_5
+</td>
+<td style="text-align:center;">
+3856
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_10
+</td>
+<td style="text-align:center;">
+1999
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_15
+</td>
+<td style="text-align:center;">
+1126
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_25
+</td>
+<td style="text-align:center;">
+419
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_50
+</td>
+<td style="text-align:center;">
+34
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pmis_mar_75
+</td>
+<td style="text-align:center;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: black !important;">
+total_snps
+</td>
+<td style="text-align:center;font-weight: bold;color: white !important;background-color: black !important;">
+112728
+</td>
+</tr>
+</tbody>
+</table>
+<p>For the markers with lots of missing genotypes, it’s not necessarily the case that the remaining genotypes are full of errors, but in studying the allele intensities at these SNPs, it does appear that for the bulk of such markers, the genotypes are not being called appropriately.</p>
 </div>
-<div id="genotype-qc" class="section level3">
-<h3>2. Genotype QC</h3>
-<ul>
-<li><a href="2.1_preparing_files.html">Preparing Files</a></li>
-<li><a href="2.2_sample_bqc.html">Step 1: Sample QC</a></li>
-<li>Step 2: SNP QC
-<ul>
-<li><a href="2.3_snp_qc.html">Genotype Errors</a></li>
-<li><a href="2.3.1_snp_qc.html">Monomorphic, Genotype Error &amp; Missing Data</a></li>
-</ul></li>
-<li>[Step 3: Effect of Data Cleaning]
-<ul>
-<li><a href="2.4_afterqc.html">Steps 2.2 &amp; 2.3.1</a></li>
-<li><a href="2.4.1_afterqc.html">Steps 2.3 &amp; 2.3.2</a></li>
-</ul></li>
-<li><a href="2.5_preparing_files_qtl2.html">Step 4: Preparing Files for QTL Analysis</a></li>
-</ul>
+<div id="marker-genotype-frequencies" class="section level3">
+<h3>Marker Genotype Frequencies</h3>
+<pre class="r"><code>g &lt;- do.call(&quot;cbind&quot;, gm$geno[1:19])
+fg &lt;- do.call(&quot;cbind&quot;, gm$founder_geno[1:19])
+g &lt;- g[,colSums(fg==0)==0]
+fg &lt;- fg[,colSums(fg==0)==0]
+fgn &lt;- colSums(fg==3)
+
+gf_mar &lt;- t(apply(g, 2, function(a) table(factor(a, 1:3))/sum(a != 0)))
+gn_mar &lt;- t(apply(g, 2, function(a) table(factor(a, 1:3))))
+
+pdf(file = &quot;output/genotype_frequency_marker.pdf&quot;)
+par(mfrow=c(2,2), mar=c(0.6, 0.6, 2.6, 0.6))
+for(i in 1:4) {
+  triplot(c(&quot;AA&quot;, &quot;AB&quot;, &quot;BB&quot;), main=paste0(&quot;MAF = &quot;, i, &quot;/8&quot;))
+  z &lt;- gf_mar[fgn==i,]
+  z &lt;- z[rowSums(is.na(z)) &lt; 3,]
+  tripoints(z, pch=21, bg=&quot;gray80&quot;, cex=0.6)
+  tripoints(c((1-i/8)^2, 2*i/8*(1-i/8), (i/8)^2), pch=21, bg=&quot;violetred&quot;)
+}
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<pre class="r"><code>par(mfrow=c(2,2), mar=c(0.6, 0.6, 2.6, 0.6))
+for(i in 1:4) {
+  triplot(c(&quot;AA&quot;, &quot;AB&quot;, &quot;BB&quot;), main=paste0(&quot;MAF = &quot;, i, &quot;/8&quot;))
+  z &lt;- gf_mar[fgn==i,]
+  z &lt;- z[rowSums(is.na(z)) &lt; 3,]
+  tripoints(z, pch=21, bg=&quot;gray80&quot;, cex=0.6)
+  tripoints(c((1-i/8)^2, 2*i/8*(1-i/8), (i/8)^2), pch=21, bg=&quot;violetred&quot;)
+}</code></pre>
+<p><img src="figure/2.3.1_snp_qc.Rmd/Genotype%20frequencies%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>save(gf_mar, file = &quot;data/genotype_freq_marker.RData&quot;)</code></pre>
+<p>The bulk of the markers seem well behaved, but there are a number of markers with unusual genotype frequencies. There are markers that show no homozygotes for the major allele. (These sit on the left edge.) There are markers that are monomorphic (100% AA genotypes; lower-right vertex). And there some markers with some of each homozygote but no heterozygotes (bottom edge). Further, there are a bunch of markers where the minor allele appears to be private to one founder strain (upper-left panel) but show a high frequency of minor alleles in the DO offspring.</p>
 </div>
-<div id="qtl-analysis" class="section level3">
-<h3>3. QTL Analysis</h3>
-<ul>
-<li>Step 1: Recombination Block Size &amp; Founder Proportions
-<ul>
-<li><a href="3.1_recomb_size_founder_prop.html">Steps 2.2 &amp; 2.3.1</a></li>
-<li><a href="3.1.1_recomb_size_founder_prop.html">Steps 2.3 &amp; 2.3.2</a></li>
-</ul></li>
-<li>Step 2: GCTA Heritability</li>
-<li>Step 3: QTL Mapping (<code>R/qtl2</code>)</li>
-<li>Step 4: QTL Permutation (<code>R/qtl2</code>)</li>
-<li>Step 5: QTL Best Linear Unbiased Prediction (BLUP) (<code>R/qtl2</code>)</li>
-<li>Step 6: Results from <code>R/qtl2</code> analysis
-<ul>
-<li>inital phenotypes
-<ul>
-<li><a href="3.6_plot_qtl_mapping.html">Steps 2.2 &amp; 2.3.1</a></li>
-<li><a href="3.6.1_plot_qtl_mapping.html">Steps 2.2 &amp; 2.3.2</a></li>
-</ul></li>
-<li>rnorm phenotypes
-<ul>
-<li><a href="3.6_plot_qtl_mapping_rnorm.html">Steps 2.2 &amp; 2.3.1</a></li>
-<li><a href="3.6.1_plot_qtl_mapping_rnorm.html">Steps 2.2 &amp; 2.3.2</a></li>
-</ul></li>
-</ul></li>
-</ul>
+<div id="marker-genotype-errors" class="section level3">
+<h3>Marker Genotype Errors</h3>
+<pre class="r"><code>errors_mar &lt;- colSums(e&gt;2)/n_typed(gm, &quot;marker&quot;)*100
+
+grayplot(pmis_mar, errors_mar,
+         xlab=&quot;Proportion missing&quot;, ylab=&quot;Proportion genotyping errors&quot;)</code></pre>
+<p><img src="figure/2.3.1_snp_qc.Rmd/Genotype%20errors%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pdf(file = &quot;output/genotype_error_marker.pdf&quot;)
+grayplot(pmis_mar, errors_mar,
+         xlab=&quot;Proportion missing&quot;, ylab=&quot;Proportion genotyping errors&quot;)
+dev.off()</code></pre>
+<pre><code>quartz_off_screen 
+                2 </code></pre>
+<pre class="r"><code>save(errors_mar, file = &quot;data/genotype_errors_marker.RData&quot;)</code></pre>
+<p>Markers with higher rates of missing genotypes tend to show higher errors rates.</p>
+</div>
+<div id="removing-markers" class="section level3">
+<h3>Removing Markers</h3>
+<pre><code>[1] 1999</code></pre>
+<pre><code>[1] 1279</code></pre>
+<pre><code>[1] 298</code></pre>
+<pre><code>[1] 3576</code></pre>
+<p>List of markers with errors can be found <a href="bad_markers_allqc.html">here</a></p>
+</div>
+<div id="array-intensities" class="section level3">
+<h3>Array Intensities</h3>
+<p>Figures for all SNPs that are will be removed are found <a href="array_intensities_bad.markers_allqc.html">here</a></p>
+<pre class="r"><code>#missing in at least 10% of the samples
+
+
+gm_DO112_allqc2 &lt;- drop_markers(gm_DO112_samqc, bad_markers$marker)
+gm_DO112_allqc &lt;- drop_nullmarkers(gm_DO112_allqc2)
+
+
+gm_DO112_allqc</code></pre>
+<pre><code>Object of class cross2 (crosstype &quot;do&quot;)
+
+Total individuals               102
+No. genotyped individuals       102
+No. phenotyped individuals      102
+No. with both geno &amp; pheno      102
+
+No. phenotypes                    4
+No. covariates                    5
+No. phenotype covariates          0
+
+No. chromosomes                  20
+Total markers                109283
+
+No. markers by chr:
+   1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16 
+8272 8340 6233 6411 6383 6225 6091 5471 5714 5297 6175 5050 5122 4860 4386 4246 
+  17   18   19    X 
+4196 3868 3031 3912 </code></pre>
+<pre class="r"><code>save(gm_DO112_allqc, file = &quot;data/gm_DO112_allqc.RData&quot;)</code></pre>
+<p>After full qc (<a href="2.2_sample_bqc.html">sample</a> $ SNP), we ran all checks <a href="2.4.1_afterqc.html">again</a> to see if data improved for <code>R/qtl2</code> analysis.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1093,15 +994,25 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] workflowr_1.6.0
+ [1] fst_0.9.0        knitr_1.28       kableExtra_1.1.0 mclust_5.4.5    
+ [5] ggrepel_0.8.2    ggplot2_3.3.0    qtlcharts_0.11-6 qtl2_0.21-19    
+ [9] broman_0.69-5    workflowr_1.6.0 
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.4      rprojroot_1.3-2 digest_0.6.25   later_1.0.0    
- [5] R6_2.4.1        backports_1.1.5 git2r_0.26.1    magrittr_1.5   
- [9] evaluate_0.14   stringi_1.4.6   rlang_0.4.5     fs_1.3.1       
-[13] promises_1.1.0  whisker_0.4     rmarkdown_2.1   tools_3.6.2    
-[17] stringr_1.4.0   glue_1.3.2      httpuv_1.5.2    xfun_0.12      
-[21] yaml_2.2.1      compiler_3.6.2  htmltools_0.4.0 knitr_1.28     </code></pre>
+ [1] tidyselect_1.0.0  xfun_0.12         purrr_0.3.3       colorspace_1.4-1 
+ [5] vctrs_0.2.4       htmltools_0.4.0   viridisLite_0.3.0 yaml_2.2.1       
+ [9] blob_1.2.1        rlang_0.4.5       later_1.0.0       pillar_1.4.3     
+[13] glue_1.3.2        withr_2.1.2       DBI_1.1.0         bit64_0.9-7      
+[17] lifecycle_0.2.0   stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     
+[21] rvest_0.3.5       memoise_1.1.0     evaluate_0.14     httpuv_1.5.2     
+[25] parallel_3.6.2    Rcpp_1.0.4        readr_1.3.1       promises_1.1.0   
+[29] scales_1.1.0      backports_1.1.5   webshot_0.5.2     fs_1.3.1         
+[33] bit_1.1-15.2      hms_0.5.3         digest_0.6.25     stringi_1.4.6    
+[37] dplyr_0.8.5       grid_3.6.2        rprojroot_1.3-2   tools_3.6.2      
+[41] magrittr_1.5      RSQLite_2.2.0     tibble_2.1.3      crayon_1.3.4     
+[45] whisker_0.4       pkgconfig_2.0.3   data.table_1.12.8 xml2_1.2.2       
+[49] assertthat_0.2.1  rmarkdown_2.1     httr_1.4.1        rstudioapi_0.11  
+[53] qtl_1.45-11       R6_2.4.1          git2r_0.26.1      compiler_3.6.2   </code></pre>
 </div>
 </div>
 
