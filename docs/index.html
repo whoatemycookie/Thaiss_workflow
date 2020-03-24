@@ -435,10 +435,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree2b7d7c8c811bd09946de24c113b39c03e6240817targetblank2b7d7c8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/2b7d7c8c811bd09946de24c113b39c03e6240817" target="_blank">2b7d7c8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreeb076a6c77e3cc835b6fd65ea77b0e8e808022a98targetblankb076a6ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/b076a6c77e3cc835b6fd65ea77b0e8e808022a98" target="_blank">b076a6c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree2b7d7c8c811bd09946de24c113b39c03e6240817targetblank2b7d7c8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreeb076a6c77e3cc835b6fd65ea77b0e8e808022a98targetblankb076a6ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -469,6 +469,7 @@ Untracked files:
     Untracked:  analysis/2.3_snp_qc.Rmd.R
     Untracked:  analysis/2.4.1_afterqc.Rmd.R
     Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/2.5.1_preparing_files_qtl2.Rmd.R
     Untracked:  analysis/2.6_final_pr_apr_69K.R
     Untracked:  analysis/3.1.1.1_html_founder_prop.Rmd
     Untracked:  analysis/3.1.1_html_founder_prop.Rmd
@@ -626,6 +627,7 @@ Untracked files:
     Untracked:  data/pr_DO112_allqc.RData
     Untracked:  data/pr_DO112_ssqc.RData
     Untracked:  data/prcl.RData
+    Untracked:  data/prcl_allqc.RData
     Untracked:  data/qc_info_bad_sample.RData
     Untracked:  data/qc_info_bad_sample_qc.RData
     Untracked:  data/recom_block_size.RData
@@ -737,6 +739,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/6e0fc1d723e2bd33bd6f0d402536952db83b9f22/analysis/index.Rmd" target="_blank">6e0fc1d</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+<td>
+Proportion across generation
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/6fa6014462095d181984a2fda75b88227482ad4e/docs/index.html" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1036,12 +1072,16 @@ initial publication
 <li><a href="2.3_snp_qc.html">Genotype Errors</a></li>
 <li><a href="2.3.1_snp_qc.html">Monomorphic, Genotype Error &amp; Missing Data</a></li>
 </ul></li>
-<li>[Step 3: Effect of Data Cleaning]
+<li>Step 3: Effect of Data Cleaning
 <ul>
 <li><a href="2.4_afterqc.html">Steps 2.2 &amp; 2.3.1</a></li>
-<li><a href="2.4.1_afterqc.html">Steps 2.3 &amp; 2.3.2</a></li>
+<li><a href="2.4.1_afterqc.html">Steps 2.2 &amp; 2.3.2</a></li>
 </ul></li>
-<li><a href="2.5_preparing_files_qtl2.html">Step 4: Preparing Files for QTL Analysis</a></li>
+<li>Step 4: Preparing Files for QTL Analysis
+<ul>
+<li><a href="2.5_preparing_files_qtl2.html">Steps 2.2 &amp; 2.3.1</a></li>
+<li><a href="2.5.1_preparing_files_qtl2.html">Steps 2.2 &amp; 2.3.2</a></li>
+</ul></li>
 </ul>
 </div>
 <div id="qtl-analysis" class="section level3">
@@ -1050,7 +1090,7 @@ initial publication
 <li>Step 1: Recombination Block Size &amp; Founder Proportions
 <ul>
 <li><a href="3.1_recomb_size_founder_prop.html">Steps 2.2 &amp; 2.3.1</a></li>
-<li><a href="3.1.1_recomb_size_founder_prop.html">Steps 2.3 &amp; 2.3.2</a></li>
+<li><a href="3.1.1_recomb_size_founder_prop.html">Steps 2.2 &amp; 2.3.2</a></li>
 </ul></li>
 <li>Step 2: GCTA Heritability</li>
 <li>Step 3: QTL Mapping (<code>R/qtl2</code>)</li>

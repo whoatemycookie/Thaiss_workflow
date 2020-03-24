@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Belinda Cornes" />
+
+<meta name="date" content="2020-03-23" />
+
+<title>Preparing Files for QTL Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Thaiss_workflowr</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/whoatemycookie/Thaiss_workflow">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Preparing Files for QTL Analysis</h1>
+<h4 class="author">Belinda Cornes</h4>
+<h4 class="date">2020-03-23</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#fix-phenotypes">Fix phenotypes</a></li>
+<li><a href="#calculate-genoprobs">Calculate Genoprobs</a></li>
+<li><a href="#effect-of-data-cleaning">Effect of Data Cleaning</a></li>
+</ul>
+</div>
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-03-23
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>Thaiss_workflowr_old/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200309code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200309)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200309code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200309)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreeb076a6c77e3cc835b6fd65ea77b0e8e808022a98targetblankb076a6ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/b076a6c77e3cc835b6fd65ea77b0e8e808022a98" target="_blank">b076a6c</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreeb076a6c77e3cc835b6fd65ea77b0e8e808022a98targetblankb076a6ca" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
+    Ignored:    data/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  Thaiss_workflow-master.zip
+    Untracked:  Thaiss_workflow-master/
+    Untracked:  Thaiss_workflowr.Rproj
+    Untracked:  Thaiss_workflowr_old/
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all copy.csv
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv
+    Untracked:  analysis/2.1_preparing_files.R
+    Untracked:  analysis/2.2_sample_qc.Rmd
+    Untracked:  analysis/2.3.1_snp_qc.Rmd.R
+    Untracked:  analysis/2.3_sample_qc.R.old
+    Untracked:  analysis/2.3_sample_qc.Rmd.old
+    Untracked:  analysis/2.3_snp_qc.Rmd.R
+    Untracked:  analysis/2.4.1_afterqc.Rmd.R
+    Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/2.5.1_preparing_files_qtl2.Rmd.R
+    Untracked:  analysis/2.6_final_pr_apr_69K.R
+    Untracked:  analysis/3.1.1.1_html_founder_prop.Rmd
+    Untracked:  analysis/3.1.1_html_founder_prop.Rmd
+    Untracked:  analysis/3.1.1_recomb_size_founder_prop.Rmd.R
+    Untracked:  analysis/3.1_recomb_size_founder_prop.R
+    Untracked:  analysis/array_intensities_bad.markers_allqc.Rmd.R
+    Untracked:  analysis/array_intensities_bad.markers_v2.Rmd.R
+    Untracked:  analysis/array_intensities_markers.R
+    Untracked:  analysis/array_intensities_markers.Rmd.R
+    Untracked:  analysis/bad_markers_allqc.Rmd.R
+    Untracked:  analysis/cadillac/
+    Untracked:  analysis/genotype_intensities.Rmd.R
+    Untracked:  analysis/genotype_intensities.Rmd.old
+    Untracked:  analysis/phenotypes_qtl_qc.Rmd.R
+    Untracked:  analysis/reconst_utils_gtQC.R
+    Untracked:  analysis/run_2.6_final_pr_apr_69K.R
+    Untracked:  analysis_new/
+    Untracked:  code_old/
+    Untracked:  data/Final.Report/
+    Untracked:  data/GM_foundergeno1.csv
+    Untracked:  data/GM_foundergeno10.csv
+    Untracked:  data/GM_foundergeno11.csv
+    Untracked:  data/GM_foundergeno12.csv
+    Untracked:  data/GM_foundergeno13.csv
+    Untracked:  data/GM_foundergeno14.csv
+    Untracked:  data/GM_foundergeno15.csv
+    Untracked:  data/GM_foundergeno16.csv
+    Untracked:  data/GM_foundergeno17.csv
+    Untracked:  data/GM_foundergeno18.csv
+    Untracked:  data/GM_foundergeno19.csv
+    Untracked:  data/GM_foundergeno2.csv
+    Untracked:  data/GM_foundergeno3.csv
+    Untracked:  data/GM_foundergeno4.csv
+    Untracked:  data/GM_foundergeno5.csv
+    Untracked:  data/GM_foundergeno6.csv
+    Untracked:  data/GM_foundergeno7.csv
+    Untracked:  data/GM_foundergeno8.csv
+    Untracked:  data/GM_foundergeno9.csv
+    Untracked:  data/GM_foundergenoM.csv
+    Untracked:  data/GM_foundergenoX.csv
+    Untracked:  data/GM_foundergenoY.csv
+    Untracked:  data/GM_gmap1.csv
+    Untracked:  data/GM_gmap10.csv
+    Untracked:  data/GM_gmap11.csv
+    Untracked:  data/GM_gmap12.csv
+    Untracked:  data/GM_gmap13.csv
+    Untracked:  data/GM_gmap14.csv
+    Untracked:  data/GM_gmap15.csv
+    Untracked:  data/GM_gmap16.csv
+    Untracked:  data/GM_gmap17.csv
+    Untracked:  data/GM_gmap18.csv
+    Untracked:  data/GM_gmap19.csv
+    Untracked:  data/GM_gmap2.csv
+    Untracked:  data/GM_gmap3.csv
+    Untracked:  data/GM_gmap4.csv
+    Untracked:  data/GM_gmap5.csv
+    Untracked:  data/GM_gmap6.csv
+    Untracked:  data/GM_gmap7.csv
+    Untracked:  data/GM_gmap8.csv
+    Untracked:  data/GM_gmap9.csv
+    Untracked:  data/GM_gmapM.csv
+    Untracked:  data/GM_gmapX.csv
+    Untracked:  data/GM_gmapY.csv
+    Untracked:  data/GM_info.csv
+    Untracked:  data/GM_pmap1.csv
+    Untracked:  data/GM_pmap10.csv
+    Untracked:  data/GM_pmap11.csv
+    Untracked:  data/GM_pmap12.csv
+    Untracked:  data/GM_pmap13.csv
+    Untracked:  data/GM_pmap14.csv
+    Untracked:  data/GM_pmap15.csv
+    Untracked:  data/GM_pmap16.csv
+    Untracked:  data/GM_pmap17.csv
+    Untracked:  data/GM_pmap18.csv
+    Untracked:  data/GM_pmap19.csv
+    Untracked:  data/GM_pmap2.csv
+    Untracked:  data/GM_pmap3.csv
+    Untracked:  data/GM_pmap4.csv
+    Untracked:  data/GM_pmap5.csv
+    Untracked:  data/GM_pmap6.csv
+    Untracked:  data/GM_pmap7.csv
+    Untracked:  data/GM_pmap8.csv
+    Untracked:  data/GM_pmap9.csv
+    Untracked:  data/GM_pmapM.csv
+    Untracked:  data/GM_pmapX.csv
+    Untracked:  data/GM_pmapY.csv
+    Untracked:  data/GM_snps.Rdata
+    Untracked:  data/Univ_of_Penn_Thaiss_covar_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all_rnorm.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrXint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_chrYint.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno1.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno10.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno11.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno12.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno13.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno14.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno15.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno16.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno17.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno18.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno19.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno2.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno3.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno4.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno5.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno6.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno7.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno8.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_geno9.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoM.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoX.csv
+    Untracked:  data/Univ_of_Penn_Thaiss_qtl2_genoY.csv
+    Untracked:  data/apr_69kchr_DO112_ssqc.RData
+    Untracked:  data/apr_DO110.RData
+    Untracked:  data/apr_DO112_allqc.RData
+    Untracked:  data/apr_DO112_ssqc.RData
+    Untracked:  data/bad_markers.RData
+    Untracked:  data/bad_markers_all.RData
+    Untracked:  data/e.RData
+    Untracked:  data/e_g_snpg_samqc.RData
+    Untracked:  data/errors_ind.RData
+    Untracked:  data/errors_ind_qc.RData
+    Untracked:  data/fp.RData
+    Untracked:  data/fp_allqc.RData
+    Untracked:  data/genotype_errors_marker.RData
+    Untracked:  data/genotype_freq_marker.RData
+    Untracked:  data/gm.json
+    Untracked:  data/gm.no.bad.cr.dup.gf.RData
+    Untracked:  data/gm.yaml
+    Untracked:  data/gm_2.json
+    Untracked:  data/gm_DO110_qc.RData
+    Untracked:  data/gm_DO112.RData
+    Untracked:  data/gm_DO112_allqc.RData
+    Untracked:  data/gm_DO112_samqc.RData
+    Untracked:  data/gm_DO112_samqc_qc.RData
+    Untracked:  data/gm_DO112_ssqc.RData
+    Untracked:  data/gm_heh.json
+    Untracked:  data/heh/
+    Untracked:  data/intensities.fst
+    Untracked:  data/intensities.fst.RData
+    Untracked:  data/m.RData
+    Untracked:  data/nxo.RData
+    Untracked:  data/percent_missing_id.RData
+    Untracked:  data/percent_missing_id_allsamples.RData
+    Untracked:  data/percent_missing_id_qc.RData
+    Untracked:  data/percent_missing_marker.RData
+    Untracked:  data/pheno.csv
+    Untracked:  data/pr.RData
+    Untracked:  data/pr_69k_DO112_ssqc.RData
+    Untracked:  data/pr_69kchr_DO112_ssqc.RData
+    Untracked:  data/pr_DO110.RData
+    Untracked:  data/pr_DO112_allqc.RData
+    Untracked:  data/pr_DO112_ssqc.RData
+    Untracked:  data/prcl.RData
+    Untracked:  data/prcl_allqc.RData
+    Untracked:  data/qc_info_bad_sample.RData
+    Untracked:  data/qc_info_bad_sample_qc.RData
+    Untracked:  data/recom_block_size.RData
+    Untracked:  data/recom_block_size_allqc.RData
+    Untracked:  data/snpg.RData
+    Untracked:  data/snps.gigamuga.Rdata
+    Untracked:  data/summary.cg.RData
+    Untracked:  data/summary.cg_allsamples.RData
+    Untracked:  data/summary.cg_qc.RData
+    Untracked:  data_old/
+    Untracked:  docs.old/
+    Untracked:  docs_new/
+    Untracked:  output/DO_Gigamuga_founder_proportions_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32.png
+    Untracked:  output/DO_Gigamuga_founder_proportions_chr2_G32_chr2.png
+    Untracked:  output/DO_recom_block_size_G32.png
+    Untracked:  output/DO_recom_block_size_G32_allqc.png
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted.pdf
+    Untracked:  output/Percent_genotype_errors_obs_vs_predicted_qc.pdf
+    Untracked:  output/Percent_missing_genotype_data.pdf
+    Untracked:  output/Percent_missing_genotype_data_per_marker.pdf
+    Untracked:  output/Percent_missing_genotype_data_qc.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples.pdf
+    Untracked:  output/Proportion_matching_genotypes_before_removal_of_bad_samples_qc.pdf
+    Untracked:  output/blup/
+    Untracked:  output/blup_allqc/
+    Untracked:  output/blup_rnorm.9/
+    Untracked:  output/blup_rnorm/
+    Untracked:  output/blup_rnorm_allqc/
+    Untracked:  output/genotype_error_marker.pdf
+    Untracked:  output/genotype_error_marker_qc.pdf
+    Untracked:  output/genotype_frequency_marker.pdf
+    Untracked:  output/genotype_frequency_marker_qc.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_allqc.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_allqc_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_coeffgeneplot.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_rnorm_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc.RData
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/m1.Univ_of_Penn_Thaiss_pheno_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_allqc.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_allqc_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc.RData
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc_genomescan.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m2.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_allqc.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_allqc_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_rnorm.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc.RData
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_allqc_genomescan.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_coeffgeneplot.pdf
+    Untracked:  output/m3.Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm_genomescan.pdf
+    Untracked:  output/number_crossover.pdf
+    Untracked:  output/number_crossover_qc.pdf
+    Untracked:  output/permu/
+    Untracked:  output/permu_rnorm.9/
+    Untracked:  output/prop_across_generation_chr_p.RData
+    Untracked:  output/prop_across_generation_chr_p_allqc.RData
+    Untracked:  output_old/
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/b076a6c77e3cc835b6fd65ea77b0e8e808022a98/analysis/2.5.1_preparing_files_qtl2.Rmd" target="_blank">b076a6c</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+<td>
+updated snp qc
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="fix-phenotypes" class="section level3">
+<h3>Fix phenotypes</h3>
+</div>
+<div id="calculate-genoprobs" class="section level3">
+<h3>Calculate Genoprobs</h3>
+</div>
+<div id="effect-of-data-cleaning" class="section level3">
+<h3>Effect of Data Cleaning</h3>
+<p>As a measure of change, we’ll use the sum of the absolute differences between the probabilities, with and without the bad markers, at each mouse and marker.</p>
+<pre class="r"><code>prdiff &lt;- vector(&quot;list&quot;, length(pr))
+for(i in seq_along(prdiff)) prdiff[[i]] &lt;- apply(abs(pr[[i]] - prcl[[i]]), c(1,3), sum)
+names(prdiff) &lt;- names(pr)</code></pre>
+<p>These differences take values between 0 and 2, with a value of 2 meaning that a completely different set of genotypes have positive probability. Most chromosomes show some differences, but only at a relatively sparse set of positions. Here are the number of markers × individuals with differences &gt; 1.5.</p>
+<pre class="r"><code>sapply(prdiff, function(d) sum(d &gt; 1.5))</code></pre>
+<pre><code>  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18  19   X 
+388 141 392 494 444 665 294 676 109 143 168 613 264 677 864 151 135 105 135 866 </code></pre>
+<p>And there are only a few individuals, on a given chromosome, showing very many differences. Here are the number of individuals, by chromosome, with at least five markers having absolute difference &gt; 1.5.</p>
+<pre class="r"><code>sapply(prdiff, function(d) sum(rowSums(d&gt;1.5) &gt; 5))</code></pre>
+<pre><code> 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19  X 
+ 5  8 14 18 10 18  8 15  6  7  7 14  7 27  8  6  4  1  2 34 </code></pre>
+<p>THe first figure is a bivariate heatmap of the genotype probabilities. The probabilities before cleaning are in blue, and the probabilities after cleaning are in red, and then the two color scales are combined. Probabilities that are high both before and after cleaning will be dark puple. Probabilities that are high before cleaning but low after cleaning will be blue, and probabilities that are low before cleaning and high after cleaning will be red.</p>
+<p>The second and third figures show the BE and DE probabilities</p>
+<pre class="r"><code>chr = as.character(names(prdiff))
+
+par(mfrow=c(3,3), mar=c(3.5,3.1,2.1,1.1))
+for(i in unique(ind_ids(gm_DO112_allqc))) {
+    #pdf(paste0(&quot;output/gpqc_plot_&quot;,i), width=6, height=9.5)
+    #par(mfrow=c(4,2), mar=c(0.6, 0.6, 2.6, 0.6))
+    for(c in unique(chr)){
+        
+        #par(mfrow=c(1,3)) 
+        #mtext(side=1, adj=0, id)
+        #i = &quot;Univ_of_Penn_Thaiss_MURMUGV01_20200130_1_G1&quot;
+        id = sapply(strsplit(i,&#39;_&#39;,fixed=T),function(x) x[7])
+        #c = 1
+
+        #par(fig=c(0,0.8,0,0.8), new=TRUE)
+        #par(mfrow=c(1,3), mar=c(3.1, 3.1, 2.6, 0.6))
+        plot_genoprobcomp(pr, prcl, pmap, ind=i, chr=c, threshold=0.25)
+
+        #u &lt;- par(&quot;usr&quot;)
+
+        #par(fig=c(0,0.8,0.55,1), new=TRUE)
+        #par(mfrow=c(2,1), mar=c(3.1, 3.1, 2.6, 0.6))
+        grayplot(pmap[[c]], pr[[c]][i,&quot;BE&quot;,], type=&quot;l&quot;,
+                ylim=c(0,1), col=&quot;slateblue&quot;,
+                xlab=paste0(&quot;Chr &quot;, c,&quot; position (Mbp)&quot;), ylab=&quot;Genotype probability&quot;,
+                main=paste0(&quot;mouse &quot;, id,&quot; (before cleaning)&quot;),
+                mgp.x=c(1.4,0.3,0), mgp.y=c(1.9,0.3,0), lwd=2)
+        lines(gmap[[c]], pr[[c]][i,&quot;DE&quot;,], col=&quot;violetred&quot;, lwd=2)
+        legend(&quot;topright&quot;, lwd=2, col=c(&quot;slateblue&quot;, &quot;violetred&quot;),
+            c(&quot;BE&quot;, &quot;DE&quot;), bg=&quot;gray92&quot;)
+
+        #u &lt;- par(&quot;usr&quot;)
+        
+        #par(fig=c(0.65,1,0,0.8),new=TRUE)
+        grayplot(pmap[[c]], prcl[[c]][i,&quot;BE&quot;,], type=&quot;l&quot;,
+                ylim=c(0,1), col=&quot;slateblue&quot;,
+                xlab=paste0(&quot;Chr &quot;, c,&quot; position (Mbp)&quot;), ylab=&quot;Genotype probability&quot;,
+                main=paste0(&quot;mouse &quot;, id,&quot; (after cleaning)&quot;),
+                mgp.x=c(1.4,0.3,0), mgp.y=c(1.9,0.3,0), lwd=2)
+        lines(gmap[[c]], prcl[[c]][i,&quot;DE&quot;,], col=&quot;violetred&quot;, lwd=2)
+        legend(&quot;topright&quot;, lwd=2, col=c(&quot;slateblue&quot;, &quot;violetred&quot;),
+            c(&quot;BE&quot;, &quot;DE&quot;), bg=&quot;gray92&quot;)
+
+        #mtext(paste0(id), side=3, outer=TRUE, line=-3) 
+    }
+
+}</code></pre>
+<p><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-1.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-2.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-3.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-4.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-5.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-6.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-7.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-8.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-9.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-10.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-11.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-12.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-13.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-14.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-15.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-16.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-17.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-18.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-19.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-20.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-21.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-22.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-23.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-24.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-25.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-26.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-27.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-28.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-29.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-30.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-31.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-32.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-33.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-34.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-35.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-36.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-37.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-38.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-39.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-40.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-41.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-42.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-43.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-44.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-45.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-46.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-47.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-48.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-49.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-50.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-51.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-52.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-53.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-54.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-55.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-56.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-57.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-58.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-59.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-60.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-61.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-62.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-63.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-64.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-65.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-66.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-67.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-68.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-69.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-70.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-71.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-72.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-73.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-74.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-75.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-76.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-77.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-78.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-79.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-80.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-81.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-82.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-83.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-84.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-85.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-86.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-87.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-88.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-89.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-90.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-91.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-92.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-93.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-94.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-95.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-96.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-97.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-98.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-99.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-100.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-101.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-102.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-103.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-104.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-105.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-106.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-107.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-108.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-109.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-110.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-111.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-112.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-113.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-114.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-115.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-116.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-117.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-118.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-119.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-120.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-121.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-122.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-123.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-124.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-125.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-126.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-127.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-128.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-129.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-130.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-131.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-132.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-133.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-134.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-135.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-136.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-137.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-138.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-139.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-140.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-141.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-142.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-143.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-144.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-145.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-146.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-147.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-148.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-149.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-150.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-151.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-152.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-153.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-154.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-155.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-156.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-157.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-158.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-159.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-160.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-161.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-162.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-163.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-164.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-165.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-166.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-167.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-168.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-169.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-170.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-171.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-172.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-173.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-174.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-175.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-176.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-177.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-178.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-179.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-180.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-181.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-182.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-183.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-184.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-185.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-186.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-187.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-188.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-189.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-190.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-191.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-192.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-193.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-194.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-195.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-196.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-197.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-198.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-199.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-200.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-201.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-202.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-203.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-204.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-205.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-206.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-207.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-208.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-209.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-210.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-211.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-212.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-213.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-214.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-215.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-216.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-217.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-218.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-219.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-220.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-221.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-222.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-223.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-224.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-225.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-226.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-227.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-228.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-229.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-230.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-231.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-232.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-233.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-234.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-235.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-236.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-237.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-238.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-239.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-240.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-241.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-242.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-243.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-244.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-245.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-246.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-247.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-248.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-249.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-250.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-251.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-252.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-253.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-254.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-255.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-256.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-257.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-258.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-259.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-260.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-261.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-262.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-263.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-264.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-265.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-266.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-267.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-268.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-269.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-270.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-271.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-272.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-273.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-274.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-275.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-276.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-277.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-278.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-279.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-280.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-281.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-282.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-283.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-284.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-285.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-286.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-287.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-288.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-289.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-290.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-291.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-292.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-293.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-294.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-295.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-296.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-297.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-298.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-299.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-300.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-301.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-302.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-303.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-304.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-305.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-306.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-307.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-308.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-309.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-310.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-311.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-312.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-313.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-314.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-315.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-316.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-317.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-318.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-319.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-320.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-321.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-322.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-323.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-324.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-325.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-326.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-327.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-328.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-329.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-330.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-331.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-332.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-333.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-334.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-335.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-336.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-337.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-338.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-339.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-340.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-341.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-342.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-343.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-344.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-345.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-346.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-347.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-348.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-349.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-350.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-351.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-352.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-353.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-354.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-355.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-356.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-357.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-358.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-359.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-360.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-361.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-362.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-363.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-364.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-365.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-366.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-367.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-368.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-369.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-370.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-371.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-372.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-373.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-374.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-375.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-376.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-377.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-378.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-379.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-380.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-381.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-382.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-383.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-384.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-385.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-386.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-387.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-388.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-389.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-390.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-391.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-392.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-393.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-394.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-395.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-396.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-397.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-398.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-399.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-400.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-401.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-402.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-403.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-404.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-405.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-406.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-407.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-408.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-409.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-410.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-411.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-412.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-413.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-414.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-415.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-416.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-417.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-418.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-419.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-420.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-421.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-422.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-423.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-424.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-425.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-426.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-427.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-428.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-429.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-430.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-431.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-432.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-433.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-434.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-435.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-436.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-437.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-438.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-439.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-440.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-441.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-442.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-443.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-444.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-445.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-446.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-447.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-448.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-449.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-450.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-451.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-452.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-453.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-454.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-455.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-456.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-457.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-458.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-459.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-460.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-461.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-462.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-463.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-464.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-465.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-466.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-467.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-468.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-469.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-470.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-471.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-472.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-473.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-474.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-475.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-476.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-477.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-478.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-479.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-480.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-481.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-482.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-483.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-484.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-485.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-486.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-487.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-488.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-489.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-490.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-491.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-492.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-493.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-494.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-495.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-496.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-497.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-498.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-499.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-500.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-501.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-502.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-503.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-504.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-505.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-506.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-507.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-508.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-509.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-510.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-511.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-512.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-513.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-514.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-515.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-516.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-517.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-518.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-519.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-520.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-521.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-522.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-523.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-524.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-525.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-526.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-527.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-528.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-529.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-530.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-531.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-532.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-533.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-534.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-535.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-536.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-537.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-538.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-539.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-540.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-541.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-542.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-543.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-544.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-545.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-546.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-547.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-548.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-549.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-550.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-551.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-552.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-553.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-554.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-555.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-556.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-557.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-558.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-559.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-560.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-561.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-562.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-563.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-564.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-565.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-566.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-567.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-568.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-569.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-570.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-571.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-572.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-573.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-574.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-575.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-576.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-577.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-578.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-579.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-580.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-581.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-582.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-583.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-584.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-585.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-586.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-587.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-588.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-589.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-590.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-591.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-592.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-593.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-594.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-595.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-596.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-597.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-598.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-599.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-600.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-601.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-602.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-603.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-604.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-605.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-606.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-607.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-608.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-609.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-610.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-611.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-612.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-613.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-614.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-615.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-616.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-617.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-618.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-619.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-620.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-621.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-622.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-623.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-624.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-625.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-626.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-627.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-628.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-629.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-630.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-631.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-632.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-633.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-634.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-635.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-636.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-637.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-638.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-639.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-640.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-641.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-642.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-643.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-644.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-645.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-646.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-647.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-648.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-649.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-650.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-651.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-652.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-653.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-654.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-655.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-656.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-657.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-658.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-659.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-660.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-661.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-662.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-663.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-664.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-665.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-666.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-667.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-668.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-669.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-670.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-671.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-672.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-673.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-674.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-675.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-676.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-677.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-678.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-679.png" width="912" style="display: block; margin: auto;" /><img src="figure/2.5.1_preparing_files_qtl2.Rmd/effect%20plots-680.png" width="912" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.2 (2019-12-12)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Catalina 10.15.2
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] cluster_2.1.0     dplyr_0.8.5       optparse_1.6.4    rhdf5_2.30.1     
+ [5] tidyr_1.0.2       data.table_1.12.8 fst_0.9.0         knitr_1.28       
+ [9] kableExtra_1.1.0  mclust_5.4.5      ggrepel_0.8.2     ggplot2_3.3.0    
+[13] qtlcharts_0.11-6  qtl2_0.21-19      broman_0.69-5     workflowr_1.6.0  
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.0.0  xfun_0.12         purrr_0.3.3       colorspace_1.4-1 
+ [5] vctrs_0.2.4       getopt_1.20.3     htmltools_0.4.0   viridisLite_0.3.0
+ [9] yaml_2.2.1        blob_1.2.1        rlang_0.4.5       later_1.0.0      
+[13] pillar_1.4.3      glue_1.3.2        withr_2.1.2       DBI_1.1.0        
+[17] bit64_0.9-7       lifecycle_0.2.0   stringr_1.4.0     munsell_0.5.0    
+[21] gtable_0.3.0      rvest_0.3.5       memoise_1.1.0     evaluate_0.14    
+[25] httpuv_1.5.2      parallel_3.6.2    Rcpp_1.0.4        readr_1.3.1      
+[29] promises_1.1.0    scales_1.1.0      backports_1.1.5   webshot_0.5.2    
+[33] fs_1.3.1          bit_1.1-15.2      hms_0.5.3         digest_0.6.25    
+[37] stringi_1.4.6     grid_3.6.2        rprojroot_1.3-2   tools_3.6.2      
+[41] magrittr_1.5      RSQLite_2.2.0     tibble_2.1.3      crayon_1.3.4     
+[45] whisker_0.4       pkgconfig_2.0.3   xml2_1.2.2        assertthat_0.2.1 
+[49] rmarkdown_2.1     httr_1.4.1        rstudioapi_0.11   Rhdf5lib_1.8.0   
+[53] qtl_1.45-11       R6_2.4.1          git2r_0.26.1      compiler_3.6.2   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -461,10 +461,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree2b7d7c8c811bd09946de24c113b39c03e6240817targetblank2b7d7c8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/2b7d7c8c811bd09946de24c113b39c03e6240817" target="_blank">2b7d7c8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreeb076a6c77e3cc835b6fd65ea77b0e8e808022a98targetblankb076a6ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/whoatemycookie/Thaiss_workflow/tree/b076a6c77e3cc835b6fd65ea77b0e8e808022a98" target="_blank">b076a6c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtree2b7d7c8c811bd09946de24c113b39c03e6240817targetblank2b7d7c8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomwhoatemycookieThaissworkflowtreeb076a6c77e3cc835b6fd65ea77b0e8e808022a98targetblankb076a6ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -495,6 +495,7 @@ Untracked files:
     Untracked:  analysis/2.3_snp_qc.Rmd.R
     Untracked:  analysis/2.4.1_afterqc.Rmd.R
     Untracked:  analysis/2.4_preparing_files_qtl2.R
+    Untracked:  analysis/2.5.1_preparing_files_qtl2.Rmd.R
     Untracked:  analysis/2.6_final_pr_apr_69K.R
     Untracked:  analysis/3.1.1.1_html_founder_prop.Rmd
     Untracked:  analysis/3.1.1_html_founder_prop.Rmd
@@ -652,6 +653,7 @@ Untracked files:
     Untracked:  data/pr_DO112_allqc.RData
     Untracked:  data/pr_DO112_ssqc.RData
     Untracked:  data/prcl.RData
+    Untracked:  data/prcl_allqc.RData
     Untracked:  data/qc_info_bad_sample.RData
     Untracked:  data/qc_info_bad_sample_qc.RData
     Untracked:  data/recom_block_size.RData
@@ -765,6 +767,23 @@ Message
 <tbody>
 <tr>
 <td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/whoatemycookie/Thaiss_workflow/6fa6014462095d181984a2fda75b88227482ad4e/docs/2.4.1_afterqc.html" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
 Rmd
 </td>
 <td>
@@ -846,6 +865,43 @@ dev.off()</code></pre>
                 2 </code></pre>
 <pre class="r"><code>p</code></pre>
 <p><img src="figure/2.4.1_afterqc.Rmd/Missing%20data%20per%20sample-2.png" width="912" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Missing-data-per-sample-2">
+Past versions of “Missing data per sample-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-Missing-data-per-sample-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/6fa6014462095d181984a2fda75b88227482ad4e/docs/figure/2.4.1_afterqc.Rmd/Missing data per sample-2.png" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>save(percent_missing,
      file = &quot;data/percent_missing_id_qc.RData&quot;)
 
@@ -1002,6 +1058,43 @@ hist(cg[upper.tri(cg)], breaks=seq(0, 1, length=201),
      main=&quot;&quot;, yaxt=&quot;n&quot;, ylab=&quot;&quot;, xlab=&quot;Proportion matching genotypes&quot;)
 rug(cg[upper.tri(cg)])</code></pre>
 <p><img src="figure/2.4.1_afterqc.Rmd/Sample%20duplicates%20figures-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Sample-duplicates-figures-1">
+Past versions of “Sample duplicates figures-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Sample-duplicates-figures-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/6fa6014462095d181984a2fda75b88227482ad4e/docs/figure/2.4.1_afterqc.Rmd/Sample duplicates figures-1.png" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="array-intensities" class="section level3">
 <h3>Array Intensities</h3>
@@ -1085,6 +1178,43 @@ for(i in 1:4) {
   }
 }</code></pre>
 <p><img src="figure/2.4.1_afterqc.Rmd/Genotype%20frequencies-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Genotype-frequencies-1">
+Past versions of “Genotype frequencies-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Genotype-frequencies-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/6fa6014462095d181984a2fda75b88227482ad4e/docs/figure/2.4.1_afterqc.Rmd/Genotype frequencies-1.png" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The majority of individuals are tightly clustered around the expected distribution (in pink).</p>
 </div>
 <div id="crossover-counts" class="section level3">
@@ -1118,7 +1248,45 @@ dev.off()</code></pre>
 <pre><code>quartz_off_screen 
                 2 </code></pre>
 <pre class="r"><code>p</code></pre>
-<p><img src="figure/2.4.1_afterqc.Rmd/Crossover%20counts-2.png" width="912" style="display: block; margin: auto;" /> Counts of inferred crossovers can be a useful diagnostic for identifying problem samples, which may show an excessive number of apparent crossovers. Above is a plot of the number of crossovers vs the mouse index, colored by generation.</p>
+<p><img src="figure/2.4.1_afterqc.Rmd/Crossover%20counts-2.png" width="912" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Crossover-counts-2">
+Past versions of “Crossover counts-2.png”
+</button>
+</p>
+<div id="fig-no-spaces-Crossover-counts-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/6fa6014462095d181984a2fda75b88227482ad4e/docs/figure/2.4.1_afterqc.Rmd/Crossover counts-2.png" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Counts of inferred crossovers can be a useful diagnostic for identifying problem samples, which may show an excessive number of apparent crossovers. Above is a plot of the number of crossovers vs the mouse index, colored by generation.</p>
 <pre><code>     percent_missing total_xo</code></pre>
 <table class="table table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
@@ -1165,6 +1333,43 @@ hist(pmis_mar, breaks=seq(0, 100, length=201),
      main=&quot;&quot;, yaxt=&quot;n&quot;, ylab=&quot;&quot;, xlab=&quot;Percent missing genotypes&quot;)
 rug(pmis_mar)</code></pre>
 <p><img src="figure/2.4.1_afterqc.Rmd/Missing%20data%20in%20Markers%20and%20Genotype%20frequencies%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Missing-data-in-Markers-and-Genotype-frequencies-Markers-1">
+Past versions of “Missing data in Markers and Genotype frequencies Markers-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Missing-data-in-Markers-and-Genotype-frequencies-Markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/6fa6014462095d181984a2fda75b88227482ad4e/docs/figure/2.4.1_afterqc.Rmd/Missing data in Markers and Genotype frequencies Markers-1.png" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>pdf(file = &quot;output/Percent_missing_genotype_data_per_marker.pdf&quot;)
 par(mar=c(5.1,0.6,0.6, 0.6))
 hist(pmis_mar, breaks=seq(0, 100, length=201),
@@ -1276,6 +1481,43 @@ for(i in 1:4) {
   tripoints(c((1-i/8)^2, 2*i/8*(1-i/8), (i/8)^2), pch=21, bg=&quot;violetred&quot;)
 }</code></pre>
 <p><img src="figure/2.4.1_afterqc.Rmd/Genotype%20frequencies%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Genotype-frequencies-Markers-1">
+Past versions of “Genotype frequencies Markers-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Genotype-frequencies-Markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/6fa6014462095d181984a2fda75b88227482ad4e/docs/figure/2.4.1_afterqc.Rmd/Genotype frequencies Markers-1.png" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The bulk of the markers seem well behaved, but there are a number of markers with unusual genotype frequencies. There are markers that show no homozygotes for the major allele. (These sit on the left edge.) There are markers that are monomorphic (100% AA genotypes; lower-right vertex). And there some markers with some of each homozygote but no heterozygotes (bottom edge). Further, there are a bunch of markers where the minor allele appears to be private to one founder strain (upper-left panel) but show a high frequency of minor alleles in the DO offspring.</p>
 </div>
 <div id="marker-genotype-errors" class="section level3">
@@ -1290,6 +1532,43 @@ errors_mar &lt;- colSums(en&gt;2)/n_typed(gm, &quot;marker&quot;)*100
 grayplot(pmis_mar, errors_mar,
          xlab=&quot;Proportion missing&quot;, ylab=&quot;Proportion genotyping errors&quot;)</code></pre>
 <p><img src="figure/2.4.1_afterqc.Rmd/Genotype%20errors%20Markers-1.png" width="912" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Genotype-errors-Markers-1">
+Past versions of “Genotype errors Markers-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Genotype-errors-Markers-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/whoatemycookie/Thaiss_workflow/blob/6fa6014462095d181984a2fda75b88227482ad4e/docs/figure/2.4.1_afterqc.Rmd/Genotype errors Markers-1.png" target="_blank">6fa6014</a>
+</td>
+<td>
+Belinda Cornes
+</td>
+<td>
+2020-03-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>pdf(file = &quot;output/genotype_error_marker_qc.pdf&quot;)
 grayplot(pmis_mar, errors_mar,
          xlab=&quot;Proportion missing&quot;, ylab=&quot;Proportion genotyping errors&quot;)
