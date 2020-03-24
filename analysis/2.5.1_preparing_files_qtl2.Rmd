@@ -1,0 +1,160 @@
+---
+title: "Preparing Files for QTL Analysis"
+author: "Belinda Cornes"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#setwd("/projects/compsci/corneb_cs/workflowr/Thaiss/Thaiss_workflowr_2/")
+
+#libraries
+library(broman)
+library(qtl2)
+library(qtlcharts)
+library(ggplot2)
+library(ggrepel)
+#library(DOQTL)
+library(mclust)
+#source("code/reconst_utils.R")
+library(kableExtra)
+library(knitr)
+library(fst)
+library(data.table) 
+library(tidyr)     
+library(mclust)     
+library(rhdf5)      
+library(optparse)
+library(dplyr)
+library(cluster)
+
+```
+
+### Fix phenotypes
+```{r fix phenotype, echo = FALSE}
+
+load("data/gm_DO112_allqc.RData")
+load("data/gm_DO112.RData")
+
+#gm_qc = gm_DO112_allqc
+
+#gm = gm
+
+#finding individuals with no phenotyoes
+
+gm_DO112_allqc$pheno[102,1] = gm$pheno[111,1]
+gm_DO112_allqc$pheno[102,2] = gm$pheno[111,2]
+gm_DO112_allqc$pheno[102,3] = gm$pheno[111,3]
+gm_DO112_allqc$pheno[102,4] = gm$pheno[111,4]
+
+gm_DO112_allqc$covar[102,3] = gm$covar[111,3]
+
+save(gm_DO112_allqc, file = "data/gm_DO112_allqc.RData")
+
+```  
+
+### Calculate Genoprobs
+```{r genoprobs, echo = FALSE}
+
+##put something here
+
+```
+
+### Effect of Data Cleaning
+```{r effect, echo=FALSE}
+
+gmapn <- gm_DO112_allqc$gmap
+pmapn <- gm_DO112_allqc$pmap
+
+gmap <- gm$gmap
+pmap <- gm$pmap
+
+#prcl <- calc_genoprob(gm_DO112_allqc, gmap, error_prob=0.002, map_function="c-f", cores=0)
+#prcl <- get(load("data/pr_DO112_allqc.RData"))
+#save(prcl,"data/prcl.RData")
+prcl <- get(load("data/prcl_allqc.RData"))
+pr <- get(load("data/pr.RData"))
+
+prcl <- prcl[ind_ids(gm_DO112_allqc),]
+pr <- pr[ind_ids(gm_DO112_allqc),]
+```
+
+As a measure of change, we’ll use the sum of the absolute differences between the probabilities, with and without the bad markers, at each mouse and marker.
+
+```{r effect 2, echo=TRUE}
+prdiff <- vector("list", length(pr))
+for(i in seq_along(prdiff)) prdiff[[i]] <- apply(abs(pr[[i]] - prcl[[i]]), c(1,3), sum)
+names(prdiff) <- names(pr)
+````
+
+These differences take values between 0 and 2, with a value of 2 meaning that a completely different set of genotypes have positive probability. Most chromosomes show some differences, but only at a relatively sparse set of positions. Here are the number of markers × individuals with differences > 1.5.
+
+```{r effect 3, echo=TRUE}
+sapply(prdiff, function(d) sum(d > 1.5))
+```
+
+And there are only a few individuals, on a given chromosome, showing very many differences. Here are the number of individuals, by chromosome, with at least five markers having absolute difference > 1.5.
+
+```{r effect 4, echo=TRUE}
+sapply(prdiff, function(d) sum(rowSums(d>1.5) > 5))
+
+```
+
+THe first figure is a bivariate heatmap of the genotype probabilities. The probabilities before cleaning are in blue, and the probabilities after cleaning are in red, and then the two color scales are combined. Probabilities that are high both before and after cleaning will be dark puple. Probabilities that are high before cleaning but low after cleaning will be blue, and probabilities that are low before cleaning and high after cleaning will be red.
+
+The second and third figures show the BE and DE probabilities
+
+
+```{r effect plots,fig.height = 6, fig.width = 9.5, fig.align = "center", echo=TRUE}
+chr = as.character(names(prdiff))
+
+par(mfrow=c(3,3), mar=c(3.5,3.1,2.1,1.1))
+for(i in unique(ind_ids(gm_DO112_allqc))) {
+	#pdf(paste0("output/gpqc_plot_",i), width=6, height=9.5)
+	#par(mfrow=c(4,2), mar=c(0.6, 0.6, 2.6, 0.6))
+	for(c in unique(chr)){
+		
+		#par(mfrow=c(1,3)) 
+		#mtext(side=1, adj=0, id)
+		#i = "Univ_of_Penn_Thaiss_MURMUGV01_20200130_1_G1"
+		id = sapply(strsplit(i,'_',fixed=T),function(x) x[7])
+		#c = 1
+
+		#par(fig=c(0,0.8,0,0.8), new=TRUE)
+		#par(mfrow=c(1,3), mar=c(3.1, 3.1, 2.6, 0.6))
+		plot_genoprobcomp(pr, prcl, pmap, ind=i, chr=c, threshold=0.25)
+
+		#u <- par("usr")
+
+		#par(fig=c(0,0.8,0.55,1), new=TRUE)
+		#par(mfrow=c(2,1), mar=c(3.1, 3.1, 2.6, 0.6))
+		grayplot(pmap[[c]], pr[[c]][i,"BE",], type="l",
+        		ylim=c(0,1), col="slateblue",
+         		xlab=paste0("Chr ", c," position (Mbp)"), ylab="Genotype probability",
+         		main=paste0("mouse ", id," (before cleaning)"),
+         		mgp.x=c(1.4,0.3,0), mgp.y=c(1.9,0.3,0), lwd=2)
+		lines(gmap[[c]], pr[[c]][i,"DE",], col="violetred", lwd=2)
+		legend("topright", lwd=2, col=c("slateblue", "violetred"),
+       		c("BE", "DE"), bg="gray92")
+
+		#u <- par("usr")
+		
+		#par(fig=c(0.65,1,0,0.8),new=TRUE)
+		grayplot(pmap[[c]], prcl[[c]][i,"BE",], type="l",
+         		ylim=c(0,1), col="slateblue",
+         		xlab=paste0("Chr ", c," position (Mbp)"), ylab="Genotype probability",
+         		main=paste0("mouse ", id," (after cleaning)"),
+         		mgp.x=c(1.4,0.3,0), mgp.y=c(1.9,0.3,0), lwd=2)
+		lines(gmap[[c]], prcl[[c]][i,"DE",], col="violetred", lwd=2)
+		legend("topright", lwd=2, col=c("slateblue", "violetred"),
+       		c("BE", "DE"), bg="gray92")
+
+		#mtext(paste0(id), side=3, outer=TRUE, line=-3) 
+	}
+
+}
+
+
+```
