@@ -9,12 +9,12 @@ output:
 ---
 
 ### Project At A Glance
-* Batch: MURMUGV01_20200130
-	+ [Total Samples: 104](samples_batch_20200130.html)
-* Batch: MURGIGV01_20200220
-	+ [Total Samples: 6](samples_batch_20200220.html)
-* Batch: MURGIGV01_20200226
-	+ [Total Samples: 2](samples_batch_20200226.html)
+* Batch: MURMUGV01_2.100130
+	+ [Total Samples: 104](samples_batch_2.100130.html)
+* Batch: MURGIGV01_2.100220
+	+ [Total Samples: 6](samples_batch_2.100220.html)
+* Batch: MURGIGV01_2.100226
+	+ [Total Samples: 2](samples_batch_2.100226.html)
 
 ### 1. Phenotype QC
 * [Phenotypes]
@@ -23,31 +23,31 @@ output:
 
 ### 2. Genotype QC
 * [Preparing Files](2.1_preparing_files.html)
-* [Step 1: Sample QC](2.2_sample_bqc.html)
+* [Step 1: Sample QC (2.1)](2.2_sample_bqc.html)
 * Step 2: SNP QC
-	+ [Genotype Errors (2.3.1)](2.3_snp_qc.html)
-	+ [Monomorphic, Genotype Error & Missing Data (2.3.2)](2.3.1_snp_qc.html)
+	+ [Genotype Errors (2.2.1)](2.3_snp_qc.html)
+	+ [Monomorphic, Genotype Error & Missing Data (2.2.2)](2.3.1_snp_qc.html)
 * Step 3: Effect of Data Cleaning
-	+ [Steps 2.2 & 2.3.1](2.4_afterqc.html)
-	+ [Steps 2.2 & 2.3.2](2.4.1_afterqc.html)
+	+ [Steps 2.1 & 2.2.1](2.4_afterqc.html)
+	+ [Steps 2.1 & 2.2.2](2.4.1_afterqc.html)
 * Step 4: Preparing Files for QTL Analysis
-	+ [Steps 2.2 & 2.3.1](2.5_preparing_files_qtl2.html)
-	+ [Steps 2.2 & 2.3.2](2.5.1_preparing_files_qtl2.html)
+	+ [Steps 2.1 & 2.2.1](2.5_preparing_files_qtl2.html)
+	+ [Steps 2.1 & 2.2.2](2.5.1_preparing_files_qtl2.html)
 
 ### 3. QTL Analysis
 * Step 1: Recombination Block Size & Founder Proportions
-	+ [Steps 2.2 & 2.3.1](3.1_recomb_size_founder_prop.html)
-	+ [Steps 2.2 & 2.3.2](3.1.1_recomb_size_founder_prop.html)
+	+ [Steps 2.1 & 2.2.1](3.1_recomb_size_founder_prop.html)
+	+ [Steps 2.1 & 2.2.2](3.1.1_recomb_size_founder_prop.html)
 * Step 2: GCTA Heritability
 * Step 3: QTL Mapping (`R/qtl2`)
 * Step 4: QTL Permutation (`R/qtl2`)
 * Step 5: QTL Best Linear Unbiased Prediction (BLUP) (`R/qtl2`)
 * Step 6: Results from `R/qtl2` analysis
 	+ inital phenotypes
-		+ [Steps 2.2 & 2.3.1](3.6_plot_qtl_mapping.html)
-		+ [Steps 2.2 & 2.3.2](3.6.1_plot_qtl_mapping.html)
+		+ [Steps 2.1 & 2.2.1](3.6_plot_qtl_mapping.html)
+		+ [Steps 2.1 & 2.2.2](3.6.1_plot_qtl_mapping.html)
 	+ rnorm phenotypes
-		+ [Steps 2.2 & 2.3.1](3.6_plot_qtl_mapping_rnorm.html)
-		+ [Steps 2.2 & 2.3.2](3.6.1_plot_qtl_mapping_rnorm.html)
-* Steps 3-6 on Local Machine
-		+ [Steps 2.2 & 2.3.2](3.3.1_qtlmapping_local_allphenos.html)
+		+ [Steps 2.1 & 2.2.1](3.6_plot_qtl_mapping_rnorm.html)
+		+ [Steps 2.1 & 2.2.2](3.6.1_plot_qtl_mapping_rnorm.html)
+* Steps 3 - 6 on Local Machine
+	+ [Steps 2.1 & 2.2.2](3.3.1_qtlmapping_local_allphenos.html)
