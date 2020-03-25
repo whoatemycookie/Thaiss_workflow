@@ -1,0 +1,150 @@
+---
+title: "QTL Analysis [Local Machine]"
+author: "Belinda Cornes"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, fig.height=12, fig.width=12, eval=TRUE}
+knitr::opts_chunk$set(echo = TRUE,warning=FALSE)
+
+##############################################
+## Load and Explore data
+##############################################
+
+library(qtl2)
+
+setwd("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/Univ_of_Penn_Thaiss/Thaiss/three.batches/Thaiss_workflowr_old")
+
+gm <- get(load("data/gm_DO112_allqc.RData"))
+pr <- get(load("data/pr_DO112_allqc.RData"))
+apr <- get(load("data/apr_DO112_allqc.RData"))
+#apr <- readRDS("data/Thaiss_Univ_of_Penn_Thaiss__GigaMUGA_genoprobs_8state.rds")
+pheno <- read.csv("data/Univ_of_Penn_Thaiss_pheno_all_ssqc_rnorm.csv")
+rownames(pheno) <- pheno$Mouse.ID
+
+nrow(data.frame(gm$gmap[1])) 
+dim(apr[[1]])
+dim(pr[[1]])
+
+#query_func = create_variant_query_func("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/exdata/cc_variants.sqlite")
+query_variants <- create_variant_query_func("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/exdata/cc_variants.sqlite")
+query_genes <- create_gene_query_func("/Users/corneb/Documents/MyJax/CS/Projects/qtl2/exdata/mouse_genes_mgi.sqlite")
+
+#pdf('output/rplot_genoprobs_sample101.pdf')
+#image(1:500, 1:ncol(apr[[1]]), t(apr[[1]][101,8:1,1:500]), breaks = 0:100/100,
+#      col = grey(99:0/100), axes = F, xlab = "Markers", ylab = "Founders",
+#      main = "Founder Allele Contributions for Sample 101")
+#abline(h = 0:8 + 0.5, col = "grey70")
+#usr = par("usr")
+#rect(usr[1], usr[3], usr[2], usr[4])
+#axis(side = 1, at = 0:5 * 100, labels = 0:5 * 100)
+#axis(side = 2, at = 1:8, labels = LETTERS[8:1], las = 1, tick = F)
+#dev.off()
+
+##############################################
+## Calculating A Kinship Matrix
+##############################################
+
+K = calc_kinship(probs = apr, type = "loco", use_allele_probs = TRUE)
+
+#pdf('/home/corneb/projects/gedi/scripts/chenm/gigamuga/res/gigamuga_20180510_209_DO_Pack_Sleep/qtl2/rplot_kinship.pdf')
+#pdf('output/rplot_kinship.pdf')
+image(1:nrow(K[[1]]), 1:ncol(K[[1]]), K[[1]][,ncol(K[[1]]):1], xlab = "Samples", 
+      ylab = "Samples", yaxt = "n", main = "Kinship between samples", 
+      breaks = 0:100/100, col = heat.colors(length(0:100) - 1))
+#dev.off()
+
+## Covariates
+
+addcovar = model.matrix(~Sex, data = pheno)[,-1]
+
+##############################################
+## Performing a genome scan
+##############################################
+
+for(i in c(2,3,4,5,6,7,8)){
+	qtl = scan1(genoprobs = apr, pheno = pheno[i], kinship = K, addcovar = addcovar)
+
+	#pdf('/Users/corneb/Documents/MyJax/CS/Projects/qtl2/rplot_genome_gmap.pdf')
+	plot_scan1(x = qtl, map = gm$gmap, main = paste0("Genomescan for ", names(pheno[i]), " [scan1]"))
+	#dev.off()
+#}
+
+##############################################
+## Performing a permutation test
+##############################################
+
+#for(i in c(2,3,4,5,6,8,9)){
+	perms = scan1perm(genoprobs = apr, pheno = pheno[i], addcovar = addcovar, n_perm = 100)
+
+	#pdf('output/rplot_genomeperm_pmap.pdf')
+	plot(x = qtl, map = gm$pmap,  main = paste0("Proportion of ", names(pheno[i]), " [scan1perm]"))
+	thr = summary(perms)
+	abline(h = thr, col = "red", lwd = 2)
+	#dev.off()
+#}
+
+##############################################
+## Finding LOD peaks
+##############################################
+
+#for(i in c(2,3,4,5,6,8,9)){
+
+	peaks <- find_peaks(scan1_output = qtl, map = gm$gmap)
+	peaks
+
+	peaksg <- find_peaks(scan1_output = qtl, map = gm$gmap, threshold=maxlod(qtl)-0.001, drop = 1.5)
+
+##############################################
+## Estimated QTL effects
+##############################################
+
+	chr = as.character(peaksg$chr)
+	start=peaksg[peaksg$lodcolumn ==  names(pheno[i]),"ci_lo"]
+    end=peaksg[peaksg$lodcolumn ==  names(pheno[i]),"ci_hi"] 
+
+	coeff <- scan1coef(genoprobs = apr[,chr], pheno = pheno[i], kinship = K[[chr]], addcovar = addcovar)
+	
+	#pdf('output/rplot_qtleffects_coef_pmap.pdf')
+	plot_coefCC(x = coeff, map = gm$gmap, scan1_output = qtl, main = paste0("Proportion of ", names(pheno[i]), " [scan1coef]"),legend="bottomleft")
+	#dev.off()
+
+	blup = scan1blup(genoprobs = apr[,chr], pheno = pheno[2], kinship = K[[chr]], addcovar = addcovar)
+
+	#pdf('output/rplot_qtleffects_gpmap.pdf')
+	plot_coefCC(x = blup, map = gm$gmap, scan1_output = qtl, main = paste0("Proportion of ", names(pheno[i]), " [scan1blup]"),legend="bottomleft")
+	#dev.off()
+
+##############################################
+## SNP Association Mapping
+##############################################
+
+	assocgss = scan1snps(genoprobs = apr[,chr], map = gm$gmap, pheno = pheno[i], 
+		kinship = K, addcovar = addcovar, query_func = query_variants, chr = chr, start = start, end = end, keep_all_snps = TRUE)
+
+	#pdf('output/rplot_snpassoc_ss_gmap.pdf')
+	plot_snpasso(assocgss$lod, assocgss$snpinfo, main = paste0("Proportion of ", names(pheno[i]), " [scan1snps]"))
+	#dev.off()
+
+## plot genes
+
+	genesgss = query_genes(chr, start, end)
+	head(genesgss)
+
+	#pdf('/Users/corneb/Documents/MyJax/CS/Projects/qtl2/rplot_snpassocgenes_ss_gmap.pdf')
+	plot_snpasso(assocgss$lod, assocgss$snpinfo, main = paste0("Proportion of ", names(pheno[i]), " [scan1snps]"), genes = genesgss)
+	#dev.off()
+
+##############################################
+## GWAS plot
+##############################################
+
+	out_gwas <- scan1snps(apr, gm$gmap, pheno[i], K, addcovar = addcovar, query_func=query_variants, cores=0)
+
+	#par(mar=c(4.1, 4.1, 0.6, 0.6))
+	plot(out_gwas$lod, out_gwas$snpinfo, altcol="green4", gap=0, main = paste0("GWAS of ", names(pheno[i]), " [scan1snps]"))
+
+}
+
+```

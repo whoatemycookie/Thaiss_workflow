@@ -51,3 +51,4 @@ output:
 		+ [Steps 2.1 & 2.2.2](3.6.1_plot_qtl_mapping_rnorm.html)
 * Steps 3 - 6 on Local Machine
 	+ [Steps 2.1 & 2.2.2](3.3.1_qtlmapping_local_allphenos.html)
+	+ [Steps 2.1 & 2.2.2 (geno & pheno complete cases)](3.3.1_qtlmapping_local_allphenos_ssqc.html)
