@@ -10,14 +10,14 @@ output:
 
 ### Project At A Glance
 * Batch: MURMUGV01_2.100130
-	+ [Total Samples: 104](samples_batch_2.100130.html)
+	+ [Total Samples: 104](samples_batch_20200130.html)
 * Batch: MURGIGV01_2.100220
-	+ [Total Samples: 6](samples_batch_2.100220.html)
+	+ [Total Samples: 6](samples_batch_20200220.html)
 * Batch: MURGIGV01_2.100226
-	+ [Total Samples: 2](samples_batch_2.100226.html)
+	+ [Total Samples: 2](samples_batch_20200226.html)
 
 ### 1. Phenotype QC
-* [Phenotypes]
+* Phenotypes
 	+ [Before QC](phenotypes.html)
 	+ [After QC](phenotypes_qtl_qc.html)
 
@@ -52,3 +52,6 @@ output:
 * Steps 3 - 6 on Local Machine
 	+ [Steps 2.1 & 2.2.2](3.3.1_qtlmapping_local_allphenos.html)
 	+ [Steps 2.1 & 2.2.2 (geno & pheno complete cases)](3.3.1_qtlmapping_local_allphenos_ssqc.html)
+* Steps 3 - 6 on Local Machine (using haplotype reconstruction genoprobs)
+	+ [Steps 2.1 & 2.2.2](3.3.1_qtlmapping_local_allphenos_hr.html)
+	+ [Steps 2.1 & 2.2.2 (geno & pheno complete cases)](3.3.1_qtlmapping_local_allphenos_ssqc_hr.html)
